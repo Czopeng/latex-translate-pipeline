@@ -6,6 +6,7 @@ from collections import Counter
 from dataclasses import dataclass
 from datetime import datetime, timezone
 import fnmatch
+from time import perf_counter
 from pathlib import Path
 import re
 from typing import Dict
@@ -13,7 +14,15 @@ from typing import Dict
 from .glossary import GlossaryEntry, GlossaryManager
 from .latex_masker import LatexMasker, PLACEHOLDER_PATTERN
 from .translator import LLMClient
-from .utils import detect_candidate_terms, load_json, read_text, save_json, write_text
+from .utils import (
+    detect_candidate_terms,
+    extract_candidate_term_counts,
+    load_json,
+    rank_candidate_terms,
+    read_text,
+    save_json,
+    write_text,
+)
 
 
 @dataclass
@@ -37,9 +46,17 @@ class TranslationPipeline:
 
     _heading_boundary_pattern = re.compile(r"(?m)^(?=\\(?:chapter|section|subsection)\*?\{)")
 
-    def __init__(self, llm_client: LLMClient, glossary_path: str | Path = "glossary.json") -> None:
+    def __init__(
+        self,
+        llm_client: LLMClient,
+        glossary_path: str | Path = "glossary.json",
+        max_chunk_chars: int = 12000,
+        max_chunk_tokens: int = 3000,
+    ) -> None:
         self.llm_client = llm_client
         self.glossary_path = Path(glossary_path)
+        self.max_chunk_chars = max_chunk_chars
+        self.max_chunk_tokens = max_chunk_tokens
         self.masker = LatexMasker()
         self.glossary_manager = GlossaryManager()
 
@@ -95,6 +112,7 @@ class TranslationPipeline:
 
         merged: Dict[str, GlossaryEntry] = {}
         preserved_en_count = 0
+        stale_terms: list[str] = []
 
         for term, source_entry in source_entries.items():
             existing = existing_entries.get(term)
@@ -112,15 +130,57 @@ class TranslationPipeline:
         # Keep previously approved non-source terms (e.g. suggested terms) instead of dropping data.
         for term, existing_entry in existing_entries.items():
             if term not in merged:
+                stale_terms.append(term)
                 merged[term] = existing_entry
 
         save_json(self.glossary_path, self.glossary_manager.to_json_dict(merged))
+        stale_type_counts: dict[str, int] = {}
+        for term in stale_terms:
+            entry = existing_entries.get(term)
+            stale_type = entry.type if entry is not None else "unknown"
+            stale_type_counts[stale_type] = stale_type_counts.get(stale_type, 0) + 1
+
         return {
             "source_file": str(glossary_source_path),
             "source_terms": len(source_entries),
             "preserved_en": preserved_en_count,
             "total_terms_after_sync": len(merged),
+            "stale_terms_count": len(stale_terms),
+            "stale_type_counts": stale_type_counts,
+            "stale_terms": sorted(stale_terms),
         }
+
+    def build_stale_glossary_report(
+        self,
+        stale_terms: list[str],
+        output_path: str | Path = "stale_glossary_report.json",
+    ) -> dict:
+        """Build report for glossary terms that are not present in source glossary files."""
+
+        glossary_raw = load_json(self.glossary_path, default={})
+
+        items: list[dict] = []
+        for term in sorted(stale_terms):
+            raw = glossary_raw.get(term, {})
+            items.append(
+                {
+                    "term": term,
+                    "status": "stale_non_source",
+                    "type": str(raw.get("type", "")),
+                    "abbreviation": str(raw.get("abbreviation", "")),
+                    "de": str(raw.get("de", "")),
+                    "en": str(raw.get("en", "")),
+                }
+            )
+
+        payload = {
+            "generated_at_utc": datetime.now(timezone.utc).isoformat(),
+            "glossary_path": str(self.glossary_path),
+            "count": len(items),
+            "items": items,
+        }
+        save_json(output_path, payload)
+        return payload
 
     def split_into_chunks_by_headings(self, latex_text: str) -> list[str]:
         """Split LaTeX text at chapter/section/subsection boundaries.
@@ -141,7 +201,119 @@ class TranslationPipeline:
             start_index = boundary_index
 
         chunks.append(latex_text[start_index:])
-        return [chunk for chunk in chunks if chunk]
+        heading_chunks = [chunk for chunk in chunks if chunk]
+
+        final_chunks: list[str] = []
+        for heading_chunk in heading_chunks:
+            final_chunks.extend(self._split_large_chunk(heading_chunk))
+        return final_chunks
+
+    def _split_large_chunk(self, chunk: str) -> list[str]:
+        """Split oversized chunks on paragraph boundaries, preserving full content."""
+
+        if not self._chunk_exceeds_budget(chunk):
+            return [chunk]
+
+        # Keep delimiters attached to segments so re-join remains byte-identical.
+        segments: list[str] = []
+        cursor = 0
+        for match in re.finditer(r"\n\s*\n", chunk):
+            end = match.end()
+            segments.append(chunk[cursor:end])
+            cursor = end
+        if cursor < len(chunk):
+            segments.append(chunk[cursor:])
+
+        output_chunks: list[str] = []
+        buffer = ""
+
+        for segment in segments:
+            # Hard split a segment that alone exceeds the limit.
+            if self._chunk_exceeds_budget(segment):
+                if buffer:
+                    output_chunks.append(buffer)
+                    buffer = ""
+                start = 0
+                while start < len(segment):
+                    window = segment[start:start + self.max_chunk_chars]
+                    while window and self._estimate_tokens(window) > self.max_chunk_tokens:
+                        window = window[: max(1, len(window) // 2)]
+                    output_chunks.append(window)
+                    start += len(window)
+                continue
+
+            if not buffer:
+                buffer = segment
+                continue
+
+            merged = buffer + segment
+            if not self._chunk_exceeds_budget(merged):
+                buffer += segment
+            else:
+                output_chunks.append(buffer)
+                buffer = segment
+
+        if buffer:
+            output_chunks.append(buffer)
+
+        # Safety: never lose or reorder content.
+        if "".join(output_chunks) != chunk:
+            raise RuntimeError("Chunk split failed to preserve original content")
+
+        return output_chunks
+
+    @staticmethod
+    def _normalized_text(value: str) -> str:
+        return " ".join(value.strip().lower().split())
+
+    def _estimate_tokens(self, text: str) -> int:
+        """Rough token estimate used for pre-translation chunk budgeting."""
+
+        return max(1, len(text) // 4)
+
+    def _chunk_exceeds_budget(self, text: str) -> bool:
+        return len(text) > self.max_chunk_chars or self._estimate_tokens(text) > self.max_chunk_tokens
+
+    def _build_style_context(self, chunk: str) -> dict:
+        """Build style metadata for chunk-level scientific writing guidance."""
+
+        heading_match = re.search(r"\\(chapter|section|subsection)\*?\{", chunk)
+        heading_level = heading_match.group(1) if heading_match else "body"
+        return {
+            "tone": "formal scientific",
+            "domain": "technical engineering",
+            "keep_units": True,
+            "heading_level": heading_level,
+        }
+
+    def _summarize_glossary_conflicts(self) -> dict:
+        """Summarize glossary consistency risks for manifests."""
+
+        raw = load_json(self.glossary_path, default={})
+        glossary = self.glossary_manager.from_json_dict(raw)
+
+        missing_en_count = 0
+        de_to_en: dict[str, set[str]] = {}
+
+        for entry in glossary.values():
+            if not entry.en.strip():
+                missing_en_count += 1
+
+            de_key = self._normalized_text(entry.de)
+            en_val = self._normalized_text(entry.en)
+            if not de_key:
+                continue
+
+            de_to_en.setdefault(de_key, set())
+            if en_val:
+                de_to_en[de_key].add(en_val)
+
+        conflicting_de_entries = sum(1 for variants in de_to_en.values() if len(variants) > 1)
+        return {
+            "missing_en_count": missing_en_count,
+            "conflicting_de_entries": conflicting_de_entries,
+            "total_terms": len(glossary),
+        }
 
     def _placeholder_inventory(self, text: str) -> Counter[str]:
         """Count placeholder tokens to verify output integrity."""
@@ -164,8 +336,11 @@ class TranslationPipeline:
         masked_text: str,
         glossary: Dict[str, GlossaryEntry],
         max_integrity_retries: int = 1,
+        style_context: dict | None = None,
     ) -> str:
         glossary_context = self.glossary_manager.to_json_dict(glossary)
+        if style_context is not None:
+            glossary_context["__style__"] = style_context
 
         attempts = 0
         last_error: PlaceholderIntegrityError | None = None
@@ -205,12 +380,22 @@ class TranslationPipeline:
 
         source_text = self.load_latex(glossary_source_path)
         extracted_glossary = self.extract_glossary(source_text)
+        existing_glossary = self.glossary_manager.from_json_dict(load_json(self.glossary_path, default={}))
 
         queue_items: list[dict] = []
+        conflict_count = 0
         for key, entry in sorted(extracted_glossary.items()):
             masked_description, placeholder_map = self.mask_latex_commands(entry.de)
             translated_masked = self.translate_text(masked_description, extracted_glossary)
             translated_description = self.restore_latex_commands(translated_masked, placeholder_map)
+
+            status = "pending_review"
+            existing = existing_glossary.get(key)
+            existing_en = existing.en if existing else ""
+
+            if existing_en and self._normalized_text(existing_en) != self._normalized_text(translated_description):
+                status = "conflict_review"
+                conflict_count += 1
 
             queue_items.append(
                 {
@@ -219,7 +404,8 @@ class TranslationPipeline:
                     "abbreviation": entry.abbreviation,
                     "de": entry.de,
                     "en_suggested": translated_description,
-                    "status": "pending_review",
+                    "en_existing": existing_en,
+                    "status": status,
                 }
             )
 
@@ -227,6 +413,7 @@ class TranslationPipeline:
             "source_file": str(glossary_source_path),
             "generated_at_utc": datetime.now(timezone.utc).isoformat(),
             "count": len(queue_items),
+            "conflict_count": conflict_count,
             "items": queue_items,
         }
         save_json(output_path, review_payload)
@@ -298,9 +485,8 @@ class TranslationPipeline:
         for key, entry in extracted_glossary.items():
             merged[key] = entry
 
-        for term in suggested_terms:
-            if term not in merged:
-                merged[term] = GlossaryEntry(de=term, en="", type="suggested", abbreviation="")
+        # Suggested terms are handled via review queue and not auto-committed.
+        _ = suggested_terms
 
         save_json(self.glossary_path, self.glossary_manager.to_json_dict(merged))
         return merged
@@ -325,7 +511,11 @@ class TranslationPipeline:
 
         for chunk in chunks:
             masked_text, placeholder_map = self.mask_latex_commands(chunk)
-            translated_masked = self.translate_text(masked_text, working_glossary)
+            translated_masked = self.translate_text(
+                masked_text,
+                working_glossary,
+                style_context=self._build_style_context(chunk),
+            )
             restored_chunk = self.restore_latex_commands(translated_masked, placeholder_map)
             self._assert_no_unresolved_placeholders(restored_chunk, placeholder_map)
             restored_chunks.append(restored_chunk)
@@ -342,6 +532,55 @@ class TranslationPipeline:
             chunk_count=len(chunks),
         )
 
+    def build_term_review_queue(
+        self,
+        translated_documents: list[dict],
+        output_path: str | Path = "term_review_queue.json",
+        min_frequency: int = 2,
+    ) -> dict:
+        """Build a review queue for newly observed candidate terms with source evidence."""
+
+        glossary_raw = load_json(self.glossary_path, default={})
+        existing_terms = set(glossary_raw.keys())
+
+        aggregate_counts: dict[str, int] = {}
+        evidence: dict[str, dict[str, int]] = {}
+
+        for doc in translated_documents:
+            text = str(doc.get("text", ""))
+            source = str(doc.get("source", ""))
+            counts = extract_candidate_term_counts(text, existing_terms=existing_terms)
+
+            for term, count in counts.items():
+                aggregate_counts[term] = aggregate_counts.get(term, 0) + count
+                evidence.setdefault(term, {})
+                evidence[term][source] = evidence[term].get(source, 0) + count
+
+        ranked = rank_candidate_terms(aggregate_counts, min_frequency=min_frequency)
+
+        items: list[dict] = []
+        for item in ranked:
+            term = item["term"]
+            files = sorted(evidence.get(term, {}).items(), key=lambda pair: (-pair[1], pair[0]))
+            items.append(
+                {
+                    "term": term,
+                    "count": item["count"],
+                    "score": item["score"],
+                    "status": "pending_review",
+                    "sources": [{"file": file_path, "count": count} for file_path, count in files],
+                }
+            )
+
+        payload = {
+            "generated_at_utc": datetime.now(timezone.utc).isoformat(),
+            "count": len(items),
+            "min_frequency": min_frequency,
+            "items": items,
+        }
+        save_json(output_path, payload)
+        return payload
+
     def run_folder(
         self,
         input_folder: str | Path,
@@ -349,12 +588,18 @@ class TranslationPipeline:
         glossary_source_path: str | Path,
         include_glob: str = "*.tex",
         exclude_globs: list[str] | None = None,
+        term_review_output_path: str | Path | None = None,
+        term_min_frequency: int = 2,
+        dry_run: bool = False,
+        stale_report_output_path: str | Path | None = None,
     ) -> dict:
         """Run translation pipeline for all matched LaTeX files in a folder."""
 
         input_root = Path(input_folder)
         output_root = Path(output_folder)
         output_root.mkdir(parents=True, exist_ok=True)
+
+        glossary_before_count = len(load_json(self.glossary_path, default={}))
 
         sync_summary = self.sync_glossary_from_source(glossary_source_path)
         files = self.discover_latex_files(
@@ -365,27 +610,94 @@ class TranslationPipeline:
         )
 
         processed: list[dict] = []
+        translated_documents: list[dict] = []
+        folder_start = perf_counter()
         for file_path in files:
-            result = self.run(file_path, glossary_source_path=glossary_source_path)
+            file_start = perf_counter()
             rel_path = file_path.relative_to(input_root)
             output_path = output_root / rel_path
-            output_path.parent.mkdir(parents=True, exist_ok=True)
-            write_text(output_path, result.translated_text)
+            if dry_run:
+                source_text = self.load_latex(file_path)
+                estimated_chunks = len(self.split_into_chunks_by_headings(source_text))
+                file_duration = perf_counter() - file_start
+                processed.append(
+                    {
+                        "input": str(file_path),
+                        "output": str(output_path),
+                        "written": False,
+                        "dry_run": True,
+                        "chunks": estimated_chunks,
+                        "suggested_terms": 0,
+                        "duration_seconds": round(file_duration, 6),
+                    }
+                )
+                translated_documents.append({"source": str(file_path), "text": source_text})
+            else:
+                result = self.run(file_path, glossary_source_path=glossary_source_path)
+                file_duration = perf_counter() - file_start
+                output_path.parent.mkdir(parents=True, exist_ok=True)
+                write_text(output_path, result.translated_text)
 
-            processed.append(
-                {
-                    "input": str(file_path),
-                    "output": str(output_path),
-                    "chunks": result.chunk_count,
-                    "suggested_terms": len(result.suggested_terms),
-                }
+                processed.append(
+                    {
+                        "input": str(file_path),
+                        "output": str(output_path),
+                        "written": True,
+                        "dry_run": False,
+                        "chunks": result.chunk_count,
+                        "suggested_terms": len(result.suggested_terms),
+                        "duration_seconds": round(file_duration, 6),
+                    }
+                )
+                translated_documents.append({"source": str(file_path), "text": result.translated_text})
+
+        total_duration = perf_counter() - folder_start
+        glossary_after_count = len(load_json(self.glossary_path, default={}))
+
+        term_review_summary: dict | None = None
+        if term_review_output_path is not None:
+            term_review_payload = self.build_term_review_queue(
+                translated_documents=translated_documents,
+                output_path=term_review_output_path,
+                min_frequency=term_min_frequency,
             )
+            term_review_summary = {
+                "output": str(term_review_output_path),
+                "count": term_review_payload["count"],
+                "min_frequency": term_review_payload["min_frequency"],
+            }
+
+        stale_report_summary: dict | None = None
+        if stale_report_output_path is not None:
+            stale_report_payload = self.build_stale_glossary_report(
+                stale_terms=sync_summary.get("stale_terms", []),
+                output_path=stale_report_output_path,
+            )
+            stale_report_summary = {
+                "output": str(stale_report_output_path),
+                "count": stale_report_payload["count"],
+            }
 
         return {
             "input_folder": str(input_root),
             "output_folder": str(output_root),
+            "dry_run": dry_run,
             "glossary_source": str(glossary_source_path),
             "glossary_sync": sync_summary,
+            "glossary_conflicts": self._summarize_glossary_conflicts(),
+            "stale_glossary": {
+                "count": sync_summary.get("stale_terms_count", 0),
+                "type_counts": sync_summary.get("stale_type_counts", {}),
+                "terms_preview": sync_summary.get("stale_terms", [])[:25],
+                "report": stale_report_summary,
+            },
             "processed_count": len(processed),
+            "duration_seconds": round(total_duration, 6),
+            "glossary_delta": {
+                "before_count": glossary_before_count,
+                "after_count": glossary_after_count,
+                "added": max(0, glossary_after_count - glossary_before_count),
+            },
+            "term_review": term_review_summary,
             "processed": processed,
         }

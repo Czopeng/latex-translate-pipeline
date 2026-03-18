@@ -8,6 +8,20 @@ import re
 from typing import Any, Tuple
 
 
+DEFAULT_TERM_STOPWORDS = {
+    "table",
+    "figure",
+    "section",
+    "chapter",
+    "appendix",
+    "equation",
+    "result",
+    "method",
+    "introduction",
+    "conclusion",
+}
+
+
 def read_text(path: str | Path) -> str:
     return Path(path).read_text(encoding="utf-8")
 
@@ -48,9 +62,59 @@ def extract_braced_content(text: str, start_index: int) -> Tuple[str, int]:
     raise ValueError("Unbalanced braces in input text")
 
 
-def detect_candidate_terms(text: str) -> list[str]:
-    """Heuristic detector for potential technical terms to review."""
+def extract_candidate_term_counts(
+    text: str,
+    existing_terms: set[str] | None = None,
+    stopwords: set[str] | None = None,
+) -> dict[str, int]:
+    """Count candidate technical terms while filtering known/noisy words."""
 
-    candidates = re.findall(r"\b[A-Za-z][A-Za-z0-9-]{4,}\b", text)
-    unique = sorted({term for term in candidates if not term.islower()})
-    return unique
+    existing = {term.lower() for term in (existing_terms or set())}
+    blocked = {word.lower() for word in (stopwords or DEFAULT_TERM_STOPWORDS)}
+
+    counts: dict[str, int] = {}
+    for match in re.finditer(r"\b[A-Za-z][A-Za-z0-9-]{2,}\b", text):
+        token = match.group(0)
+        token_lower = token.lower()
+
+        if token_lower in existing or token_lower in blocked:
+            continue
+        if token.islower():
+            continue
+        if len(token) < 3:
+            continue
+
+        counts[token] = counts.get(token, 0) + 1
+
+    return counts
+
+
+def rank_candidate_terms(counts: dict[str, int], min_frequency: int = 2) -> list[dict]:
+    """Rank candidate terms by frequency and lexical signal."""
+
+    ranked: list[dict] = []
+    for term, count in counts.items():
+        if count < min_frequency:
+            continue
+
+        token_bonus = 1.0 if any(char.isdigit() for char in term) else 0.0
+        hyphen_bonus = 0.5 if "-" in term else 0.0
+        acronym_bonus = 1.0 if term.isupper() and len(term) >= 3 else 0.0
+        score = float(count) + token_bonus + hyphen_bonus + acronym_bonus
+
+        ranked.append({"term": term, "count": count, "score": round(score, 3)})
+
+    return sorted(ranked, key=lambda item: (-item["score"], -item["count"], item["term"]))
+
+
+def detect_candidate_terms(
+    text: str,
+    existing_terms: set[str] | None = None,
+    min_frequency: int = 1,
+    stopwords: set[str] | None = None,
+) -> list[str]:
+    """Compatibility helper returning only term strings."""
+
+    counts = extract_candidate_term_counts(text, existing_terms=existing_terms, stopwords=stopwords)
+    ranked = rank_candidate_terms(counts, min_frequency=min_frequency)
+    return [item["term"] for item in ranked]

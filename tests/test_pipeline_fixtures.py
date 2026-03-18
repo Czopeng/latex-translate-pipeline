@@ -21,6 +21,8 @@ class PipelineFixtureTests(unittest.TestCase):
         self.glossary_file = ROOT / "tests" / "_tmp_glossary_fixture.json"
         self.review_queue_file = ROOT / "tests" / "_tmp_glossary_review_queue.json"
         self.review_queue_input_file = ROOT / "tests" / "_tmp_review_input.json"
+        self.term_review_file = ROOT / "tests" / "_tmp_term_review_queue.json"
+        self.stale_report_file = ROOT / "tests" / "_tmp_stale_glossary_report.json"
         self.output_folder = ROOT / "tests" / "_tmp_output_folder"
         if self.glossary_file.exists():
             self.glossary_file.unlink()
@@ -28,6 +30,10 @@ class PipelineFixtureTests(unittest.TestCase):
             self.review_queue_file.unlink()
         if self.review_queue_input_file.exists():
             self.review_queue_input_file.unlink()
+        if self.term_review_file.exists():
+            self.term_review_file.unlink()
+        if self.stale_report_file.exists():
+            self.stale_report_file.unlink()
         if self.output_folder.exists():
             for item in sorted(self.output_folder.rglob("*"), reverse=True):
                 if item.is_file():
@@ -44,6 +50,10 @@ class PipelineFixtureTests(unittest.TestCase):
             self.review_queue_file.unlink()
         if self.review_queue_input_file.exists():
             self.review_queue_input_file.unlink()
+        if self.term_review_file.exists():
+            self.term_review_file.unlink()
+        if self.stale_report_file.exists():
+            self.stale_report_file.unlink()
         if self.output_folder.exists():
             for item in sorted(self.output_folder.rglob("*"), reverse=True):
                 if item.is_file():
@@ -179,6 +189,49 @@ class PipelineFixtureTests(unittest.TestCase):
         self.assertEqual("wide-bandgap", glossary_after["WBG"]["en"])
         self.assertNotIn("IGBT", glossary_after)
 
+    def test_fallback_chunk_split_preserves_content_for_large_sections(self) -> None:
+        small_chunk_pipeline = TranslationPipeline(
+            llm_client=MockLLMClient(),
+            glossary_path=self.glossary_file,
+            max_chunk_chars=120,
+        )
+        large_text = "\\section{A}\\n" + ("Absatz eins.\\n\\n" * 40)
+
+        chunks = small_chunk_pipeline.split_into_chunks_by_headings(large_text)
+
+        self.assertGreater(len(chunks), 1)
+        self.assertEqual(large_text, "".join(chunks))
+
+    def test_token_budget_split_preserves_content(self) -> None:
+        token_limited_pipeline = TranslationPipeline(
+            llm_client=MockLLMClient(),
+            glossary_path=self.glossary_file,
+            max_chunk_chars=10000,
+            max_chunk_tokens=20,
+        )
+        large_text = "\\section{Token}\\n" + ("Dieser Text ist lang genug fuer token budget splitting. " * 20)
+
+        chunks = token_limited_pipeline.split_into_chunks_by_headings(large_text)
+
+        self.assertGreater(len(chunks), 1)
+        self.assertEqual(large_text, "".join(chunks))
+
+    def test_build_glossary_review_queue_marks_conflicts(self) -> None:
+        initial = {
+            "WBG": {"de": "wide-bandgap", "en": "wide band gap semiconductor", "type": "acronym", "abbreviation": "WBG"}
+        }
+        self.glossary_file.write_text(json.dumps(initial, ensure_ascii=False, indent=2), encoding="utf-8")
+
+        payload = self.pipeline.build_glossary_review_queue(
+            FIXTURES / "glossarentries.tex",
+            output_path=self.review_queue_file,
+        )
+
+        wbg_items = [item for item in payload["items"] if item["term"] == "WBG"]
+        self.assertEqual(1, len(wbg_items))
+        self.assertEqual("conflict_review", wbg_items[0]["status"])
+        self.assertGreaterEqual(payload["conflict_count"], 1)
+
     def test_sync_glossary_from_source_preserves_existing_english(self) -> None:
         initial = {
             "WBG": {"de": "old", "en": "wide-bandgap", "type": "acronym", "abbreviation": "WBG"},
@@ -192,12 +245,28 @@ class PipelineFixtureTests(unittest.TestCase):
         self.assertGreater(summary["source_terms"], 0)
         self.assertEqual("wide-bandgap", synced["WBG"]["en"])
         self.assertIn("LEGACY_TERM", synced)
+        self.assertIn("LEGACY_TERM", summary["stale_terms"])
+        self.assertGreaterEqual(summary["stale_terms_count"], 1)
+
+    def test_run_does_not_auto_commit_suggested_terms(self) -> None:
+        result = self.pipeline.run(
+            FIXTURES / "Versuch.tex",
+            glossary_source_path=FIXTURES / "glossarentries.tex",
+        )
+        stored_glossary = load_json(self.glossary_file)
+
+        self.assertGreater(len(result.suggested_terms), 0)
+        for term in result.suggested_terms[:10]:
+            self.assertNotEqual("suggested", stored_glossary.get(term, {}).get("type"))
 
     def test_run_folder_processes_fixture_files(self) -> None:
         manifest = self.pipeline.run_folder(
             input_folder=FIXTURES,
             output_folder=self.output_folder,
             glossary_source_path=FIXTURES / "glossarentries.tex",
+            term_review_output_path=self.term_review_file,
+            term_min_frequency=2,
+            stale_report_output_path=self.stale_report_file,
         )
 
         output_theorie = self.output_folder / "Theorie.tex"
@@ -205,11 +274,53 @@ class PipelineFixtureTests(unittest.TestCase):
 
         self.assertTrue(output_theorie.exists())
         self.assertTrue(output_versuch.exists())
+        self.assertFalse(manifest["dry_run"])
         self.assertGreaterEqual(manifest["processed_count"], 2)
+        self.assertIn("duration_seconds", manifest)
+        self.assertIn("glossary_delta", manifest)
+        self.assertIn("glossary_conflicts", manifest)
+        self.assertIn("missing_en_count", manifest["glossary_conflicts"])
+        self.assertIn("stale_glossary", manifest)
+        self.assertIn("term_review", manifest)
+        self.assertIn("duration_seconds", manifest["processed"][0])
+        self.assertTrue(manifest["processed"][0]["written"])
+        self.assertTrue(self.term_review_file.exists())
+        self.assertTrue(self.stale_report_file.exists())
+
+        term_payload = load_json(self.term_review_file)
+        if term_payload["count"] > 0:
+            first = term_payload["items"][0]
+            self.assertIn("sources", first)
+            self.assertGreaterEqual(len(first["sources"]), 1)
+            self.assertIn("file", first["sources"][0])
+            self.assertIn("count", first["sources"][0])
         self.assertEqual(
             (FIXTURES / "Theorie.tex").read_text(encoding="utf-8"),
             output_theorie.read_text(encoding="utf-8"),
         )
+
+    def test_run_folder_dry_run_builds_manifest_without_writing_outputs(self) -> None:
+        manifest = self.pipeline.run_folder(
+            input_folder=FIXTURES,
+            output_folder=self.output_folder,
+            glossary_source_path=FIXTURES / "glossarentries.tex",
+            term_review_output_path=self.term_review_file,
+            term_min_frequency=2,
+            dry_run=True,
+            stale_report_output_path=self.stale_report_file,
+        )
+
+        self.assertTrue(manifest["dry_run"])
+        self.assertGreaterEqual(manifest["processed_count"], 2)
+        self.assertIn("stale_glossary", manifest)
+        self.assertIsNotNone(manifest["stale_glossary"]["report"])
+        self.assertTrue(self.term_review_file.exists())
+        self.assertTrue(self.stale_report_file.exists())
+
+        for item in manifest["processed"]:
+            self.assertTrue(item["dry_run"])
+            self.assertFalse(item["written"])
+            self.assertFalse(Path(item["output"]).exists())
 
 
 if __name__ == "__main__":

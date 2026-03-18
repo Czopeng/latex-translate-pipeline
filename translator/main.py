@@ -100,6 +100,34 @@ def build_parser() -> argparse.ArgumentParser:
         default=None,
         help="Optional JSON path to write folder-mode manifest",
     )
+    parser.add_argument(
+        "--build-term-review-queue",
+        action="store_true",
+        help="Generate term_review_queue.json from translated folder outputs",
+    )
+    parser.add_argument(
+        "--term-review-output",
+        type=Path,
+        default=Path("term_review_queue.json"),
+        help="Output path for generated term review queue JSON",
+    )
+    parser.add_argument(
+        "--term-min-frequency",
+        type=int,
+        default=2,
+        help="Minimum corpus frequency for term review suggestions",
+    )
+    parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="Folder mode only: build manifest/queues without writing translated files",
+    )
+    parser.add_argument(
+        "--stale-report-output",
+        type=Path,
+        default=None,
+        help="Optional JSON path to write stale glossary term report in folder mode",
+    )
     return parser
 
 
@@ -138,6 +166,10 @@ def main() -> None:
             glossary_source_path=args.glossary_source,
             include_glob=args.include_glob,
             exclude_globs=args.exclude_glob,
+            term_review_output_path=args.term_review_output if args.build_term_review_queue else None,
+            term_min_frequency=args.term_min_frequency,
+            dry_run=args.dry_run,
+            stale_report_output_path=args.stale_report_output,
         )
 
         if args.manifest_output is not None:

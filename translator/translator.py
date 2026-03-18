@@ -64,22 +64,38 @@ class GeminiLLMClient:
         self._client = genai.Client(api_key=self.api_key)
 
     def _build_prompt(self, text: str, glossary_context: Dict[str, dict]) -> str:
+        style_context = glossary_context.get("__style__", {}) if isinstance(glossary_context, dict) else {}
+        style_lines: list[str] = []
+        if isinstance(style_context, dict):
+            tone = style_context.get("tone", "")
+            domain = style_context.get("domain", "")
+            keep_units = style_context.get("keep_units", True)
+            if tone:
+                style_lines.append(f"- Tone: {tone}")
+            if domain:
+                style_lines.append(f"- Domain: {domain}")
+            style_lines.append(f"- Keep units/symbol formatting unchanged: {bool(keep_units)}")
+
         glossary_lines: list[str] = []
         for term, data in glossary_context.items():
+            if term == "__style__":
+                continue
             de = data.get("de", "")
             en = data.get("en", "")
             entry_type = data.get("type", "")
             glossary_lines.append(f"- {term} | type={entry_type} | de={de} | en={en}")
 
         glossary_block = "\n".join(glossary_lines) if glossary_lines else "- (none)"
+        style_block = "\n".join(style_lines) if style_lines else "- Keep formal scientific writing style"
 
         return (
-            "Translate German text to English.\n"
+            "Translate German scientific LaTeX text to formal English.\n"
             "Rules:\n"
             "1) Never modify placeholders like __CMD123__.\n"
             "2) Never add/remove placeholders.\n"
             "3) Preserve structure and line breaks.\n"
             "4) Use glossary terms when relevant.\n\n"
+            f"Style:\n{style_block}\n\n"
             f"Glossary:\n{glossary_block}\n\n"
             f"Input:\n{text}"
         )
