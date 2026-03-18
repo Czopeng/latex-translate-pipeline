@@ -1,0 +1,445 @@
+
+\chapter{Theoretische Grundlagen}\label{sec:theoriehl}
+
+Der \gls{IGBT} gilt als Kernkomponente der Leistungselektronik in Anwendungen mit hohen Leistungen. Die Weiterentwicklung von \gls{WBG} Materialien wie \gls{SiC} und \gls{GaN} ermöglicht es zunehmend auch Bauelemente in Halbleiter-Strukturen zu realisieren die bis vor wenigen Jahren nur für geringere Leistungen sinnvoll realisierbar waren. 
+
+\begin{table}[htb]
+	\centering
+	\caption{Physikalische Eigenschaften unterschiedlicher Halbleitermaterialien \cite{Lidowgan}}
+	\label{tab:physeig}
+	\begin{tabular}{|l|l|l|l|l|}
+		\hline
+		\textbf{Physikalische Eigenschaft} & \textbf{Einheit} & \textbf{Si} & \textbf{SiC} & \textbf{GaN}\\
+		\hline
+		Bandlücke & $\mathrm{[eV]}$ & 1,12 & 3,26 & 3,39 \\
+		\hline
+		Kritische elektrische Feldstärke & $\mathrm{[MV/cm]}$ & 0,23 & 2,2 & 3,3\\
+		\hline
+		Elektronenmobilität & $\mathrm{[cm^2/V \cdot s]}$ & 1400 & 950 & 1500 \\
+		\hline
+		Thermische Leitfähigkeit & $\mathrm{[W/cm \cdot K]}$ & 1,5 & 3,8 & 1,3 \\
+		\hline
+	\end{tabular}
+\end{table}
+
+Die hierfür ausschlaggebenden physikalischen Eigenschaften von \gls{Si}, \gls{SiC} und \gls{GaN} sind in \autoref{tab:physeig} dargestellt. Die größere Bandlücke von \gls{SiC} und \gls{GaN} ermöglicht höhere Feldstärken in den Materialien, bevor die kritische elektrische Feldstärke erreicht wird \cite{Lidowgan}. Dadurch können aus diesen Materialien Transistoren mit hohen Sperrspannungen in kleineren Strukturen gebaut werden. Dies ermöglicht \glspl{MOSFET} mit hohen Sperrspannungen bei gleichzeitig geringen Durchlassverlusten. 
+
+In diesem Praktikumsversuch soll das Schalt- und Durchlassverhalten eines \gls{IGBT}- und eines \gls{SiC}-\glspl{MOSFET} untersucht und verglichen werden.
+
+
+\section{Leistungs- MOSFET und IGBT}
+
+Beide Bauelemente, \gls{MOSFET} und \gls{IGBT} sind spannungsgesteuerte Leitungshalbleiter. 
+Die Grundstruktur eines \gls{SiC}-\glspl{MOSFET} ist sehr ähnlich zu der eines Silizium-\glspl{MOSFET}. 
+Daher wird in Abschnitt \ref{sec:struktuaufbau} die vereinfachte Struktur eines Silizium-\glspl{MOSFET} betrachtet. 
+Sofern der Unterschied keine explizite Rolle spielt, wird allgemein von \gls{MOSFET} gesprochenen.
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.56\textwidth]{Schaltbilder_IGBT_MOSFET.pdf}
+	\caption{Schaltbilder von \gls{IGBT} und \gls{MOSFET} mit Bezeichnung der Anschlüsse. }
+	\label{abb:Schaltbildigbtmosfet}
+\end{figure}
+
+In diesem Versuch werden ausschließlich \gls{MOSFET}s und \gls{IGBT}s vom n-Kanal Anreicherungstyp betrachtet. 
+Diese Transistoren werden leitfähig, wenn am Gate eine positive Spannung größer der \glsuservi{sym:uth} angelegt wird. 
+Die Schaltbilder der n-Kanal Anreicherungstypen von \gls{IGBT} und \gls{MOSFET} sind 
+in \autoref{abb:Schaltbildigbtmosfet} zu sehen. Der Einsatz von p-Kanal-\glspl{MOSFET} ist in der Leistungselektronik
+eher unüblich, da die Beweglichkeit der Löcher \gls{sym:mue_p} bei \gls{Si} und \gls{SiC} geringer ist als die Elektronenbeweglichkeit
+\gls{sym:mue_n} \cite{Lutzhalbleiter}. Dies führt zu einer höheren Durchlassspannung und einer langsameren Schaltgeschwindigkeit.
+
+\subsection{Struktur und Aufbau}
+\label{sec:struktuaufbau}
+
+\autoref{abb:strukturigbtmosfet} zeigt die Grundstruktur eines \gls{IGBT} und eines \gls{MOSFET} mit vertikalem Stromfluss. Abgebildet ist jeweils der Querschnitt durch eine einzelne Zelle. In der Praxis sind viele dieser Zellen parallel geschaltet, um hohe Leistungen zu ermöglichen. 
+
+Bei beiden Transistoren ist in die mittig liegende, schwach dotierte \gls{sym:n-} Zone, links und rechts jeweils eine p-dotierte Wanne eingebracht. Innerhalb dieser Wannen befinden sich hoch \gls{sym:n+}-dotierte Gebiete, die mit der Emitter-Elektrode (\gls{IGBT}) bzw. mit der Source-Elektrode (\gls{MOSFET}) kontaktiert sind. Die Gate-Elektrode beider Bauelemente ist bis knapp über das \gls{sym:n+}-Gebiet des Kollektors ausgedehnt und ist zu der benachbarten Elektrode isoliert. Der Hauptunterschied zwischen \gls{IGBT} und \gls{MOSFET} Struktur liegt in der Dotierung der dritten Elektrode. Bei einem \gls{IGBT} ist die in \autoref{abb:strukturigbtmosfet} unterste Zone am Kollektor hoch \gls{sym:p+}-dotiert. Bei einem \gls{MOSFET} kontaktiert die unterste Zone die Drain-Elektrode und ist hoch \gls{sym:n+}-dotiert.
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.83\textwidth]{IGBT_MOSFET_Struktur.pdf}
+	\caption{Vereinfachte Struktur eines \gls{NPT} \gls{IGBT} und eines Leistungs-\gls{MOSFET} \cite{Wintrichsemikron}}
+	\label{abb:strukturigbtmosfet}
+\end{figure}
+
+Die Ansteuerung des Gates ist bei \gls{IGBT} und \gls{MOSFET} sehr ähnlich. Wenn der Transistor in Durchlassrichtung gepolt ist, lässt sich die Leitfähigkeit über die Gatespannung \gls{sym:uge} bzw. \gls{sym:ugs} steuern. Wird am Gate eine Spannung \gls{sym:uge} bzw. \gls{sym:ugs} größer der \glsuservi{sym:uth} angelegt, so entsteht bei beiden Transistoren im \gls{sym:p}-Gebiet unter der Gate-Elektrode ein \gls{sym:n}-leitfähiger Kanal. Über diesen Kanal können Elektronen vom Emitter zum Kollektor, bzw. von Source nach Drain (\gls{MOSFET}) fließen. Dieser Elektronenstrom bildet bei einem \gls{MOSFET} den gesamten Laststrom (unipolarer Stromfluss).
+
+Beim \gls{IGBT} bildet der beschriebene Elektronenstrom nur einen Teil des Gesamtstromflusses. Am pn-Übergang des Kollektors liegt beim \gls{IGBT} nun eine Spannung in Flussrichtung an, die Raumladungszone des pn-Übergangs wird abgebaut. Sobald Elektronen in das \gls{sym:p+}-Gebiet am Kollektor eindringen, können Löcher aus dem \gls{sym:p+}-Gebiet in das \gls{sym:n-}-Gebiet injiziert werden \cite{Wintrichsemikron}. Dadurch kommt es zu einer sogenannten Überschwemmung der \gls{sym:n-}-Zone mit Minoritätsladungsträgern. Der dadurch ermöglichte Löcherstrom trägt einen großen Teil des Kollektorstroms des \gls{IGBT}. Da bei einem \gls{IGBT} sowohl Elektronen als auch Löcher zum Gesamtstromfluss beitragen (bipolarer Stromfluss). 
+
+Die Ladungsträgerüberschwemmung mit resultierendem bipolaren Stromfluss führt beim \gls{IGBT} zu einer deutlichen Erhöhung der Leitfähigkeit des \gls{sym:n-}-Gebiets im Vergleich zum \gls{Si} \gls{MOSFET}. 
+
+
+\subsection{Eigenschaften des IGBT}
+
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.83\textwidth]{ESB_IGBT.pdf}
+	\caption{Ersatzschaltbild des \gls{IGBT} und Schaltbild des \gls{IGBT} mit wichtigen parasitären Kapazitäten }
+	\label{abb:esbigbt}
+\end{figure}
+
+Die Struktur der unterschiedlich dotierten Gebiete lässt sich zu einem in \autoref{abb:esbigbt} dargestellten \gls{ESB} zusammenfassen \cite{Wintrichsemikron}. Die parasitären Kapazitäten sind in \autoref{tab:igbtpara} erklärt. Die p-Wanne, das \gls{sym:n-}-Gebiet und das \gls{sym:p+}-Gebiet am Kollektor können als pnp-Transistor betrachtet werden, der den Kollektorstrom des \gls{IGBT} führt. Der Basisstrom des pnp-Transistors wird durch eine \gls{MOSFET} Struktur über einen Driftwiderstand \gls{sym:rd} des \gls{sym:n-}-Gebiets gesteuert. Zusätzlich existiert eine parasitäre npn-Struktur, die gemeinsam mit dem pnp-Transistor eine Thyristor-Struktur darstellt. Der parasitäre npn Transistor wird im Folgenden vernachlässigt.
+ 
+\begin{table}[htb]
+	\centering
+	\caption{Beschreibung der parasitären Elemente des \gls{IGBT} \gls{ESB}  \cite{Wintrichsemikron}}
+	\label{tab:igbtpara}
+	\begin{tabular}{|L{0.1\textwidth}|L{0.3\textwidth}|L{0.5\textwidth}|}
+		\hline
+		\textbf{Symbol} & \textbf{Bezeichnung} & \textbf{Beschreibung}\\
+		\hline
+		\gls{sym:cge} & Gate-Emitter-Kapazität & Kapazität zwischen Gate und Emitter-Elektrode, abhängig von \gls{sym:uge}  \\
+		\hline
+		\gls{sym:cce} & Kollektor-Emitter-
+		Kapazität &Sperrschichtkapazität zwischen \gls{sym:n-}-Driftzone und p-Wanne, abhängig von \gls{sym:uce}\\
+		\hline
+		\gls{sym:cgc} & Gate-Kollektor-
+		Kapazität (Millerkapazität) & Kapazität zwischen Gate und \gls{sym:n-}-Driftzone\\
+		\hline
+		\gls{sym:rgint} & Interner Gatewiderstand & Widerstand des Polysilizium-Gates \\
+		\hline
+		\gls{sym:rd} & Driftwiderstand & Widerstand der \gls{sym:n-}-Zone, Basiswiderstand des  pnp-Transistors) \\
+		\hline
+		\gls{sym:rw} & Widerstand
+		der p-Wanne & Lateraler Widerstand der p-Wanne, Basis-Emitter-Widerstand des parasitären npn-Transistors \\
+		\hline
+	\end{tabular}
+\end{table}
+
+Moderne \gls{IGBT} Strukturen können von der in \autoref{abb:strukturigbtmosfet} abgebildeten Struktur abweichen, die Grundfunktion ist jedoch gleich.
+
+
+\subsection{Eigenschaften des SiC MOSFET}
+
+Die hohe kritische elektrische Feldstärke von \gls{SiC} ermöglicht es, auch mit einer dünnen \gls{sym:n-}-Driftzone, \gls{MOSFET}s mit hohen Sperrspannungen herzustellen. Die dünne Driftzone führt zu einem kleineren Driftwiderstand \gls{sym:rd} des \gls{sym:n-}-Gebiets und somit im Vergleich zum \gls{Si} \gls{MOSFET} zu geringeren Durchlassverlusten bei gleichzeitig hohen Sperrspannungen. \cite{Coolsic1200an,Rohmsican}.
+
+Der \gls{SiC} \gls{MOSFET} weist eine ähnliche Struktur wie der \gls{Si} \gls{MOSFET} auf. Die Grundfunktionen lassen sich vollständig mit dem zuvor beschriebenen, vereinfachten Strukturbild des \gls{MOSFET} in \autoref{abb:strukturigbtmosfet} erklären. 
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.83\textwidth]{ESB_MOSFET.pdf}
+	\caption{\glsfirst{ESB} des \gls{MOSFET} und Schaltbild des \gls{MOSFET} mit wichtigen parasitären Kapazitäten und body-Diode}
+	\label{abb:esbmosfet}
+\end{figure}
+
+Die Struktur des \gls{MOSFET} lässt sich ebenfalls in ein Ersatzschaltbild zusammenfassen. Wie in \autoref{abb:esbmosfet} zu sehen, unterscheidet sich das \gls{ESB} grundsätzlich, da durch die fehlende p-Dotierung an der Drain-Elektrode kein parasitärer pnp-Transistor entsteht \cite{Wintrichsemikron}. Die Leitfähigkeit des \gls{MOSFET} wird im Gegensatz zum \gls{IGBT} allein durch den n-Kanal der \gls{MOSFET} Struktur erreicht. Der Widerstand \gls{sym:rd} der \gls{sym:n-}-Driftzone ist im eingeschalteten Zustand ein Bestandteil des Durchlasswiderstands \gls{sym:rdson}. 
+
+\begin{table}[htb]
+	\centering
+	\caption{Beschreibung der parasitären Elemente des \gls{SiC} \gls{MOSFET} \gls{ESB} \cite{Wintrichsemikron}}
+	\label{tab:mosfetpara}
+	\begin{tabular}{|L{0.1\textwidth}|L{0.3\textwidth}|L{0.5\textwidth}|}
+		\hline
+		\textbf{Symbol} & \textbf{Bezeichnung} & \textbf{Beschreibung}\\
+		\hline
+		\gls{sym:cgs} & Gate-Source-Kapazität & Kapazität zwischen Gate- und Source-Elektrode, abhängig von \gls{sym:ugs}  \\
+		\hline
+		\gls{sym:cds} & Drain-Source-Kapazität & Sperrschichtkapazität zwischen \gls{sym:n-}-Driftzone und p-Wanne, abhängig von \gls{sym:uds}\\
+		\hline
+		\gls{sym:cgd} & Gate-Drain-
+		Kapazität (Millerkapazität) & Kapazität zwischen Gate und \gls{sym:n-}-Driftzone\\
+		\hline
+		\gls{sym:rgint} & Interner Gatewiderstand & Widerstand des Polysilizium-Gates \\
+		\hline
+		\gls{sym:rd} & Driftwiderstand & Widerstand der \gls{sym:n-}-Driftzone \\
+		\hline
+		\gls{sym:rw} & Widerstand
+		der p-Wanne & Lateraler Widerstand der p-Wanne, Basis-Emitter-Widerstand des parasitären npn-Transistors \\
+		\hline
+	\end{tabular}
+\end{table}
+
+Aus der Struktur des \gls{MOSFET} ergibt sich im \gls{ESB} außerdem ein parasitärer npn-Transistor. Über den Basis-seitigen Widerstand \gls{sym:rw} der p-Wanne, und der Basis-Kollektor-Strecke des npn-Transistors bildet sich die sogenannte body-Diode, somit ist der \gls{MOSFET} rückwärts leitfähig. Im Vergleich zur body-Diode eines \gls{Si} \gls{MOSFET} mit ähnlicher Durchbruchspannung zeichnet sich die \gls{SiC} body-Diode durch sehr geringe reverse recovery Verluste aus. Die Beschreibung der weiteren parasitären Elemente des \gls{MOSFET}, welche im \gls{ESB} aufgeführt sind, erfolgt in \autoref{tab:mosfetpara}.
+
+\begin{comment}
+\section{GaN HEMT}
+
+Mit hervorragenden physikalischen Eigenschaften ermöglicht auch das \gls{WBG} Material \glsfirst{GaN} die Herstellung von Leistungshalbleitern, die ebenfalls attraktive Alternativen zu den etablierten Silizium Bauelementen darstellen.
+Aufgrund der hohen Beweglichkeit der Elektronen im leitfähigen Kanal, wird ein \gls{GaN} Transistor als high-electron-mobility-transistor (\gls{HEMT}) bezeichnet \cite{Bricconiganonsi}. In dieser Arbeit liegt der Fokus auf selbstsperrenden \gls{GaN} Transistoren, welche als \gls{GaN} \gls{E-HEMT} bezeichnet werden. Das Schaltbild eines \gls{GaN} \gls{E-HEMT} ist in \autoref{abb:Schaltbildgan} dargestellt. 
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.23\textwidth]{Schaltbild_GAN.pdf}
+	\caption{Schaltbild eines \gls{GaN} \gls{E-HEMT} mit Bezeichnung der Anschlüsse \cite{Gansys001} }
+	\label{abb:Schaltbildgan}
+\end{figure}
+
+\subsection{Struktur und Aufbau}
+
+\autoref{abb:strukturgan} zeigt die Struktur eines lateralen, selbstsperrenden \gls{GaN} \gls{E-HEMT}. Die Struktur des \gls{GaN} \gls{E-HEMT} ist aus fertigungstechnischen Gründen auf einem Silizium Substrat aufgebracht. Über dem \gls{Si}-Substrat befindet sich eine \gls{GaN} Lage. Darüber ist eine \gls{AlGaN} Schicht aufgebracht. \gls{AlGaN} ist eine halbleitende Legierung aus \gls{AlN} und \glsfirst{GaN}. Die \gls{AlGaN} Schicht ist mit der Drain- und Source-Elektrode kontaktiert wie in \autoref{abb:strukturgan} dargestellt. 
+An der Grenzfläche der \gls{AlGaN}/\gls{GaN} Heterostruktur bildet sich aufgrund der unterschiedlich großen Bandlücke der Materialien ein \gls{2DEG}. Durch spontane Polarisations- und Piezoeffekte weist dieser \gls{2DEG} Kanal eine sehr hohe Ladungsträgerdichte und Elektronenmobilität auf \cite{Ikedagan}.
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.88\textwidth]{GaN_Struktur.pdf}
+	\caption{Vereinfachte Struktur eines \gls{GaN} \gls{E-HEMT} nach \cite{Gansys001}}
+	\label{abb:strukturgan}
+\end{figure}
+
+Das Elektronengas bildet einen hoch leitfähigen Kanal aus. Dieser \gls{2DEG} Kanal ist ohne weitere Modifikation zunächst selbstleitend, auch ohne das Anlegen einer Spannung am Gate. Es existieren mehrere Ansätze zum Entwurf selbstsperrender (enhancement-mode) \gls{E-HEMT} Strukturen. In dieser Arbeit liegt der Fokus auf \gls{E-HEMT} Strukturen auf Basis des p-\gls{GaN} Prinzips. Dabei wird über der \gls{AlGaN} Schicht ein p-dotiertes \gls{GaN} Gate implementiert, um den \gls{2DEG}-Kanal unter dem Gate zu verarmen \cite{Roccaforteemerging}. Der Kanal wird jetzt erst leitfähig, wenn eine \glsuservi{sym:ugs} größer der positiven Threshold-Spannung \gls{sym:ugsth} angelegt wird. Mit dem p-\gls{GaN} Prinzip kann typischerweise eine Threshold-Spannung \gls{sym:ugsth} von etwa 1,5V erreicht werden. Da nur die Elektronen des \gls{2DEG} zur Leitfähigkeit beitragen handelt es sich beim \gls{GaN} \gls{HEMT}, wie bei einem \gls{MOSFET}, um ein unipolares Bauelement. 
+
+Neben der p-\gls{GaN} Technologie gibt es noch weitere Ansätze, um selbstsperrende \gls{GaN} Transistoren zu entwickeln. Ebenfalls breit kommerziell erhältlich sind sogenannte \gls{GaN}-Cascode Transistoren. Hierbei ist ein selbstleitender \gls{GaN} \gls{HEMT} mit hoher Sperrspannung in Serie geschaltet mit einem selbstsperrenden \gls{Si} \gls{MOSFET} \cite{Transphormgan}. Da in dieser Konfiguration immer auch die Effekte des \gls{Si} \gls{MOSFET} gemessen werden, wird diese Technologie hier nicht weiter untersucht. Sogenannte \gls{GIT} erreichen den selbstsperrenden Zustand durch das Versenken eines p-dotierten \gls{GaN}-Gates in der \gls{AlGaN} Struktur \cite{Lidowgan}. Diese Transistoren benötigen im eingeschalteten Zustand einen kontinuierlichen Gatestrom, verkomplizieren die Gate-Ansteuerung und werden ebenfalls nicht weiter betrachtet. Das Einbringen von negativ geladenen Fluor-Ionen in die \gls{AlGaN} Barriere ist ebenfalls ein Ansatz, um den \gls{2DEG} Kanal zu verarmen \cite{Roccaforteemerging}. \gls{E-HEMT} Bauelemente auf Basis dieses Prinzips sind aktuell nicht kommerziell erhältlich.
+
+\subsection{Eigenschaften des GaN HEMT}
+
+Im Funktionsprinzip ähnelt der \gls{GaN} \gls{E-HEMT} einem \gls{MOSFET}. Ein leitfähiger Kanal mit Durchlasswiderstand \gls{sym:rdson} wird über eine Gatespannung \gls{sym:ugs} in idealer Betrachtung leistungslos angesteuert. \gls{GaN} basierte Transistoren können verglichen mit Silizium basierten Transistoren in sehr kleinen Strukturen realisiert werden \cite{Lidowgan}. Diese kleinen Strukturen ermöglichen, zusammen mit der hohen Elektronenmobilität, geringe Durchlassverluste und kleine parasitäre Elemente. Aufgrund der hohen Durchbruchfeldstärke von \gls{GaN} können trotzdem hohe Spannungen gesperrt werden. Im Betrieb mit hohen Schaltfrequenzen ermöglicht dies den Aufbau von Umrichtern mit geringen Schaltverlusten \cite{Sorensenconductiongan}.
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.4\textwidth]{ESB_GAN.pdf}
+	\caption{Vereinfachtes \glsfirst{ESB} des \gls{GaN} \gls{HEMT} mit wichtigen parasitären Elementen \cite{Gansys006}}
+	\label{abb:esbgan}
+\end{figure}
+
+\begin{table}[htb]
+	\centering
+	\caption{Beschreibung der parasitären Elemente des \gls{GaN} \gls{HEMT} \cite{Gansys006}}
+	\label{tab:ganpara}
+	\begin{tabular}{|L{0.1\textwidth}|L{0.3\textwidth}|L{0.5\textwidth}|}
+		\hline
+		\textbf{Symbol} & \textbf{Bezeichnung} & \textbf{Beschreibung}\\
+		\hline
+		\gls{sym:cgs} & Gate-Source-Kapazität & Kapazität zwischen Gate und Source-Elektrode, abhängig von \gls{sym:uds}  \\
+		\hline
+		\gls{sym:cds} & Drain-Source-Kapazität & Kapazität zwischen Drain- und Source-Elektrode, abhängig von \gls{sym:uds}\\
+		\hline
+		\gls{sym:cgd} & Gate-Drain-
+		Kapazität (Millerkapazität) & Kapazität zwischen Gate und Drain-Elektrode\\
+		\hline
+		\gls{sym:rgint} & Interner Gatewiderstand & Widerstand von p-GaN-Gebiet und Gate Anschluss \\
+		\hline
+	\end{tabular}
+\end{table}
+
+Das Ersatzschaltbild des \gls{GaN} \gls{HEMT} nach \cite{Gansys001} ist in \autoref{abb:esbgan} dargestellt. Die Funktion des \gls{GaN} Transistors lässt sich allerdings nicht trivial auf andere bekannte Bauelemente herunterbrechen, wie das beispielsweise beim \gls{IGBT} der Fall ist. Das \gls{ESB} soll lediglich dazu dienen, wichtige parasitäre Elemente zu verdeutlichen.
+Mittig ist daher das Schaltbild des \gls{GaN} Transistors selbst dargestellt, mit den Eigenschaften die nachfolgend beschrieben werden. 
+
+Wie bei einem \gls{MOSFET} charakterisiert der Durchlasswiderstand \gls{sym:rdson} die Durchlassverluste des Transistors. Strukturbedingt ergeben sich durch den Aufbau parasitäre Elemente, die in \autoref{tab:ganpara} erläutert werden. Im Vergleich zu einem \gls{SiC} \gls{MOSFET} können die strukturbedingten Kapazitäten eines \gls{GaN} Transistors deutlich kleiner gehalten werden. Dadurch werden hohe Schaltgeschwindigkeiten mit geringer Ansteuerleistung ermöglicht. 
+
+Der \gls{GaN} Transistor besitzt im Vergleich zu \gls{MOSFET} und \gls{IGBT} keinerlei bipolare Strukturen und ist nicht von Ladungsträgerspeichereffekten beeinflusst. Ein \gls{GaN} \gls{HEMT} hat keine strukturbedingte pn-Diode, daher ist im \gls{ESB} im Vergleich zum \gls{MOSFET} keine body-Diode abgebildet. Trotzdem ist der \gls{GaN} Transistor rückwärts leitfähig, was ist Abschnitt \ref{sec:statischgan} ausführlicher erklärt wird.
+
+Der \gls{GaN} \gls{HEMT} bietet als unipolarer Leiter mit niedrigem \gls{sym:rdson} und kleinen parasitären Elementen großes Potenzial im Spannungsbereich bis \SI{650}{\volt}. Bei höheren Spannungen begrenzt der laterale Aufbau des Transistors die Möglichkeiten zur Skalierung. Stand heute ist es mit aktuellen Fertigungsverfahren nicht möglich vertikale \gls{GaN} Transistoren zu fertigen. Ein großer limitierender Faktor für vertikale \gls{GaN} Transistoren ist die noch immer fehlende Materialqualität von reinen \gls{GaN} Wafern \cite{Roccafortechallenges, Roccaforteemerging}.
+
+\end{comment}
+
+
+\section{Statisches Verhalten von Leistungshalbleitern} \label{sec:statisch}
+
+Das statische Verhalten eines Leistungshalbleiters beschreibt den Zustand eines Transistors, wenn dynamische Effekte und Schaltvorgänge abgeklungen sind.
+
+\begin{comment}
+
+Es wird unterschieden zwischen Polung der Transistoren in Vorwärtsrichtung (\gls{sym:uce} bzw. \gls{sym:uds} größer 0V) und Rückwärtsrichtung (\gls{sym:uce} bzw. \gls{sym:uds} kleiner 0V)
+	Inhalt...
+\end{comment}
+
+Die Ausgangskennlinienfelder weisen vier charakteristische Bereiche auf. Für die Leistungselektronik besonders interessant ist der Sättigungsbereich (eingeschalteter Transistor), der Vorwärts-Sperrbereich (ausgeschalteter Transistor) und der inverse Bereich (Verhalten in Rückwärtsrichtung). Der aktive Bereich ist für das Durchlassverhalten weniger relevant.
+
+\begin{comment}
+
+\textbf{Aktiver Bereich}\\
+Ist die Gatespannung \gls{sym:uge} bzw. \gls{sym:ugs} nur unwesentlich größer als die \gls{sym:uth}, und ist der Transistor in Vorwärtsrichtung gepolt (erster Quadrant), so wird der Transistor im aktiven Bereich betrieben. Hier wird der Strom \gls{sym:ic} bzw. \gls{sym:id} bei konstanter Spannung \gls{sym:uce} bzw. \gls{sym:uds} durch die Gatespannung aktiv gesteuert. Der Strom \gls{sym:ic} bzw. \gls{sym:id} ändert sich bei Änderung von \gls{sym:uce} bzw. \gls{sym:uds} nur sehr geringfügig. Dieser Bereich spielt in der Leistungselektronik eine untergeordnete Rolle und wird an dieser Stelle nicht weiter betrachtet. 
+
+\textbf{Sättigungsbereich}\\
+Der Sättigungsbereich tritt  im ersten Quadranten der Ausgangskennlinie bei in Vorwärts"-richtung gepoltem Transistor auf. Ist die Gatespannung \gls{sym:uge} bzw. \gls{sym:ugs} so hoch, dass \gls{sym:ic} bzw. \gls{sym:id} nur noch von der äußeren Beschaltung begrenzt wird, so spricht man von Sättigung. Dieser ohmsche, lineare Bereich entspricht dem Zustand eines eingeschalteten Transistors in der Leistungselektronik.
+
+\textbf{Vorwärts Sperrbereich}\\
+Ist ein Transistor in Vorwärtsrichtung gepolt und ist die Gatespannung \gls{sym:uge} bzw. \gls{sym:ugs} kleiner als die \glsuservi{sym:uth}, so sperrt der Transistor. Der Reststrom \gls{sym:idss} bzw. \gls{sym:ices} ist bei modernen Leistungshalbleitern in der Regel sehr klein. Oberhalb der maximal angegeben Vorwärts-Sperrspannung eines Transistors, kann es zum Durchbruch des Bauelements kommen. Vereinfacht können Transistoren im Vorwärts Sperrbereich als ausgeschaltet betrachtet werden.  
+
+\textbf{Inverser Bereich}\\
+Ist ein Transistor in Rückwärtsrichtung gepolt, so spricht man vom Inversen Betrieb. Je nach Art des Transistors kann das Bauelement in Rückwärtsrichtung Spannung sperren oder leitfähig sein. Das Verhalten der Bauelemente ergibt sich aus den Kennlinien im dritten Quadranten der Ausgangskennlinienfelder.
+\end{comment}
+
+\subsection{Ausgangskennlinienfeld des Si IGBT}
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.8\textwidth]{Ausgangskennlinienfeld_IGBT.pdf}
+	\caption{Ausgangskennlinienfeld eines \gls{IGBT}}
+	\label{abb:ausgangskigbt}
+\end{figure}
+
+Das statische Verhalten des \gls{IGBT} wird anhand des Ausgangskennlinienfeldes nach \cite{Wintrichsemikron} in \autoref{abb:ausgangskigbt} erklärt.
+
+Das Verhalten des \gls{IGBT} unterscheidet sich im Sättigungsbereich vom \gls{SiC} \gls{MOSFET} durch den bipolaren Charakter. Über den pn-Übergang am Kollektor fällt eine Vorwärts"-spannung vergleichbar mit der einer Diode ab. Das führt dazu, dass die \glsuservi{sym:uce} eines \gls{IGBT} bei kleinen Strömen höher ist, als der Spannungsabfall über einem \gls{MOSFET}. Wie in \autoref{abb:igbtvsmosfet} verdeutlicht, startet die Kennlinie des \gls{IGBT} (grün), im Vergleich zur Kennlinie des \gls{SiC} \gls{MOSFET} (blau), nicht linear aus dem Ursprung. Ab einem gewissen Kollektorstrom sorgt die Ladungsträgerüberschwemmung der \gls{sym:n-}-Zone des \gls{IGBT} für eine kleinere Durchlassspannung als ein vergleichbarer \gls{SiC} \gls{MOSFET}. 
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.5\textwidth]{Stat_IGBT_vs_MOSFET.pdf}
+	\caption{Vergleich der Kennlinien von \gls{IGBT} und \gls{SiC} \gls{MOSFET} im Sättigungsbereich}
+	\label{abb:igbtvsmosfet}
+\end{figure}
+
+Mit zunehmender Strombelastung steigt die Anreicherung an Minoritätsladungsträgern und die Leitfähigkeit nimmt weiter zu \cite{Specoviusleistung, Wintrichsemikron}.
+
+Ist der \gls{IGBT} in Rückwärtsrichtung gepolt (inverser Bereich), so sperrt der kollektorseitige pn-Übergang. Der pn-Übergang ist nur sehr begrenzt sperrfähig und kann bereits ab etwa \SI{10}{\volt} durchbrechen \cite{Wintrichsemikron}. Da der \gls{IGBT} oft in Anwendungen eingesetzt wird, welche rückwärts leitfähige Bauteile benötigen, ist in vielen \gls{IGBT} Bauformen bereits eine inverse Freilaufdiode zu jedem \gls{IGBT} integriert. 
+
+\subsection{Ausgangskennlinienfeld des SiC MOSFET}
+\label{sec:statischsic}
+
+Der \gls{SiC} \gls{MOSFET} hat im Sättigungsbereich  zunächst  eine rein ohmsche Ausgangskennlinie. Insbesondere bei kleineren Strömen hat der \gls{SiC} \gls{MOSFET}, durch das Fehlen einer Flussspannung des \gls{IGBT} pn-Übergangs, kleinere Durchlassverluste.
+%Im Vergleich zum \gls{GaN} \gls{HEMT} hat der \gls{SiC} \gls{MOSFET} einen höheren Durchlasswiderstand \gls{sym:rdson}.
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.8\textwidth]{Ausgangskennlinien_Mosfet.pdf}
+	\caption{Ausgangskennlinienfeld eines \gls{MOSFET} \cite{Rohmsican}}
+	\label{abb:ausgangskmosfet}
+\end{figure}
+
+Im aktiven Bereich wird der Drainstrom \gls{sym:id} durch die Spannung \gls{sym:ugs} gesteuert. Um den \gls{sym:rdson} klein zu halten, muss ein \gls{SiC} \gls{MOSFET} mit einer höheren Gatespannung \gls{sym:ugs} angesteuert werden als ein \gls{Si} \gls{MOSFET}. Typische Spannungen \gls{sym:ugson} zum Einschalten eines \gls{SiC} \gls{MOSFET} liegen zwischen 15 und 20 Volt.
+
+Ist die Gatespannung \gls{sym:ugs} kleiner als \gls{sym:ugsth} und ist der Transistor in Vorwärtsrichtung gepolt, so sperrt der \gls{SiC} \gls{MOSFET}. Die Threshold-Spannung \gls{sym:ugsth} eines \gls{SiC} \gls{MOSFET} liegt typischerweise bei 3-6V.
+
+Die Kennlinien in Rückwärtsrichtung ergeben sich aus der Diodenkennlinie der parasitären body-Diode und aus den Kennlinien des eingeschalteten Kanals. Durch die parasitäre body-Diode ist der \gls{SiC} \gls{MOSFET} rückwärts leitfähig und nicht sperrfähig. Allerdings ist die Flussspannung der Diode \gls{sym:ufnull} im Vergleich zum \gls{Si} \gls{MOSFET} durch die größere Bandlücke von \gls{SiC} betragsmäßig größer, im Bereich von etwa 3V. Zusätzlich kann ein \gls{MOSFET} Kanal auch bei negativer \glsuservi{sym:uds} über eine Gatespannung größer \gls{sym:ugsth} aufgesteuert werden. Im Ausgangskennlinienfeld in \autoref{abb:ausgangskmosfet} ist zu sehen, dass durch Einschalten bzw. Zuschalten des Kanals eine betragsmäßig kleinere Spannung \gls{sym:uds}, bei gleichem Strom \gls{sym:id}, erreicht werden kann.
+
+\begin{comment}
+	Inhalt...
+
+Zur Reduktion der Durchlassverluste in Rückwärtsrichtung sollte der \gls{SiC} \gls{MOSFET} im Rückwärts-Betrieb über eine  Gatespannung \gls{sym:ugs} größer als \gls{sym:ugsth} eingeschaltet werden. Alternativ kann eine \gls{SiC} Schottky Diode mit niedriger Flussspannung und kleinen reverse-recovery Verlusten antiparallel geschaltet werden \cite{Rohmsican}. 
+\end{comment}
+
+\begin{comment}
+\subsection{Ausgangskennlinienfeld des GaN HEMT}
+\label{sec:statischgan}
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.85\textwidth]{Ausgangskennlinien_GaN.pdf}
+	\caption{Ausgangskennlinienfeld eines \gls{GaN} \gls{HEMT}}
+	\label{abb:ausgangskgan}
+\end{figure}
+
+Das Ausgangskennlinienfeld eines \gls{GaN} \gls{HEMT} nach \cite{Gansys001} wird in \autoref{abb:ausgangskgan} gezeigt. 
+Wie ein \gls{MOSFET}, weist auch der \gls{GaN} \gls{HEMT} im Sättigungsbereich näherungsweise ohmsches Verhalten auf. Die Drain-Source-Spannung \gls{sym:uds} lässt sich bei einem Kollektorstrom \gls{sym:id} durch den Durchlasswiderstand \gls{sym:rdson} beschreiben. Dieser Widerstand ist bei einem \gls{GaN} \gls{HEMT} durch die hohe Elektronenbeweglichkeit des \gls{2DEG} Kanals besonders gering. 
+
+Ist die Gatespannung \gls{sym:ugs} kleiner als \gls{sym:ugsth}, und ist der Transistor in Vorwärtsrichtung gepolt, so sperrt der \gls{GaN} \gls{E-HEMT} wie auch der \gls{IGBT} und der \gls{MOSFET}. Allerdings ist die Threshold-Spannung \gls{sym:ugsth} deutlich geringer und liegt im Bereich weniger Volt. Bei der Auslegung von Ansteuerschaltungen ist zu beachten, dass es nicht zum selbständigen Einschalten des Bauelements kommt \cite{Gansys001}. 
+Die Gatespannung, welche benötigt wird, um den Transistor bei einem Arbeitspunkt in den Sättigungsbereich zu bringen, ist deutlich geringer als bei \gls{SiC} \gls{MOSFET}s und \gls{IGBT}s. Typischerweise wird ein p-\gls{GaN} \gls{E-HEMT} mit einer Gatespannung \gls{sym:ugon} von 5 bis 6 Volt eingeschaltet. Ist die Gate-Source Spannung nur knapp größer als die \glsuservi{sym:uth}, so sind die Durchlassverluste des \gls{HEMT} relativ groß. Im Bereich der empfohlenen Gatespannung, um den Transistor durchzusteuern \gls{sym:ugson}, rücken die Kennlinien näher zusammen und die Durchlassverluste werden deutlich kleiner.
+
+Im inversen Bereich unterscheidet sich der \gls{GaN} \gls{E-HEMT} von den anderen betrachteten Transistoren. Der \gls{2DEG} Kanal des \gls{GaN} \gls{HEMT} lässt sich, wie der \gls{MOSFET} Kanal, auch bei negativer \glsuservi{sym:uds} durchsteuern. Zudem ist der Transistor rückwärts leitfähig, auch ohne das Anlegen einer Gatespannung \gls{sym:ugs} größer \gls{sym:ugsth}, besitzt aber keine strukturbedingte body-Diode. Auch bei negativen Gatespannungen \gls{sym:ugoff} ist der Kanal rückwärts leitfähig. Die Leitfähigkeit hängt mit der symmetrischen Struktur der Drain-, Gate- und Source-Elektrode zusammen. Betrachtet man die Struktur des \gls{GaN} \gls{HEMT} so ist der Gate-Anschluss rein funktional zu Drain und Source identisch angeordnet. Der Transistor kann also auch mit einer Spannung von Gate zu Drain größer der \glsuservi{sym:uth} leitfähig werden. 
+
+Geht man davon aus, dass der Transistor mit einer Gate-Source-Spannung \gls{sym:ugsoff} von 0 Volt ausgeschaltet ist, so wird der Transistor leitfähig, wenn der Betrag der negativen \gls{sym:uds} groß genug ist, dass zwischen Gate und Drain eine Spannung größer \gls{sym:uth} abfällt. Ist der \gls{GaN} \gls{HEMT} mit einer negativen Spannung \gls{sym:ugsoff} von z.B. \SI{-3}{\volt} ausgeschaltet, so muss die negative \gls{sym:uds} zusätzlich zur Threshold-Spannung \gls{sym:uth}, auch die negative Spannung \gls{sym:ugsoff} überwinden \cite{Gansys001}. Es ergibt sich die negative Einschaltschwelle, ab einer Spannung $ U_{DS,F} $ äquivalent zur Flussspannung einer Diode. 
+
+Als Beispiel soll nachfolgend $ U_{DS,F} $ eines \gls{GaN} \gls{HEMT} mit einer Threshold-Spannung \gls{sym:ugsth} von \SI{1,5}{\volt} und einer Ausschalt-Gatespannung von \SI{-3}{\volt} berechnet werden:
+
+\begin{align}
+	U_{DS,F} &= - \gls{sym:ugsth} + \gls{sym:ugsoff} \\
+	U_{DS,F} &= - \SI{1,5}{\volt} + (\SI{-3}{\volt})  = \SI{-4,5}{\volt}
+\end{align}
+
+Wenn eine negative Spannung zum Ausschalten des \gls{GaN} \gls{E-HEMT} verwendet wird, so steigt der Betrag von \gls{sym:uds} um den Betrag der negativen Gate-Source Spannung \gls{sym:ugsoff}. Die Durchlassverluste in Rückwärtsrichtung steigen.
+
+Die blauen Kennlinien im dritten Quadranten von \autoref{abb:ausgangskgan} veranschaulichen den Anstieg der negativen \glsuservi{sym:uds} mit betragsmäßigem Anstieg der negativen Gatespannung \gls{sym:ugsoff}. Ist der \gls{2DEG} Kanal aufgesteuert, so ergeben sich die schwarzen Kennlinien mit deutlich geringerem Betrag von \gls{sym:uds} und somit geringeren Durchlassverlusten. Zur Minimierung der Durchlassverluste sollte ein \gls{GaN} Transistor, der in Rückwärtsrichtung Strom führen soll, nach einer Verriegelungszeit eingeschalten werden \cite{Gansys001}. Die Summe der Durchlassverluste einer \gls{GaN} Halbbrücke steigt deutlich mit höherer Verriegelungszeit. Solange die negative Gatespannung \gls{sym:ugsoff} am Gate anliegt, fallen betragsmäßig hohe Drain-Source Spannungen ab. Daher ist die Verriegelungszeit möglichst gering zu wählen \cite{Gansys012}. 
+\end{comment}
+
+\section{Schaltverhalten in Halbbrücken Konfiguration}
+\label{sec:schaltverhalten}
+
+Um das Schaltverhalten der zuvor beschriebenen Bauelemente zu analysieren, werden die Transistoren in Halbbrücken"-konfiguration mit induktiver Last betrachtet, wie in \autoref{abb:halbbrückeigbt} dargestellt. 
+Zwei Transistoren der selben Bauart werden in Serie geschaltet. Im Fall des \gls{IGBT} wird jeweils eine Silizium Freilaufdiode antiparallel geschaltet. Das Verhalten des unteren Transistors T2 auch Low-Side-Transistor genannt wird gemessen. Der High-Side-Transistors T1 bzw. die antiparallelen Freilaufdiode beeinflusst die Messung entscheidend. Parallel zum High-Side-Transistor wird eine Induktivität \gls{sym:llast} parallelgeschaltet, über die ein Strom \gls{sym:ilast} eingeprägt wird. Bis zum Einschaltvorgang sperren beide Transistor und der eingeprägte Laststrom \gls{sym:ilast} fließt über die Lastinduktivität \gls{sym:llast} und durch den High-Side-Transistor in Rückwärtsrichtung bzw. durch die Freilaufdiode. Das Einprägen des Laststroms und die Vermessung des Schaltverhaltens wird üblicherweise über das in \autoref{sec:doppelp} beschriebene Doppelpulsverfahren realisiert.
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.68\textwidth]{Halbbrücke_IGBT.pdf}
+	\caption{Schematischer Aufbau zur Charakterisierung des Schaltverhaltens am Beispiel einer \gls{IGBT} Halbbrücke mit induktiver Last}
+	\label{abb:halbbrückeigbt}
+\end{figure}
+
+Neben den parasitären Elementen der Transistoren sind für den Betrieb als Halbbrücke insbesondere die parasitären Induktivitäten im Kommutierungskreis \gls{sym:lsigma} relevant. Diese entstehen durch Leiterbahnen und Verschraubungen zwischen den Transistoren und der Zwischenkreiskapazität oder durch die Bauteile selbst. 
+
+Zur Charakterisierung des Schaltverhaltens und der Schaltverluste wird die Spannung \gls{sym:uge} bzw. \gls{sym:ugs}, der Strom \gls{sym:ic} bzw. \gls{sym:id} und die Spannung \gls{sym:uce} bzw. \gls{sym:uds} während der Kommutierung betrachtet.
+
+\subsection{Schaltverhalten eines IGBT im Vergleich mit einem SiC MOSFET } \label{sec:dynamisch}
+
+Das Schaltverhalten von \gls{IGBT} und \gls{SiC} \gls{MOSFET} kann qualitativ in einem Diagramm dargestellt werden. Es ist zu beachten, dass die Zeitachsen keinen maßstabsgetreuen Vergleich der Schaltgeschwindigkeiten darstellen sollen. Das Entstehen der Spannungs- und Stromverläufe wird anhand des \gls{IGBT} erklärt. Sofern nicht explizit auf Unterschiede eingegangen wird, treffen die Beschreibungen auch auf den \gls{SiC} \gls{MOSFET} zu.
+
+\subsubsection{Einschaltvorgang}
+
+Die vereinfachten Spannung- und Stromverläufe im Einschaltvorgang sind in \autoref{abb:schalt_on} dargestellt. Zum Zeitpunkt $ t_1 $ wird die Gate-Steuerspannung (gelb) auf \gls{sym:ugon} geschaltet und der Schaltvorgang beginnt.
+\begin{figure}[htb!]
+	\centering
+	\includegraphics[width=0.88\textwidth]{Schaltverhalten_kombi_on.pdf}
+	\caption{Vereinfachter Einschaltvorgang von \gls{IGBT} und \gls{SiC} \gls{MOSFET} mit induktiver Last. (Zeitachse nicht maßstabsgetreu)}
+	\label{abb:schalt_on}
+\end{figure}
+
+\textbf{Einschaltverzögerung $ t_1 $ bis $t_2$}:\\
+Ist die Steuerspannung auf \gls{sym:ugon} geschaltet, so fließt ein Gatestrom \gls{sym:ig}, der die Gatekapazität \gls{sym:cge} über den Gatewiderstand \gls{sym:rg} lädt. Dieser Ladevorgang kann durch die Zeitkonstante \gls{sym:tau} beschrieben werden. Die \glsuservi{sym:uge} steigt an. Bis zum Zeitpunkt $t_2$ ist die \glsuservi{sym:uge} kleiner als \gls{sym:ugeth} und am Sperrzustand des Transistors ändert sich noch nichts. Der \gls{SiC} \gls{MOSFET} verhält sich in diesem Bereich wie der \gls{IGBT}. 
+\begin{equation}
+	\gls{sym:tau} \approx \gls{sym:rg} \cdot \gls{sym:cge}
+\end{equation}
+
+\textbf{Anstieg des Kollektorstroms und Reverse-Recovery-Effekt: $ t_2 $ bis $t_3$}:\\
+Sobald die \glsuservi{sym:uge} größer als \gls{sym:ugeth} ist, wird der Kollektorstrom \gls{sym:ic} über die Gatespannung gesteuert. Die Gatespannung steigt weiter durch das Laden der \glsuservi{sym:cge} mit der Zeitkonstante \gls{sym:tau}. Die Steilheit des Kollektorstroms wird über die Spannungssteilheit von \gls{sym:uge} bestimmt \cite{Specoviusleistung}. Je größer die Zeitkonstante \gls{sym:tau} ist, desto langsamer erfolgt der Anstieg des Kollektorstroms. Da die Diode des High-Side-Transistors erst nach Kommutierung des gesamten Laststroms Spannung sperren kann, wird die Spannung \gls{sym:uce} noch nicht abgebaut. 
+
+Durch die hohe Stromänderung \gls{sym:didt} fallen an den parasitären Induktivitäten \gls{sym:lsigma} im Kommutierungskreis kurzzeitig Spannungen ab. Es kommt bei beiden Transistor Typen zu einem leichten Absinken der Spannung \gls{sym:uce} bzw. \gls{sym:uds} abhängig von der Stromsteilheit. Dieser Spannungsabfall ist \autoref{abb:schalt_on} durch $\Delta U_L $ gekennzeichnet.
+\begin{equation}
+\Delta U_L \approx - \gls{sym:lsigma} \cdot \dfrac{\mathrm{d}i}{\mathrm{d}t}
+\end{equation}
+
+Beim \gls{IGBT} ist zu beobachten, dass der Kollektorstrom den Wert des Laststroms deutlich übersteigt. Die angereicherten Überschussladungen in der Freilaufdiode müssen ausgeräumt werden, wodurch sich kurzzeitig ein sogenannter Diodenrückstrom \gls{sym:irr} zum Laststrom des Low-Side-Transistors \gls{sym:ilast} addiert. Dadurch kommt es zur sogenannten Rückstromspitze \gls{sym:irrm}. Dieses Ausräumen der Speicherladung der Diode wird als Reverse-Recovery-Effekt bezeichnet. Erst nach Erreichen der Rückstromspitze kann die Diode Spannung aufnehmen und die Spannung \gls{sym:uce} kann abfallen.
+Die Höhe des Diodenrückstroms und die Form der Rückstromspitze ist beim \gls{IGBT} abhängig von der parallel geschalteten Diode. 
+
+Beim \gls{MOSFET} definiert der strukturelle Aufbau, die Ladungsmenge \gls{sym:qrr}, welche in der \gls{sym:n-}-Driftzone gespeichert wird. Die Body-Diode des \gls{SiC}-\gls{MOSFET} zeichnet sich durch eine geringere Reverse-Recovery-Ladung aus \cite{Rohmsican}. Dadurch fällt die Rückstromspitze \gls{sym:irr} in der Regel deutlich kleiner aus. 
+
+\begin{comment}
+
+Der \gls{GaN} \gls{HEMT} erlangt seine Rückwärtsleitfähigkeit ohne eine Diodenstruktur, wie in \ref{sec:statischgan} erläutert wird, und  weist dadurch kein Reverse-Recovery-Verhalten auf. Wie in \autoref{abb:schalt_on} dargestellt, bildet sich dadurch idealisiert keine Rückstromspitze aus. In praktischen Aufbauten können insbesondere bei hohen Schaltgeschwindigkeiten auch beim \gls{GaN} Transistor  parasitäre Eigenschaften zu einem Überschwingen des Drainstroms führen. 
+
+\end{comment}
+
+\textbf{Abfall der Kollektor-Emitter-Spannung $ t_3 $ bis $t_4$}:\\
+Nach Erreichen der Rückstromspitze, kommutiert die Spannung vom Low-Side-Transistor auf den High-Side-Transistor, bzw. in die Freilaufdiode. Zum Zeitpunkt $t_4$ liegt \gls{sym:uce} nur noch knapp über dem Minimum \gls{sym:ucesat}. Durch das Abfallen der \glsuservi{sym:uce} wird die Millerkapazität \gls{sym:cgc} über den Gatestrom umgeladen. Dadurch entsteht das sogenannte Miller-Plateau, mit waagerechtem Verlauf der \glsuservi{sym:uge}. Der \gls{SiC} \gls{MOSFET} verhält sich äquivalent.
+
+\textbf{Erreichen des Sättigungsbereichs $ t_4 $ bis $t_5$}:\\
+Die \glsuservi{sym:uge} steigt durch weiteres Laden von \gls{sym:cge} auf den Wert der Steuerspannung \gls{sym:ugon} und der Transistor ist vollständig im Sättigungsbereich durchgeschaltet. Durch die weitere Erhöhung der \glsuservi{sym:uge} sinkt die \glsuservi{sym:uce} auf ihren Sättigungswert \gls{sym:ucesat}. Zum Zeitpunkt $t_5$ befinden sich \gls{sym:uce}, \gls{sym:ic} und \gls{sym:uge} im statischen Zustand. Der \gls{SiC} \gls{MOSFET}verhält sich äquivalent. 
+
+\subsubsection{Ausschaltvorgang}
+\label{sec:ausschalt}
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.83\textwidth]{Schaltverhalten_kombi_off.pdf}
+	\caption{Vereinfachter Ausschaltvorgang von \gls{IGBT} und \gls{SiC} \gls{MOSFET} mit induktiver Last. (Zeitachse nicht maßstabsgetreu)}
+	\label{abb:schalt_off}
+\end{figure}
+
+Im Ausschaltvorgang treten die beschriebenen Vorgänge in entgegengesetzter Richtung auf. Wie auch im Einschaltvorgang entsteht hier eine Phase, in der der sowohl ein hoher Strom als auch eine hohe Spannung am Transistor anliegt, was ebenfalls zu Schaltverlusten führt. 
+In Ergänzung zum Einschaltvorgang spielen folgende Effekte eine bedeutende Rolle.
+
+\textbf{Spannungsüberhöhung ab $ t_8 $}:\\ 
+Sinkt die Gatespannung \gls{sym:uge}, so kommutiert die Spannung \gls{sym:uce} vom Low-Side-Transistor auf den High-Side-Transistor, bzw. auf die Freilaufdiode. Sobald die Freilaufdiode keine Spannung mehr sperrt, kann die Diode wieder Strom aufnehmen und der Kollektorstrom \gls{sym:ic} des Transistors fällt zunächst steil ab. 
+Durch die steile Stromänderung, wird in den parasitären Induktivitäten im Kommutierungskreis \gls{sym:lsigma} eine Gegenspannung \gls{sym:deltauls} induziert welche sich additiv zur Zwischenkreisspannung überlagert. Dadurch muss der Transistor kurzzeitig eine Spannung sperren, welche die Zwischenkreisspannung übersteigt. Die Höhe der Spannungsüberhöhung ist abhängig von der Steilheit des Stromabfalls \gls{sym:didt} und der Größe der parasitären Induktivitäten im Kommutierungskreis. 
+\begin{equation}
+	\gls{sym:deltauls} = - \gls{sym:lsigma} \cdot \dfrac{\mathrm{d}i}{\mathrm{d}t}
+\end{equation}
+
+Der \gls{SiC} \gls{MOSFET} weist abhängig von der Höhe der parasitären Induktivität \gls{sym:lsigma} das selbe Verhalten auf. 
+
+\textbf{Tailstrom des \gls{IGBT}}:\\
+Nach dem steilen Abfall des Kollektorstroms \gls{sym:ic} ist beim \gls{IGBT} ein Abflachen des Stroms zu beobachten. Dieser Stromschweif wird Tailstrom genannt. Im \gls{sym:n-}-Driftgebiet des \gls{IGBT} sind durch die Ladungsträgerüberschwemmung noch viele Minoritätsladungsträger gespeichert. Diese Ladungsträger werden nun in den Kollektor zurück injiziert oder rekombinieren. Der Tailstrom fließt während \gls{sym:uce} bereits ihren statischen Wert erreicht hat und erzeugt dadurch hohe Verluste im \gls{IGBT}.
+\gls{MOSFET}s sind unipolare Bauteile und es findet keine Anreicherung von Minoritätsladungsträger im \gls{sym:n-}-Driftgebiet statt. Dadurch fließt kein Tailstrom und die Transistoren erreichen früher ihren Sperrzustand \cite{Wintrichsemikron}.
+
+\subsection{Verluste im Schaltvorgang} \label{sec:schaltverluste}
+
+Durch das simultane Anliegen von Spannung über dem Transistor und Stromfluss durch den Transistor entstehen Verluste im Schaltvorgang. 
+Diese Schaltverluste setzen sich aus Verlusten im Einschaltvorgang \gls{sym:eon} und Verlusten im Ausschaltvorgang \gls{sym:eoff} zusammen
+und lassen sich berechnen als Integral von \gls{sym:uce} und \gls{sym:ic} bzw. \gls{sym:uds} und \gls{sym:id} bestimmen. 
+Die Berechnung der Schaltverluste \gls{sym:eon} und \gls{sym:eoff} soll nachfolgend am Beispiel des \gls{IGBT} spezifiziert werden: 
+\begin{align}
+ \gls{sym:eon} &= \int_{t_{on0}}^{t_{on1}} u_{\mathrm{CE}}(t) \cdot i_\mathrm{C}(t) \,\mathrm{d}t \\
+ \gls{sym:eoff} &= \int_{t_{off0}}^{t_{off1}} u_{\mathrm{CE}}(t) \cdot i_\mathrm{C}(t) \,\mathrm{d}t 
+\end{align}
+Die Integrationsgrenzen $ t_{1} $ bis $ t_{4} $ begrenzen den Zeitbereich des Ein- bzw. Ausschaltvorgangs. Die Grenzen ergeben sich nach \cite{Semikronswloss} bei überschreiten bzw. unterschreiten der folgenden Spannungen oder Ströme:
+
+\begin{align}
+	t_{on0} &: 0,1 \cdot \gls{sym:ugeon}  \\
+	t_{on1} &: 0,02 \cdot \gls{sym:udc}  \\
+	t_{off0} &: 0,9 \cdot \gls{sym:ugeon} \\
+	t_{off1} &: 0,02 \cdot \gls{sym:ic}
+\end{align}
+
+Im Einschaltvorgang fallen bei Transistoren mit ausgeprägtem Reverse-Recovery-Effekt, wie dem \gls{IGBT}, höhere Verluste an. 
+Je schneller ein Transistor geschaltet werden kann, desto kleiner ist die zeitliche Überlappung von Spannung und Strom. Allerdings wächst mit schnellerem Stromanstieg \gls{sym:didt} auch die Höhe der Rückstromspitze \gls{sym:irr}. Außerdem nehmen mit hohen Schaltgeschwindigkeiten die Störungen durch Schwingverhalten parasitärer Induktivitäten und Kapazitäten zu. In Anlehnung an die Angaben im jeweiligen Datenblatt, muss hier für jedes Bauteil ein Kompromiss gefunden werden.
+
+Im Ausschaltvorgang begrenzt die parasitäre Induktivität im Kommutierungskreis den Stromgradienten \gls{sym:didt}, da alle Transistoren zusätzlich auch die induzierte Spannungsspitze sicher sperren müssen. Der \gls{IGBT} weist durch den Tailstrom in der Regel höhere Ausschaltverluste auf als unipolare Bauelemente wie der \gls{SiC} \gls{MOSFET}.

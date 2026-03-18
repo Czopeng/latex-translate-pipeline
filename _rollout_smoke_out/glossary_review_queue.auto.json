@@ -1,0 +1,1466 @@
+{
+  "source_file": "testLatex\\glossarentries.tex",
+  "generated_at_utc": "2026-03-18T11:04:43.116089+00:00",
+  "count": 162,
+  "conflict_count": 0,
+  "items": [
+    {
+      "term": "2DEG",
+      "type": "acronym",
+      "abbreviation": "2DEG",
+      "de": "Zweidimensionales Elektronengas",
+      "en_suggested": "Zweidimensionales Elektronengas",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "3AC",
+      "type": "acronym",
+      "abbreviation": "3AC",
+      "de": "dreiphasiger Wechselstrom",
+      "en_suggested": "dreiphasiger Wechselstrom",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "AC",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Wechselstrom (Alternating Current)",
+      "en_suggested": "Wechselstrom (Alternating Current)",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "AD",
+      "type": "acronym",
+      "abbreviation": "AD",
+      "de": "Analog Digital",
+      "en_suggested": "Analog Digital",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "ADC",
+      "type": "acronym",
+      "abbreviation": "ADC",
+      "de": "Analog Digital Wandler",
+      "en_suggested": "Analog Digital Wandler",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "AFE",
+      "type": "acronym",
+      "abbreviation": "AFE",
+      "de": "Active Front End",
+      "en_suggested": "Active Front End",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "ASM",
+      "type": "acronym",
+      "abbreviation": "ASM",
+      "de": "Asynchronmaschine",
+      "en_suggested": "Asynchronmaschine",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "AlGaN",
+      "type": "acronym",
+      "abbreviation": "AlGaN",
+      "de": "Aluminiumgalliumnitrid",
+      "en_suggested": "Aluminiumgalliumnitrid",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "AlN",
+      "type": "acronym",
+      "abbreviation": "AlN",
+      "de": "Aluminiumnitrid",
+      "en_suggested": "Aluminiumnitrid",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "BLDC",
+      "type": "acronym",
+      "abbreviation": "BLDC",
+      "de": "Bürstenloser Gleichstrommotor",
+      "en_suggested": "Bürstenloser Gleichstrommotor",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "BNC",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Bayonet-Neill-Concelman Bajonettverschluss",
+      "en_suggested": "Bayonet-Neill-Concelman Bajonettverschluss",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "C",
+      "type": "acronym",
+      "abbreviation": "C",
+      "de": "Kohlenstoff",
+      "en_suggested": "Kohlenstoff",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "DBS",
+      "type": "acronym",
+      "abbreviation": "DBS",
+      "de": "Drehstrombrückenschaltung",
+      "en_suggested": "Drehstrombrückenschaltung",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "DC",
+      "type": "acronym",
+      "abbreviation": "DC",
+      "de": "Gleichstrom (Direct Current)",
+      "en_suggested": "Gleichstrom (Direct Current)",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "DC/DC-Wandler",
+      "type": "acronym",
+      "abbreviation": "DC/DC-Wandler",
+      "de": "Gleichspannungswandler",
+      "en_suggested": "Gleichspannungswandler",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "DG",
+      "type": "acronym",
+      "abbreviation": "DG",
+      "de": "Diodengleichrichter",
+      "en_suggested": "Diodengleichrichter",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "DMOS",
+      "type": "acronym",
+      "abbreviation": "DMOS",
+      "de": "double-diffused metal-oxide semiconductor",
+      "en_suggested": "double-diffused metal-oxide semiconductor",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "DSP",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "digitaler Signalprozessor",
+      "en_suggested": "digitaler Signalprozessor",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "DUT",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Device Under Test",
+      "en_suggested": "Device Under Test",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "E-HEMT",
+      "type": "acronym",
+      "abbreviation": "E-HEMT",
+      "de": "enhancement-mode high-electron-mobility-transistor",
+      "en_suggested": "enhancement-mode high-electron-mobility-transistor",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "EEPROM",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "electrically erasable programmable read-only memory",
+      "en_suggested": "electrically erasable programmable read-only memory",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "EMV",
+      "type": "acronym",
+      "abbreviation": "EMV",
+      "de": "Elektromagnetischen Verträglichkeit",
+      "en_suggested": "Elektromagnetischen Verträglichkeit",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "EPSR",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Einplatinenstromrichter",
+      "en_suggested": "Einplatinenstromrichter",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "ESB",
+      "type": "acronym",
+      "abbreviation": "ESB",
+      "de": "Ersatzschaltbild",
+      "en_suggested": "Ersatzschaltbild",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "ETI",
+      "type": "acronym",
+      "abbreviation": "ETI",
+      "de": "Elektrotechnisches Institut",
+      "en_suggested": "Elektrotechnisches Institut",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "ETI-Bus",
+      "type": "acronym",
+      "abbreviation": "ETI-Bus",
+      "de": "kommunikationsbus des DSP-Systems",
+      "en_suggested": "kommunikationsbus des DSP-Systems",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "FAM",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Feldorientierte Regelung der Asynchronmaschine",
+      "en_suggested": "Feldorientierte Regelung der Asynchronmaschine",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "FB",
+      "type": "acronym",
+      "abbreviation": "FB",
+      "de": "Full Bridge - Vollbrücken",
+      "en_suggested": "Full Bridge - Vollbrücken",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "FPGA",
+      "type": "acronym",
+      "abbreviation": "FPGA",
+      "de": "Field Programmable Gate Array",
+      "en_suggested": "Field Programmable Gate Array",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "GIT",
+      "type": "acronym",
+      "abbreviation": "GIT",
+      "de": "Gate Injection Transistoren",
+      "en_suggested": "Gate Injection Transistoren",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "GM",
+      "type": "acronym",
+      "abbreviation": "GM",
+      "de": "Gleichstrommaschine",
+      "en_suggested": "Gleichstrommaschine",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "GaN",
+      "type": "acronym",
+      "abbreviation": "GaN",
+      "de": "Galliumnitrid",
+      "en_suggested": "Galliumnitrid",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "HB",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Halbbrücke",
+      "en_suggested": "Halbbrücke",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "HEMT",
+      "type": "acronym",
+      "abbreviation": "HEMT",
+      "de": "high-electron-mobility-transistor",
+      "en_suggested": "high-electron-mobility-transistor",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "HIL",
+      "type": "acronym",
+      "abbreviation": "HIL",
+      "de": "Hardware-in-the-Loop",
+      "en_suggested": "Hardware-in-the-Loop",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "HMK",
+      "type": "acronym",
+      "abbreviation": "HMK",
+      "de": "Hochleistungsmodulatorkarte",
+      "en_suggested": "Hochleistungsmodulatorkarte",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "IC",
+      "type": "acronym",
+      "abbreviation": "IC",
+      "de": "Integrated circuit",
+      "en_suggested": "Integrated circuit",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "IGBT",
+      "type": "acronym",
+      "abbreviation": "IGBT",
+      "de": "Insulated Gate Bipolar Transistor",
+      "en_suggested": "Insulated Gate Bipolar Transistor",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "JFET",
+      "type": "acronym",
+      "abbreviation": "JFET",
+      "de": "junction field effect transistor",
+      "en_suggested": "junction field effect transistor",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "KIT",
+      "type": "acronym",
+      "abbreviation": "KIT",
+      "de": "Karlsruher Institut für Technologie",
+      "en_suggested": "Karlsruher Institut für Technologie",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "LED",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "light emitting diode",
+      "en_suggested": "light emitting diode",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "LWL",
+      "type": "acronym",
+      "abbreviation": "LWL",
+      "de": "Lichtwellenleiter",
+      "en_suggested": "Lichtwellenleiter",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "M3C",
+      "type": "acronym",
+      "abbreviation": "M3C",
+      "de": "Modularer-Multilevel-Matrix-Umrichter",
+      "en_suggested": "Modularer-Multilevel-Matrix-Umrichter",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "MAC",
+      "type": "acronym",
+      "abbreviation": "MAC",
+      "de": "Multiply-Accumulate",
+      "en_suggested": "Multiply-Accumulate",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "MMC",
+      "type": "acronym",
+      "abbreviation": "MMC",
+      "de": "Modularer-Multilevel-Umrichter",
+      "en_suggested": "Modularer-Multilevel-Umrichter",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "MOSFET",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Metall Oxid Halbleiter Feldeffekttransistor",
+      "en_suggested": "Metall Oxid Halbleiter Feldeffekttransistor",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "NPT",
+      "type": "acronym",
+      "abbreviation": "NPT",
+      "de": "Non-Punch-Through",
+      "en_suggested": "Non-Punch-Through",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "OPV",
+      "type": "acronym",
+      "abbreviation": "OPV",
+      "de": "Operationsverstärker",
+      "en_suggested": "Operationsverstärker",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "PCB",
+      "type": "acronym",
+      "abbreviation": "PCB",
+      "de": "Printed circuit board",
+      "en_suggested": "Printed circuit board",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "PCC",
+      "type": "acronym",
+      "abbreviation": "PCC",
+      "de": "Point of common coupling - Netzanschlusspunkt",
+      "en_suggested": "Point of common coupling - Netzanschlusspunkt",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "PHIL",
+      "type": "acronym",
+      "abbreviation": "PHIL",
+      "de": "Power-Hardware-in-the-Loop",
+      "en_suggested": "Power-Hardware-in-the-Loop",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "PLL",
+      "type": "acronym",
+      "abbreviation": "PLL",
+      "de": "Phase Look Loop",
+      "en_suggested": "Phase Look Loop",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "PSM",
+      "type": "acronym",
+      "abbreviation": "PSM",
+      "de": "Permanenterregte Synchronmaschiene",
+      "en_suggested": "Permanenterregte Synchronmaschiene",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "PT",
+      "type": "acronym",
+      "abbreviation": "PT",
+      "de": "Punch-Through",
+      "en_suggested": "Punch-Through",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "PWM",
+      "type": "acronym",
+      "abbreviation": "PWM",
+      "de": "Pulsweitenmodulation (Puls Wide Modulation)",
+      "en_suggested": "Pulsweitenmodulation (Puls Wide Modulation)",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "SIL",
+      "type": "acronym",
+      "abbreviation": "SIL",
+      "de": "Software-in-the-Loop",
+      "en_suggested": "Software-in-the-Loop",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "SMD",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Surface-mounted device",
+      "en_suggested": "Surface-mounted device",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "SOA",
+      "type": "acronym",
+      "abbreviation": "SOA",
+      "de": "Safe Operating Area",
+      "en_suggested": "Safe Operating Area",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "Si",
+      "type": "acronym",
+      "abbreviation": "Si",
+      "de": "Silizium",
+      "en_suggested": "Silizium",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "SiC",
+      "type": "acronym",
+      "abbreviation": "SiC",
+      "de": "Siliziumkarbid",
+      "en_suggested": "Siliziumkarbid",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "SoC",
+      "type": "acronym",
+      "abbreviation": "SoC",
+      "de": "System on Chip",
+      "en_suggested": "System on Chip",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "TA",
+      "type": "acronym",
+      "abbreviation": "TA",
+      "de": "Taktperiode des Umrichtersystems",
+      "en_suggested": "Taktperiode des Umrichtersystems",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "THT",
+      "type": "acronym",
+      "abbreviation": "THT",
+      "de": "Through-hole technology",
+      "en_suggested": "Through-hole technology",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "TSS",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Tiefsetzsteller",
+      "en_suggested": "Tiefsetzsteller",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "USB",
+      "type": "acronym",
+      "abbreviation": "USB",
+      "de": "Universal Serial Bus",
+      "en_suggested": "Universal Serial Bus",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "UVLO",
+      "type": "acronym",
+      "abbreviation": "UVLO",
+      "de": "Undervoltage-lockout",
+      "en_suggested": "Undervoltage-lockout",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "VHDL",
+      "type": "acronym",
+      "abbreviation": "VHDL",
+      "de": "Very High Speed Integrated Circuit Hardware Description Language",
+      "en_suggested": "Very High Speed Integrated Circuit Hardware Description Language",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "WBG",
+      "type": "acronym",
+      "abbreviation": "WBG",
+      "de": "wide-bandgap",
+      "en_suggested": "wide-bandgap",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "etc.",
+      "type": "acronym",
+      "abbreviation": "etc.",
+      "de": "et cetera",
+      "en_suggested": "et cetera",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:SiO2",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Siliziumdioxid",
+      "en_suggested": "Siliziumdioxid",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:cce",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Kollektor-Emitter-Kapazität",
+      "en_suggested": "Kollektor-Emitter-Kapazität",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:cdc",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Zwischenkreis-Kapazität",
+      "en_suggested": "Zwischenkreis-Kapazität",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:cds",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Drain-Source-Kapazität",
+      "en_suggested": "Drain-Source-Kapazität",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:cgc",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Gate-Kollektor-Kapazität",
+      "en_suggested": "Gate-Kollektor-Kapazität",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:cgd",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Gate-Drain-Kapazität",
+      "en_suggested": "Gate-Drain-Kapazität",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:cge",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Gate-Emitter-Kapazität",
+      "en_suggested": "Gate-Emitter-Kapazität",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:cgs",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Gate-Source-Kapazität",
+      "en_suggested": "Gate-Source-Kapazität",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:ciss",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Eingangskapazität",
+      "en_suggested": "Eingangskapazität",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:coss",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Ausgangskapazität",
+      "en_suggested": "Ausgangskapazität",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:crss",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Rückwirkungskapazität",
+      "en_suggested": "Rückwirkungskapazität",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:deltaul",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Induzierter Spannungsabfall im Einschaltvorgang",
+      "en_suggested": "Induzierter Spannungsabfall im Einschaltvorgang",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:deltauls",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Induzierte Gegespannung im Ausschaltvorgang",
+      "en_suggested": "Induzierte Gegespannung im Ausschaltvorgang",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:didt",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Stromgradient",
+      "en_suggested": "Stromgradient",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:dudt",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Spannungsgradient",
+      "en_suggested": "Spannungsgradient",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:eoff",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Ausschaltenergie",
+      "en_suggested": "Ausschaltenergie",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:eon",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Einschaltenergie",
+      "en_suggested": "Einschaltenergie",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:gammarrotor",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Winkel des Rotorfluss der Asynchronmaschine",
+      "en_suggested": "Winkel des Rotorfluss der Asynchronmaschine",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:gammarstator",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Winkel des Statorfluss der Asynchronmaschine",
+      "en_suggested": "Winkel des Statorfluss der Asynchronmaschine",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:ic",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Kollektor-Strom",
+      "en_suggested": "Kollektor-Strom",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:ices",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Kollektor Reststrom",
+      "en_suggested": "Kollektor Reststrom",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:id",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Drainstrom",
+      "en_suggested": "Drainstrom",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:idss",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Drain Reststrom",
+      "en_suggested": "Drain Reststrom",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:ig",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Gatestrom",
+      "en_suggested": "Gatestrom",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:ilast",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Laststrom",
+      "en_suggested": "Laststrom",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:indukhaupt",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Hauptinduktivität",
+      "en_suggested": "Hauptinduktivität",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:indukrotorstreu",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Rotorstreuinduktivität",
+      "en_suggested": "Rotorstreuinduktivität",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:indukstatorstreu",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Statorstreuinduktivität",
+      "en_suggested": "Statorstreuinduktivität",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:inneresMoment",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "inneres Moment der Asynchronmaschine",
+      "en_suggested": "inneres Moment der Asynchronmaschine",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:irms",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Effektivwert des Stroms",
+      "en_suggested": "Effektivwert des Stroms",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:irr",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Diodenrückstrom",
+      "en_suggested": "Diodenrückstrom",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:irrm",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Rückstromspitze",
+      "en_suggested": "Rückstromspitze",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:lastMoment",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Lastmoment der Asynchronmaschine",
+      "en_suggested": "Lastmoment der Asynchronmaschine",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:llast",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Last-Induktivität",
+      "en_suggested": "Last-Induktivität",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:lsigma",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "parasitäre Induktivität im Kommutierungskreis",
+      "en_suggested": "parasitäre Induktivität im Kommutierungskreis",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:magnetisierungsstrom",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Magnetisierungsstrom der Asynchronmaschine",
+      "en_suggested": "Magnetisierungsstrom der Asynchronmaschine",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:mue_n",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Beweglichkeit der Elektronen",
+      "en_suggested": "Beweglichkeit der Elektronen",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:mue_p",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Beweglichkeit der Löcher",
+      "en_suggested": "Beweglichkeit der Löcher",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:n",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "n-dotiertes Donator Halbleitermaterial",
+      "en_suggested": "n-dotiertes Donator Halbleitermaterial",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:n+",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "hoch dotiertes Donator Halbleitermaterial",
+      "en_suggested": "hoch dotiertes Donator Halbleitermaterial",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:n-",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "niedrig dotiertes Donator Halbleitermaterial",
+      "en_suggested": "niedrig dotiertes Donator Halbleitermaterial",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:omegamech",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "mechanische Drehfrequenz des Rotors der Asynchronmaschine",
+      "en_suggested": "mechanische Drehfrequenz des Rotors der Asynchronmaschine",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:ommegaeck",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Eckkreisfrequenz (beginn des Feldschwächebereich)",
+      "en_suggested": "Eckkreisfrequenz (beginn des Feldschwächebereich)",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:ommegarotor",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Speißefrequenz des Rotorflusses der Asynchronmaschine",
+      "en_suggested": "Speißefrequenz des Rotorflusses der Asynchronmaschine",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:ommegastator",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Speißefrequenz des Statorflusses der Asynchronmaschine",
+      "en_suggested": "Speißefrequenz des Statorflusses der Asynchronmaschine",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:ommegasyn",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "synchrone Kreisfrequenz",
+      "en_suggested": "synchrone Kreisfrequenz",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:p",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "p-dotiertes Akzeptor Halbleitermaterial",
+      "en_suggested": "p-dotiertes Akzeptor Halbleitermaterial",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:p+",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "hoch dotiertes Akzeptor Halbleitermaterial",
+      "en_suggested": "hoch dotiertes Akzeptor Halbleitermaterial",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:p-",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "niedrig dotiertes Akzeptor Halbleitermaterial",
+      "en_suggested": "niedrig dotiertes Akzeptor Halbleitermaterial",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:pollparzahl",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Polpaarzahl der Asynchronmaschine",
+      "en_suggested": "Polpaarzahl der Asynchronmaschine",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:qrr",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Reverse recovery Speicherladung einer Diode",
+      "en_suggested": "Reverse recovery Speicherladung einer Diode",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:rd",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Driftwiderstand des n- Gebiets",
+      "en_suggested": "Driftwiderstand des n- Gebiets",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:rdson",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Durchlasswiderstand",
+      "en_suggested": "Durchlasswiderstand",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:reibMoment",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Reibmoment der Asynchronmaschine",
+      "en_suggested": "Reibmoment der Asynchronmaschine",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:rg",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Gate-Widerstand",
+      "en_suggested": "Gate-Widerstand",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:rgint",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Interner Gate-Widerstand",
+      "en_suggested": "Interner Gate-Widerstand",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:rgoff",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Gate-Widerstand im Ausschaltvorgang",
+      "en_suggested": "Gate-Widerstand im Ausschaltvorgang",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:rgon",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Gate-Widerstand im Einschaltvorgang",
+      "en_suggested": "Gate-Widerstand im Einschaltvorgang",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:rotorflusskompl",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "komplexer Rotorfluss",
+      "en_suggested": "komplexer Rotorfluss",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:rotorspannungkompl",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "komplexe Rotorspannung",
+      "en_suggested": "komplexe Rotorspannung",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:rotorstromkompl",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "komplexer Rotorstrom",
+      "en_suggested": "komplexer Rotorstrom",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:rotorwiderstand",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Rotorwiderstand",
+      "en_suggested": "Rotorwiderstand",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:rw",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Wannenwiderstand",
+      "en_suggested": "Wannenwiderstand",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:statorflusskompl",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "komplexer Statorfluss",
+      "en_suggested": "komplexer Statorfluss",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:statorspannungkompl",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "komplexe Statorspannung",
+      "en_suggested": "komplexe Statorspannung",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:statorstromkompl",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "komplexer Statorstrom",
+      "en_suggested": "komplexer Statorstrom",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:statorwiderstand",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Statorwiderstand 123",
+      "en_suggested": "Statorwiderstand 123",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:ta",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Einschaltzeit des ersten Pulses eines Doppelpulsversuchs",
+      "en_suggested": "Einschaltzeit des ersten Pulses eines Doppelpulsversuchs",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:tau",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Zeitkonstante Tau",
+      "en_suggested": "Zeitkonstante Tau",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:td",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Verriegelungszeit",
+      "en_suggested": "Verriegelungszeit",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:traegheitsmoment",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Trägheitsmoment des mechanischen Systems",
+      "en_suggested": "Trägheitsmoment des mechanischen Systems",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:uce",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Kollektor-Emitter-Spannung",
+      "en_suggested": "Kollektor-Emitter-Spannung",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:ucesat",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Kollektor-Emitter-Spannung in Sättigung",
+      "en_suggested": "Kollektor-Emitter-Spannung in Sättigung",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:udc",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Zwischenkreisspannung",
+      "en_suggested": "Zwischenkreisspannung",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:uds",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Drain-Source-Spannung",
+      "en_suggested": "Drain-Source-Spannung",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:udson",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Drain-Source Spannung im eingeschalteten Zustand eines MOSFET",
+      "en_suggested": "Drain-Source Spannung im eingeschalteten Zustand eines MOSFET",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:ufnull",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Flussspannung der parasitären MOSFET body-Diode",
+      "en_suggested": "Flussspannung der parasitären MOSFET body-Diode",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:uge",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Gate-Emitter-Spannung",
+      "en_suggested": "Gate-Emitter-Spannung",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:ugeoff",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Gate-Emitter Spannung im ausgeschalteten Zustand",
+      "en_suggested": "Gate-Emitter Spannung im ausgeschalteten Zustand",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:ugeon",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Gate-Emitter Spannung im eingeschalteten Zustand",
+      "en_suggested": "Gate-Emitter Spannung im eingeschalteten Zustand",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:ugeth",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Threshold-Spannung eines IGBT",
+      "en_suggested": "Threshold-Spannung eines IGBT",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:ugoff",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Ausgangsspannungpegel eines Gatetreiber zum Ausschalten eines Transistors",
+      "en_suggested": "Ausgangsspannungpegel eines Gatetreiber zum Ausschalten eines Transistors",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:ugon",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Ausgangsspannungpegel eines Gatetreiber zum Einschalten eines Transistors",
+      "en_suggested": "Ausgangsspannungpegel eines Gatetreiber zum Einschalten eines Transistors",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:ugs",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Gate-Source-Spannung",
+      "en_suggested": "Gate-Source-Spannung",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:ugsoff",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Gate-Source Spannung im ausgeschalteten Zustand",
+      "en_suggested": "Gate-Source Spannung im ausgeschalteten Zustand",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:ugson",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Gate-Source Spannung im eingeschalteten Zustand",
+      "en_suggested": "Gate-Source Spannung im eingeschalteten Zustand",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:ugsth",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Threshold-Spannung eines MOSFET",
+      "en_suggested": "Threshold-Spannung eines MOSFET",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:ugtreiber",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Steuerspannung am Ausgang eines Gatetreibers",
+      "en_suggested": "Steuerspannung am Ausgang eines Gatetreibers",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:uth",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Threshold-Spannung",
+      "en_suggested": "Threshold-Spannung",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:uuvlods",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "angegebener UVLO Schwellwert im Datenblatt eines Gatetreibers",
+      "en_suggested": "angegebener UVLO Schwellwert im Datenblatt eines Gatetreibers",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "sym:uuvlogan",
+      "type": "glossary",
+      "abbreviation": "",
+      "de": "Effektive undervoltage-lockout Schwelle des GaN-Treibers",
+      "en_suggested": "Effektive undervoltage-lockout Schwelle des GaN-Treibers",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "usw.",
+      "type": "acronym",
+      "abbreviation": "usw.",
+      "de": "und so weiter",
+      "en_suggested": "und so weiter",
+      "en_existing": "",
+      "status": "pending_review"
+    },
+    {
+      "term": "z.B.",
+      "type": "acronym",
+      "abbreviation": "z.B.",
+      "de": "zum Beispiel",
+      "en_suggested": "zum Beispiel",
+      "en_existing": "",
+      "status": "pending_review"
+    }
+  ]
+}

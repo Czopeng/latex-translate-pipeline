@@ -41,6 +41,10 @@ class GlossaryReviewQueueError(RuntimeError):
     """Raised when a glossary review queue cannot be applied safely."""
 
 
+class GlossarySourceValidationError(RuntimeError):
+    """Raised when glossary source input does not contain parseable entries."""
+
+
 class TranslationPipeline:
     """Modular German->English LaTeX translation pipeline skeleton."""
 
@@ -106,6 +110,11 @@ class TranslationPipeline:
 
         source_text = self.load_latex(glossary_source_path)
         source_entries = self.extract_glossary(source_text)
+        if not source_entries:
+            raise GlossarySourceValidationError(
+                "Glossary source contains no parseable entries. "
+                "Expected at least one \\newacronym or \\newglossaryentry definition."
+            )
 
         existing_raw = load_json(self.glossary_path, default={})
         existing_entries = self.glossary_manager.from_json_dict(existing_raw)
@@ -181,6 +190,83 @@ class TranslationPipeline:
         }
         save_json(output_path, payload)
         return payload
+
+    @staticmethod
+    def _sanitize_for_label(value: str) -> str:
+        cleaned = re.sub(r"[^A-Za-z0-9]+", "_", value.strip())
+        cleaned = cleaned.strip("_")
+        return cleaned or "term"
+
+    def render_translated_glossary_latex(self, glossary: Dict[str, GlossaryEntry]) -> str:
+        """Render a standalone translated glossary LaTeX artifact from glossary storage."""
+
+        lines: list[str] = ["% Auto-generated translated glossary artifact"]
+
+        for term in sorted(glossary):
+            entry = glossary[term]
+            en_value = entry.en.strip() or entry.de.strip()
+
+            if entry.type == "acronym":
+                abbr = entry.abbreviation.strip() or term
+                lines.append(
+                    f"\\newacronym{{{term}}}{{{abbr}}}{{{en_value}}}"
+                )
+                continue
+
+            label = self._sanitize_for_label(term)
+            lines.extend(
+                [
+                    f"\\newglossaryentry{{{label}}}",
+                    "{",
+                    f"  name={{{term}}},",
+                    f"  description={{{en_value}}}",
+                    "}",
+                ]
+            )
+
+        return "\n".join(lines) + "\n"
+
+    def generate_rollout_glossary_outputs(
+        self,
+        glossary_source_path: str | Path,
+        output_folder: str | Path,
+    ) -> dict:
+        """Generate translated glossary outputs for first-rollout folder workflows."""
+
+        output_root = Path(output_folder)
+        output_root.mkdir(parents=True, exist_ok=True)
+
+        queue_output_path = output_root / "glossary_review_queue.auto.json"
+        queue_payload = self.build_glossary_review_queue(
+            glossary_source_path=glossary_source_path,
+            output_path=queue_output_path,
+        )
+        apply_result = self.apply_glossary_review_queue(queue_output_path, approved_only=False)
+
+        glossary_entries = self.glossary_manager.from_json_dict(load_json(self.glossary_path, default={}))
+        source_name = Path(glossary_source_path).name
+        translated_latex_name = f"translated_{source_name}"
+        translated_json_name = "translated_glossary.json"
+        translated_latex_path = output_root / translated_latex_name
+        translated_json_path = output_root / translated_json_name
+
+        translated_latex = self.render_translated_glossary_latex(glossary_entries)
+        write_text(translated_latex_path, translated_latex)
+        save_json(translated_json_path, self.glossary_manager.to_json_dict(glossary_entries))
+
+        return {
+            "auto_applied": True,
+            "queue": {
+                "output": str(queue_output_path),
+                "count": queue_payload.get("count", 0),
+                "conflict_count": queue_payload.get("conflict_count", 0),
+            },
+            "apply": apply_result,
+            "outputs": {
+                "latex": str(translated_latex_path),
+                "json": str(translated_json_path),
+            },
+        }
 
     def split_into_chunks_by_headings(self, latex_text: str) -> list[str]:
         """Split LaTeX text at chapter/section/subsection boundaries.
@@ -611,11 +697,56 @@ class TranslationPipeline:
 
         processed: list[dict] = []
         translated_documents: list[dict] = []
+        failures: list[dict] = []
         folder_start = perf_counter()
+
+        glossary_rollout_summary: dict | None = None
+        if not dry_run:
+            try:
+                glossary_rollout_summary = self.generate_rollout_glossary_outputs(
+                    glossary_source_path=glossary_source_path,
+                    output_folder=output_root,
+                )
+            except Exception as exc:  # pragma: no cover - guarded by manifest assertions in tests
+                failures.append(
+                    {
+                        "stage": "glossary_rollout",
+                        "input": str(glossary_source_path),
+                        "output": str(output_root),
+                        "error": str(exc),
+                    }
+                )
+
         for file_path in files:
             file_start = perf_counter()
             rel_path = file_path.relative_to(input_root)
             output_path = output_root / rel_path
+            expected_output = output_root / rel_path
+
+            try:
+                actual_rel = output_path.relative_to(output_root)
+            except ValueError as exc:
+                failures.append(
+                    {
+                        "stage": "output_path_validation",
+                        "input": str(file_path),
+                        "output": str(output_path),
+                        "error": str(exc),
+                    }
+                )
+                continue
+
+            if actual_rel != rel_path or output_path != expected_output:
+                failures.append(
+                    {
+                        "stage": "output_path_validation",
+                        "input": str(file_path),
+                        "output": str(output_path),
+                        "error": "Output path does not mirror input relative path.",
+                    }
+                )
+                continue
+
             if dry_run:
                 source_text = self.load_latex(file_path)
                 estimated_chunks = len(self.split_into_chunks_by_headings(source_text))
@@ -633,23 +764,46 @@ class TranslationPipeline:
                 )
                 translated_documents.append({"source": str(file_path), "text": source_text})
             else:
-                result = self.run(file_path, glossary_source_path=glossary_source_path)
-                file_duration = perf_counter() - file_start
-                output_path.parent.mkdir(parents=True, exist_ok=True)
-                write_text(output_path, result.translated_text)
+                try:
+                    result = self.run(file_path, glossary_source_path=glossary_source_path)
+                    file_duration = perf_counter() - file_start
+                    output_path.parent.mkdir(parents=True, exist_ok=True)
+                    write_text(output_path, result.translated_text)
 
-                processed.append(
-                    {
-                        "input": str(file_path),
-                        "output": str(output_path),
-                        "written": True,
-                        "dry_run": False,
-                        "chunks": result.chunk_count,
-                        "suggested_terms": len(result.suggested_terms),
-                        "duration_seconds": round(file_duration, 6),
-                    }
-                )
-                translated_documents.append({"source": str(file_path), "text": result.translated_text})
+                    processed.append(
+                        {
+                            "input": str(file_path),
+                            "output": str(output_path),
+                            "written": True,
+                            "dry_run": False,
+                            "chunks": result.chunk_count,
+                            "suggested_terms": len(result.suggested_terms),
+                            "duration_seconds": round(file_duration, 6),
+                        }
+                    )
+                    translated_documents.append({"source": str(file_path), "text": result.translated_text})
+                except Exception as exc:  # pragma: no cover - asserted through manifest failure reporting tests
+                    file_duration = perf_counter() - file_start
+                    processed.append(
+                        {
+                            "input": str(file_path),
+                            "output": str(output_path),
+                            "written": False,
+                            "dry_run": False,
+                            "chunks": 0,
+                            "suggested_terms": 0,
+                            "duration_seconds": round(file_duration, 6),
+                            "status": "failed",
+                        }
+                    )
+                    failures.append(
+                        {
+                            "stage": "file_translation_write",
+                            "input": str(file_path),
+                            "output": str(output_path),
+                            "error": str(exc),
+                        }
+                    )
 
         total_duration = perf_counter() - folder_start
         glossary_after_count = len(load_json(self.glossary_path, default={}))
@@ -683,6 +837,7 @@ class TranslationPipeline:
             "output_folder": str(output_root),
             "dry_run": dry_run,
             "glossary_source": str(glossary_source_path),
+            "glossary_rollout": glossary_rollout_summary,
             "glossary_sync": sync_summary,
             "glossary_conflicts": self._summarize_glossary_conflicts(),
             "stale_glossary": {
@@ -692,6 +847,9 @@ class TranslationPipeline:
                 "report": stale_report_summary,
             },
             "processed_count": len(processed),
+            "failed_count": len(failures),
+            "success_count": max(0, len(processed) - len(failures)),
+            "failures": failures,
             "duration_seconds": round(total_duration, 6),
             "glossary_delta": {
                 "before_count": glossary_before_count,

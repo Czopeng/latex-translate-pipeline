@@ -34,7 +34,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--provider",
         choices=["mock", "gemini"],
-        default="mock",
+        default=None,
         help="Translation provider backend",
     )
     parser.add_argument(
@@ -128,15 +128,34 @@ def build_parser() -> argparse.ArgumentParser:
         default=None,
         help="Optional JSON path to write stale glossary term report in folder mode",
     )
+    parser.add_argument(
+        "--test-gemini-connection",
+        action="store_true",
+        help="Run a quick Gemini connectivity probe and exit",
+    )
     return parser
 
 
 def main() -> None:
     args = build_parser().parse_args()
 
-    llm_client = MockLLMClient() if args.provider == "mock" else GeminiLLMClient(model=args.model)
+    provider = args.provider or "mock"
+    llm_client = MockLLMClient() if provider == "mock" else GeminiLLMClient(model=args.model)
 
     pipeline = TranslationPipeline(llm_client=llm_client, glossary_path=args.glossary)
+
+    if args.test_gemini_connection:
+        if provider != "gemini":
+            raise ValueError("--test-gemini-connection requires --provider gemini.")
+
+        try:
+            probe = llm_client.translate_text("Verbindungstest fuer Gemini.", {})
+            if not probe.strip():
+                raise RuntimeError("Gemini connection probe returned an empty response.")
+            print("Gemini connection successful.")
+            return
+        except Exception as exc:
+            raise RuntimeError(f"Gemini connection failed: {exc}") from exc
 
     if args.build_glossary_review_queue:
         source_path = args.glossary_source or args.input
@@ -155,10 +174,14 @@ def main() -> None:
         return
 
     if args.input_folder is not None:
+        if args.provider is None:
+            raise ValueError("--provider is required in folder mode (use --provider gemini or --provider mock).")
         if args.glossary_source is None:
             raise ValueError("--glossary-source is required in folder mode.")
         if args.output_folder is None:
             raise ValueError("--output-folder is required in folder mode.")
+        if args.dry_run and args.output is not None:
+            raise ValueError("--dry-run only applies to folder mode outputs and cannot be combined with --output.")
 
         manifest = pipeline.run_folder(
             input_folder=args.input_folder,
@@ -175,6 +198,12 @@ def main() -> None:
         if args.manifest_output is not None:
             save_json(args.manifest_output, manifest)
             print(f"Manifest written: {args.manifest_output}")
+
+        if manifest.get("failed_count", 0) > 0:
+            raise RuntimeError(
+                "Folder translation completed with failures. "
+                f"Failed files/stages: {manifest['failed_count']}. Inspect manifest for details."
+            )
 
         print(f"Folder translation completed. Files processed: {manifest['processed_count']}")
         return

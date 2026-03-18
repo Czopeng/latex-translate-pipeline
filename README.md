@@ -49,6 +49,47 @@ Core behavior:
 - oversized chunks are split further with paragraph-aware fallback
 - each chunk is translated with placeholder integrity checks and strict LaTeX restoration
 
+## First-Run Rollout
+
+Use this sequence for the first end-to-end test.
+
+1. Check Gemini connectivity before long runs:
+
+```bash
+python -m translator.main \
+	--provider gemini \
+	--test-gemini-connection
+```
+
+2. Optional dry-run (manifest and queues only, no translated file writes):
+
+```bash
+python -m translator.main \
+	--input-folder testLatex \
+	--output-folder translated_out \
+	--glossary-source testLatex/glossarentries.tex \
+	--provider gemini \
+	--dry-run \
+	--manifest-output run_manifest_dry.json
+```
+
+3. Full rollout run (writes translated LaTeX and translated glossary artifacts):
+
+```bash
+python -m translator.main \
+	--input-folder testLatex \
+	--output-folder translated_out \
+	--glossary-source testLatex/glossarentries.tex \
+	--provider gemini \
+	--manifest-output run_manifest.json
+```
+
+Full rollout output folder includes:
+
+- translated document tree (mirrored `.tex` files)
+- `translated_glossarentries.tex`
+- `translated_glossary.json`
+
 ## Folder Translation Mode
 
 Translate all `.tex` files under a folder (excluding the glossary source file itself):

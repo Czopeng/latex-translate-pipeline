@@ -5,9 +5,11 @@ from __future__ import annotations
 import json
 from pathlib import Path
 import unittest
+from unittest.mock import patch
 
+import translator.pipeline as pipeline_module
 from translator.glossary import GlossaryManager
-from translator.pipeline import PlaceholderIntegrityError, TranslationPipeline
+from translator.pipeline import GlossarySourceValidationError, PlaceholderIntegrityError, TranslationPipeline
 from translator.translator import MockLLMClient
 from translator.utils import load_json
 
@@ -271,9 +273,13 @@ class PipelineFixtureTests(unittest.TestCase):
 
         output_theorie = self.output_folder / "Theorie.tex"
         output_versuch = self.output_folder / "Versuch.tex"
+        output_glossary_latex = self.output_folder / "translated_glossarentries.tex"
+        output_glossary_json = self.output_folder / "translated_glossary.json"
 
         self.assertTrue(output_theorie.exists())
         self.assertTrue(output_versuch.exists())
+        self.assertTrue(output_glossary_latex.exists())
+        self.assertTrue(output_glossary_json.exists())
         self.assertFalse(manifest["dry_run"])
         self.assertGreaterEqual(manifest["processed_count"], 2)
         self.assertIn("duration_seconds", manifest)
@@ -281,9 +287,14 @@ class PipelineFixtureTests(unittest.TestCase):
         self.assertIn("glossary_conflicts", manifest)
         self.assertIn("missing_en_count", manifest["glossary_conflicts"])
         self.assertIn("stale_glossary", manifest)
+        self.assertIn("glossary_rollout", manifest)
         self.assertIn("term_review", manifest)
         self.assertIn("duration_seconds", manifest["processed"][0])
         self.assertTrue(manifest["processed"][0]["written"])
+        self.assertTrue(manifest["glossary_rollout"]["auto_applied"])
+        self.assertIn("outputs", manifest["glossary_rollout"])
+        self.assertIn("latex", manifest["glossary_rollout"]["outputs"])
+        self.assertIn("json", manifest["glossary_rollout"]["outputs"])
         self.assertTrue(self.term_review_file.exists())
         self.assertTrue(self.stale_report_file.exists())
 
@@ -314,6 +325,7 @@ class PipelineFixtureTests(unittest.TestCase):
         self.assertGreaterEqual(manifest["processed_count"], 2)
         self.assertIn("stale_glossary", manifest)
         self.assertIsNotNone(manifest["stale_glossary"]["report"])
+        self.assertIsNone(manifest["glossary_rollout"])
         self.assertTrue(self.term_review_file.exists())
         self.assertTrue(self.stale_report_file.exists())
 
@@ -321,6 +333,41 @@ class PipelineFixtureTests(unittest.TestCase):
             self.assertTrue(item["dry_run"])
             self.assertFalse(item["written"])
             self.assertFalse(Path(item["output"]).exists())
+
+    def test_empty_glossary_source_is_rejected(self) -> None:
+        empty_glossary_source = ROOT / "tests" / "_tmp_empty_glossary.tex"
+        empty_glossary_source.write_text("% no glossary definitions\n", encoding="utf-8")
+
+        try:
+            with self.assertRaises(GlossarySourceValidationError):
+                self.pipeline.run_folder(
+                    input_folder=FIXTURES,
+                    output_folder=self.output_folder,
+                    glossary_source_path=empty_glossary_source,
+                )
+        finally:
+            if empty_glossary_source.exists():
+                empty_glossary_source.unlink()
+
+    def test_run_folder_reports_partial_write_failures(self) -> None:
+        original_write_text = pipeline_module.write_text
+
+        def fail_once(path: str | Path, text: str) -> None:
+            if str(path).endswith("Versuch.tex"):
+                raise OSError("simulated write failure")
+            original_write_text(path, text)
+
+        with patch("translator.pipeline.write_text", side_effect=fail_once):
+            manifest = self.pipeline.run_folder(
+                input_folder=FIXTURES,
+                output_folder=self.output_folder,
+                glossary_source_path=FIXTURES / "glossarentries.tex",
+            )
+
+        self.assertGreaterEqual(manifest["failed_count"], 1)
+        self.assertGreaterEqual(len(manifest["failures"]), 1)
+        self.assertGreaterEqual(manifest["processed_count"], manifest["success_count"])
+        self.assertTrue(any(item.get("status") == "failed" for item in manifest["processed"]))
 
 
 if __name__ == "__main__":
