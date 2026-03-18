@@ -1,46 +1,49 @@
-# latex-translation-pipeline
+# LaTeX Translate Pipeline
 
-A Python-based pipeline for translating German LaTeX documents into English using LLMs. The system preserves LaTeX structure, integrates a dynamic glossary, and ensures consistent technical terminology through automated glossary extraction and updates.
+Python project for translating German LaTeX content into English while preserving LaTeX structure and terminology consistency.
 
-## Features
+## Overview
 
-- Safe handling of LaTeX commands (e.g. `\gls{}`, `\cite{}`, `\ref{}`)
-- Automated glossary parsing and translation
-- Consistent terminology enforcement
-- Modular pipeline architecture
-- Extensible for different LLM providers
+This repository is prepared as a Python project with:
 
-## Project Structure
+- dependency management via `requirements.txt`
+- Conda environment management via `environment.yml`
+- Python-focused `.gitignore`
 
-```text
-latex-translation-pipeline/
-├── translator/
-│   ├── main.py
-│   ├── pipeline.py
-│   ├── latex_masker.py
-│   ├── glossary.py
-│   ├── translator.py
-│   └── utils.py
-├── glossary.json
-├── requirements.txt
-├── README.md
-└── .gitignore
-```
+## Conda Environment Setup
 
-
-
-## Setup
+Create and activate the Conda environment named `vEnvTranslate`:
 
 ```bash
-git clone <your-repo-url>
-cd latex-translation-pipeline
-pip install -r requirements.txt
+conda env create -f environment.yml
+conda activate vEnvTranslate
+```
 
-Create a .env file:
+If you update dependencies later, rebuild with:
+
+```bash
+conda env update -f environment.yml --prune
+```
+
+This project uses a stable Python version: `3.11`.
+
+## Environment Variables
+
+Create a local `.env` file for API keys and other secrets. This file is ignored by Git.
+
+Example:
+
+```env
 OPENAI_API_KEY=your_api_key_here
 ```
 
-## Usage
-```bash
-python -m translator.main
+## Suggested Project Layout
+
+```text
+latex-translate-pipeline/
+|-- environment.yml
+|-- .env                    # local secrets (gitignored)
+|-- requirements.txt
+|-- README.md
+`-- .gitignore
 ```

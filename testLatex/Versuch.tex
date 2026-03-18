@@ -1,0 +1,580 @@
+
+\chapter{Versuchsablauf}
+
+Zum Vergleich von \gls{Si}-\gls{IGBT}s mit \gls{SiC}-\gls{MOSFET}s sollen die Schalt- und Durchlasseigenschaften 
+mehrerer Prüflinge verglichen werden. Dazu werden je zwei Halbbrücken-Prüflinge mit einer maximalen 
+Sperrspannung von 1200V und 650V am Doppelpuls-Prüfstand des \gls{ETI}s vermessen.
+ 
+ 
+ \section{Kenndaten der zu vermessenden Leistungshalbleiter} \label{sec:datenblatt}
+ 
+ Bestimmen Sie die in \autoref{tab:DataS} geforderten Kenngrößen der verwendeten Leistungshalbleiter mithilfe der Datenblätter. Die Datenblätter finden Sie im Ordner \\
+\verb|D:\EAL_LH_Versuch\Datenblätter|\grqq{}. 
+ 
+ \begin{table}[htb]
+ 	\centering
+ 	\caption{Nenndaten der verwendeten Leistungshalbleiter}
+ 	\label{tab:DataS}
+ 	\begin{tabular}{|C{0.18\textwidth}|C{0.25\textwidth}|C{0.25\textwidth}|C{0.25\textwidth}|}
+ 		\hline
+ 		 & \textbf{IGBT FF200R12KE4}  & \textbf{SiC MOSFET FF6MR12KM1P} \\
+ 		\hline
+ 		\textbf{Nennspannung in \SI{}{\volt}} &  &  \\
+ 		\hline
+ 		\textbf{Nennstrom in \SI{}{\ampere}} &  &  \\
+ 		\hline
+ 		\textbf{Periodischer Spitzenstrom in \SI{}{\ampere}} &  & \\
+ 		\hline
+ 		\textbf{\gls{sym:eon} \SI{}{\milli\joule}} &  &  \\
+ 		\hline
+ 		\textbf{\gls{sym:eoff} \SI{}{\milli\joule}} &  & \\
+ 		\hline
+ 	\end{tabular}
+ \end{table}
+ 
+ 
+ 
+\section{Vorgehen bei Umbauarbeiten in der Testkammer} \label{sec:aufbau1200}
+\setlength{\aweboxvskip}{0mm}
+Zu Beginn jeder Versuchsreihe muss der entsprechende Prüfling in der Testkammer aufgebaut und angeschlossen werden. Der nachfolgende Ablauf muss bei jedem Umbau befolgt werden. 
+Der Prüfling für den ersten Versuch (1200V IGBT) ist bereits aufgebaut. Der folgende Ablauf soll zunächst am bereits aufgebauten Prüfling zur Kontrolle des Aufbaus durchgeführt werden und dient später als Anleitung für die Umbauarbeiten.
+\importantbox{Stellen Sie in jedem Fall sicher,
+	dass der Eingang des Oszilloskops niemals direkt, etwa über ein BNC-Kabel,
+	mit der Drain-Source-Spannung \gls{sym:uds} oder der Kollektor-Emitter-Spannung \gls{sym:uce} verbunden wird.
+	Ansonsten könnte der Messeingang des Oszilloskops oder gar das gesamte Oszilloskop aufgrund der Überspannung 
+	irreperabel beschädigt werden.}
+
+\importantbox{Vor dem Durchführen jeglicher Umbauarbeiten muss das Hochspannungsnetzteil abgeschaltet werden und die
+Spannungsfreiheit des Zwischenkreises durch zusätzliche Messung an der Verschienung festgestellt werden.
+}
+
+\begin{enumerate}
+	\item Stellen Sie sicher, dass der Hauptschalter des Prüfstands eingeschaltet ist, nur dann können Bedienvorgänge vorgenommen werden
+	\item Prüfen Sie ob die Spannungsanzeige der Zwischenkreis-Spannungsversorgung \SI{0}{\volt} anzeigt und \textbf{schalten Sie das Netzteil aus}.
+	Prüfen Sie zusätzlich die Spannungsfreiheit an der Zwischenkreis-Verschienung.
+	\item Öffnen Sie die Abdeckhaube durch Betätigen der zwei Taster neben der Testkammer.
+	\item Bauen Sie die Prüflinge auf wie beschrieben im jeweiligen Abschnitt \textbf{Aufbau der 650V/1200V Prüflinge in der Testkammer} 
+	\item Führen Sie eine sorgfältige Sichtprüfung durch.
+	\item Fahren Sie die Abdeckung nach unten und achten Sie darauf, dass nichts eingeklemmt wird. 
+	\item Stellen Sie sicher, dass das Oszilloskop und das Netzteil eingeschaltet sind. Schalten Sie das Netzteil erst ein, wenn die Haube vollständig heruntergefahren ist.
+	\item Öffnen Sie \textit{DPPP-SAS} und führen Sie ggfs. einen Sicherungsreset durch (vgl. Abbildungen \ref{abb:priorFuseReset} und \ref{abb:afterFuseReset}).
+	\item Die Anlage ist jetzt betriebsbereit und es können Doppelpulsmessungen durchgeführt werden.
+	\item Es bietet sich an, die Gate-Spannung direkt mit dem Oszilloskop mithilfe eines Koaxialkabels zu messen.  \\
+\warningbox{Bei Strommessungen mit dem Koaxial-Shunt: Es handelt sich hierbei um ein empfindliches und teueres Bauteil. Schließen zuerst das Koaxialkabel an.
+Anschließend kann der Shunt festgeschraubt werden. Ziehen Sie die Mutter auf gar keinen Fall mit einem Schraubenschlüssel fest. Handfest genügt.}	
+\end{enumerate}
+\section{Durchführung einer Messreihe an den 1200V Halbleiter-Modulen}
+
+
+\subsection{Aufbau der 1200V Prüflinge in der Testkammer }
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.81\textwidth]{1200V_AufbauVersuch.pdf}
+	\caption{Messaufbau der 1200V Module am \gls{ETI} Doppelpuls-Prüfstand am Beispiel des SiC-\gls{MOSFET}-Prüflings}
+	\label{abb:messaufbau1200}
+\end{figure}
+Dieser Abschnitt beschreibt den Aufbau des 1200V \gls{IGBT}- und \gls{MOSFET}-Prüflings wie in \autoref{abb:messaufbau1200} dargestellt 
+und dient zur Kontrolle des initialen Aufbaus in der Testkammer.
+\importantbox{Stellen Sie sicher, dass der für die Durchlassmessungen benötigte Kabelschuh-zu-BNC-Adapter entfernt wurde, 
+da dieser nicht für die erforderliche
+Zwischenkreisspannung von \SI{600}{\volt} ausgelegt ist.}
+\notebox{In die \textit{HV+}- und \textit{GND}-Anschlüsse der Module wurden bereits Gewindestangen eingeschraubt, 
+welche den Umbau erleichtern sollen.}
+\subsubsection*{Erforderliche Schritte zum Umbau:}
+\begin{enumerate}
+	\item Verbinden Sie die Drossel mit dem Last-Anschluss (oder AC-Anschluss) des Moduls. Denken Sie daran, 
+	dass zwei Kabel angeschlossen werden müssen. Das dünnere Kabel 	dient zur Messungen der Spannung 
+	am Modul \gls{sym:uce} bzw. \gls{sym:uds} und wird mit der Gate-Treiber-Platine verbunden.
+	\item Verbinden Sie den grünen 6-poligen \textit{Phoenix}-Stecker mit der Gate-Treiber-Platine. Dieser dient zur Versorgung des Gate-Treibers.
+	\item Legen Sie die Schleife der Rogowskispule um den \textit{GND}-Anschluss des Moduls.
+	\item Stecken Sie die zusätzliche Zwischenkreisplatine auf das Modul. Diese stellt eine zusätzliche lokale Zwischenkreiskapazität zur Verfügung und verkleinert damit die wirksame 
+	Kommutierungsschleife.
+	\item Stecken Sie Unterlegscheiben auf das Gewinde.
+	\item Verbinden Sie die Kupferverschienung mit dem Modul und verbinden Sie das andere Ende der Lastdrossel mit dem \textit{HV+}-Anschluss.
+	\item Stecken Sie weiter Unterlegscheiben auf die Gewinde und schrauben Sie die Verschienung fest. 
+	\item Überprüfen Sie alle Schraubverbindungen - am Besten, indem Sie alle Schraubverbindungen nochmal etwas nachziehen.
+	\item Schließen Sie den Lichtwellenleiter für das \gls{DUT} an. Außerdem muss die Messleitung für die Gate-Spannung und der Tastkopf 
+	für die geschaltete Spannung \gls{sym:uce} bzw. \gls{sym:uds} angeschlossen werden.
+\end{enumerate}
+\subsection{Durchführung der Messungen} \label{sec:durchführung1200}
+\importantbox{Bei Durchführung der Messung ist von allen Anwesenden im Raum Gehörschutz zu tragen.}
+Führen Sie die erste Messreihe der Schalt- und Durchlassverhalten mit dem bereits aufgebauten Prüfling durch. 
+Bauen Sie nach Abschluss aller Messungen am ersten Prüfling das andere Modul auf wie in \autoref{sec:aufbau1200} beschrieben und wiederholen Sie alle Messungen. 
+Vergewissern Sie sich, dass die Prüfkammer und der Schrank geschlossen sind. 
+Führen Sie jeweils die in den folgenden Absätzen beschriebenen Messreihen durch.
+
+\subsubsection{Messung des Schaltverhaltens}
+Zur Analyse des Schaltverhaltens sollen die Arbeitspunkte aus \autoref{tab:AP1200} vermessen werden um das Schaltverhalten in Abhängigkeit des Laststroms zu charakterisieren.
+
+
+\begin{table}[htb]
+	\centering
+	\caption{Arbeitspunkte der Messreihe}
+	\label{tab:AP1200}
+	\begin{tabular}{|C{0.15\textwidth}|C{0.15\textwidth}|C{0.15\textwidth}|}
+		\hline
+		\textbf{Spannung \gls{sym:udc} in \SI{}{\volt}} & \textbf{Laststrom \gls{sym:ilast} in \SI{}{\ampere}} &\textbf{Temperatur in \SI{}{\degreeCelsius}} \\
+		\hline
+		600V & 50 & 25  \\
+		\hline
+		600V & 100 & 25 \\
+		\hline
+		600V & 150 & 25 \\
+		\hline
+		600V & 200 & 25 \\
+		\hline
+		600V & 250 & 25 \\
+		\hline
+		600V & 300 & 25 \\
+		\hline
+	\end{tabular}
+\end{table}
+
+Öffnen Sie nun \textit{DPPP-SAS} und wählen Sie das Tab \glqq Messpunkt\grqq \, aus. Es erscheint die in \autoref{abb:messpkt_sas} gezeigte Oberfläche.
+\begin{figure}[htb]
+	\centering 
+	\includegraphics[width=1\textwidth]{DPPP_SAS_Messpunkte.png}
+	\caption{Definieren von Arbeitpunkten in \textit{DPPP-SAS}}
+	\label{abb:messpkt_sas}
+\end{figure}
+Um die Arbeitspunkte aus \ref{tab:AP1200} zu übernehmen, gehen Sie wie folgt vor:
+
+\begin{itemize}
+	
+	\item Tragen Sie die Eckdaten des Moduls unter \glqq Modulinformationen\grqq \, ein (\textbf{1}).
+	
+	\item Tragen Sie im Feld \glqq Spannungsvektor\grqq \, die zu schaltende Spannung von \SI{600}{\volt} ein (\textbf{2}).
+	
+	\item Legen Sie unter \glqq Stromvektor\grqq \, die Ströme fest. Die einzelnen Werte werden durch ein Leerzeichen getrennt (\textbf{3}).
+	\textbf{Achtung:} Geben Sie keine Ströme von \SI{0}{\ampere} ein, da ansonsten das Oszilloskop nicht triggert.
+	
+	\item Belassen Sie den Temperaturvektor bei einem Wert (\SI{25}{\celsius}). Die Temperierung wird nicht benutzt (\textbf{4}).
+	
+	\item Speichern Sie die Messkonfiguration ab. Dadurch kann diese nach einem Neustart von \textit{DPPP-SAS} erneut geladen werden, was das erneute
+	Eintragen der Werte erspart (\textbf{5}).
+	
+	\item Wechseln Sie zum Tab \glqq Gerätekonfiguration\grqq \, und laden Sie die Gerätekonfiguration \glqq\verb|gconfig_switching_characteristics_SiC_IGBT_1k2V.json|\grqq{} (\textbf{6}).
+
+	\item Wechseln Sie zum Tab \glqq Messablauf\grqq \, und ändern Sie den Ablagepfad der Messdaten (\textbf{7}).
+	
+	\item \textbf{Gehörschutz aufziehen} (\textbf{8}). 
+	
+	\item Wenn alle Kontrolllämpchen grün aufleuchten (ausgenommen Temperierung), kann die Messung mit \glqq Starte Messung\grqq \, gestartet werden.
+	Beobachten Sie anschließend die Ausgabe des Messprotokolls (\textbf{9}).
+\end{itemize}
+
+
+\subsubsection{Messung des Durchlassverhaltens}
+
+Die Vermessung der Durchlassverluste erfolgt bei einer Zwischenkreisspannung \gls{sym:udc} von nur 30V. 
+Zur Verbesserung der Messgenauigkeit wird der Messeingang des Oszilloskops direkt über ein BNC-Kabel und einem Adapter mit den 
+Modulanschlüssen \textit{GND} und \textit{HV+} verbunden. Dadurch lässt sich dann \gls{sym:uce} bzw. \gls{sym:uds} messen. 
+Die Kabelschuhe des Adapters müssen entsprechend festgeschraubt werden. 
+Um den Eingang des Oszilloskops zu schützen (max. 400 Vpk) zu schützen, muss die maximale Spannung des Netzteils begrenzt werden. 
+Dies geschieht automatisch, wenn man die Gerätekonfiguration \glqq\verb|gconfig_conduction_characteristics_SiC_IGBT_1k2V.json|\grqq{} lädt.
+
+Zur Durchführung einer Durchlassmessung sind folgende Schritte nötig:
+\begin{itemize}
+	\item Entfernen sie den 1:100-Tastkopf und schließen Sie den Adapter an. 
+	Die Kabelschuhe des Adapters müssen an \textit{HV+} und \textit{GND} angeschlossen werden.
+	\item Verbinden Sie anschließend das BNC-Kabel mit dem Adapter und dem Oszilloskop.	
+	\item Laden Sie die Gerätekonfiguration \\
+	\glqq\verb|gconfig_conduction_characteristics_SiC_IGBT_1k2V.json|\grqq{} und stellen Sie sicher, 
+	dass die maximale Spannung des Netzteils auf \SI{50}{\volt} begrenzt ist (\textbf{2}). 
+	\item Setzen Sie außerdem im Triggermenü die max. Speichertiefe auf 25 Mega-Samples. 
+	Alle restlichen Parameter werden automatisch durch \textit{DPPP-SAS} angepasst.
+	\item Um die Messgenauigkeit weiter zu erhöhen, gehen Sie jeweils in das Kanalmenü des Oszilloskops 
+	von Kanal 1 (Strom) und 3 (Spannung). Dort kann die Bandbreite auf 20 MHz begrenzt werden und 
+	ein Rauschfilter zugeschaltet werden, welches die Auflösung um bis zu \SI{3}{\bit} erhöht. 
+	\item Setzen Sie im Tab \glqq Messpunkte\grqq \, die Spannung von \SI{600}{\volt} auf \SI{30}{\volt} herab. Ferner muss der Strom auf \SI{250}{\ampere} gesetzt werden (einzelner Wert, kein Vektor).
+	\item Wechseln Sie wieder in das Tab \glqq Messablauf\grqq \,. Von hier aus kann die Messung gestartet werden. 
+	Denken Sie daran, den Ablagepfad der Messdaten abzuändern.\\
+	\importantbox{Auch bei verringerter Zwischenkreisspannung muss Gehörschutz getragen werden!}
+
+\end{itemize}
+
+\begin{table}[htb]
+	\centering
+	\caption{Arbeitspunkt für die Durchlassmessung}
+	\label{tab:AP1200d}
+	\begin{tabular}{|C{0.15\textwidth}|C{0.15\textwidth}|C{0.15\textwidth}|}
+		\hline
+		\textbf{Spannung \gls{sym:udc} in \SI{}{\volt}} & \textbf{Laststrom \gls{sym:ilast} in \SI{}{\ampere}} &\textbf{Temperatur in \SI{}{\degreeCelsius}} \\
+		\hline
+		30 & 250 & 25  \\
+		\hline
+	\end{tabular}
+\end{table}
+
+\subsection{Auswertung des Schaltverhaltens} \label{sec:matlab1200}
+
+Nachdem sowohl für das \gls{SiC}-\gls{MOSFET} Modul als auch für das \gls{IGBT}-Modul Messreihen aufgenommen wurden, 
+kann das jeweilige Schaltverhalten ausgewertet und verglichen werden. Die Auswertung erfolgt mit dem
+Python-Skript \\ \verb|evaluateSwitchingCharacteristics1k2V.py|.:
+
+\begin{itemize}
+	\item Öffnen Sie das Skript mit \textit{Visual Studio Code}. Öffnen Sie hierzu zunächst den Ordner,
+	in welchem sich das Skript befindet. Anschließend das eigentliche Skript im Explorer-Tab von \textit{Visual Studio Code} öffnen.
+	\item Passen Sie ggfs. die Pfade zu den Messdaten an. Die Pfade befinden sich im Konstruktor der Klasse \textit{DPTEvaluation}. 
+	Unter dem angegebenen Pfad müssen sich die \verb|*.json|-Dateien, welche die Zeitverläufe der Doppelpulsmessungen enthalten, befinden.
+	\item Führen Sie das Python-Skript mit der Tastenkombination \textbf{CTRL+F5} aus.
+	\item Aus den geöffneten Plots können Sie die in \ref{tab:chargr1200on} und \ref{tab:chargr1200off} geforderten 
+	Größen entnehmen. Die Abbildungen werden zusätzlich als \verb|*.pdf| gespeichert.
+\end{itemize}
+% \begin{figure}[h!]
+% 	\centering 
+% 	\includegraphics[width=1\textwidth]{Auswertung_Schaltverhalten_SAS.png}
+% 	\caption{Auswertung des Schaltverhaltens in \textit{DPPP-SAS}}
+% 	\label{abb:schaltverhalten_sas}
+% \end{figure}
+\subsubsection{Schaltverluste und Charakteristische Größen des Schaltvorgangs}
+Entnehmen Sie aus den Ergebnissen der Auswertung aus \textit{DPPP-SAS} die Schaltverluste und die charakteristischen Größen und tragen Sie
+diese für einen Strom von 250 A in die Tabellen \ref{tab:chargr1200on} und \ref{tab:chargr1200off} ein.
+\begin{table}[htb]
+	\centering
+	\caption{Charakteristische Größen des Einschaltvorgangs bei \SI{250}{\ampere}}
+	\label{tab:chargr1200on}
+	\begin{tabular}{|L{0.4\textwidth}|C{0.25\textwidth}|C{0.25\textwidth}|}
+		\hline
+		\textbf{Messgröße} & \textbf{1200V IGBT} &\textbf{1200V MOSFET} \\
+		\hline
+		Zwischenkreisspannung  \gls{sym:udc}\newline in \SI{}{\volt} &  &  \\
+		\hline
+		\glsuservi{sym:ic} bzw. \glsuservi{sym:id} in \SI{}{\ampere} &  &  \\
+		\hline
+		\hline
+		Einschaltverluste \gls{sym:eon}\newline in \SI{}{\milli \joule} &  &   \\
+		\hline
+		\hline
+		Spannungseinbruch \gls{sym:deltaul}\newline in \SI{}{\volt} &  &   \\
+		\hline
+		Wert der Rückstromspitze \gls{sym:irr}\newline in \SI{}{\ampere} &  &  \\
+		\hline
+		Stromsteilheit \gls{sym:didt}\newline in \SI{}{\kilo\ampere/$\mathrm{\mu}$\second} &  &  \\
+		\hline
+		Spannungssteilheit \gls{sym:dudt}\newline in \SI{}{\kilo\volt/$\mathrm{\mu}$\second} &  &  \\
+		\hline
+	
+	\end{tabular}  
+\end{table}
+
+\begin{table}[htb]
+	\centering
+	\caption{Charakteristische Größen des Ausschaltvorgangs \SI{250}{\ampere}}
+	\label{tab:chargr1200off}
+	\begin{tabular}{|L{0.4\textwidth}|C{0.25\textwidth}|C{0.25\textwidth}|}
+		\hline
+		\textbf{Messgröße} & \textbf{1200V IGBT} &\textbf{1200V MOSFET} \\
+		\hline
+		Zwischenkreisspannung  \gls{sym:udc}\newline in \SI{}{\volt} &  &  \\
+		\hline
+		\glsuservi{sym:ic} bzw. \glsuservi{sym:id} \gls{sym:ilast}\newline in \SI{}{\ampere} &  &  \\
+		\hline
+		\hline
+		Ausschaltverluste \gls{sym:eoff}\newline in \SI{}{\milli \joule} &  &   \\
+		\hline
+		\hline
+		Max. Überspannung \gls{sym:deltauls}\newline in \SI{}{\volt} &  &   \\
+		\hline
+		Stromsteilheit \gls{sym:didt}\newline in \SI{}{\kilo\ampere/$\mathrm{\mu}$\second} &  &  \\
+		\hline
+		Spannungssteilheit \gls{sym:dudt}\newline in \SI{}{\kilo\volt/$\mathrm{\mu}$\second} &  &  \\
+		\hline
+	\end{tabular}  
+\end{table}
+
+\subsubsection{Wie unterscheiden sich die Stromverläufe des IGBT und SiC MOSFET Moduls? Was ist die Ursache hierfür?}
+\hrulefill
+
+\hrulefill
+
+
+\subsubsection{Warum muss der Kollektorstrom bzw. Drainstrom unbedingt gemessen werden, obwohl der Laststrom durch die berechnete Einschaltdauer der Lastspule vorgegeben wird?}
+
+\hrulefill
+
+\hrulefill
+
+\subsubsection{Wie interpretieren Sie die Unterschiede der Schaltverluste zwischen \gls{IGBT} und \gls{MOSFET}?}
+
+\hrulefill
+
+\hrulefill
+
+\subsection{Bestimmung der parasitären Induktivität im Kommutierungskreis}
+Bestimmen Sie mit Hilfe der geplotteten Spannungs- und Stromverläufe die parasitäre Induktivität im Kommutierungskreis. 
+Überlegen Sie sich, wie Sie mithilfe der charakteristischen Größen des Schaltvorgangs und des Induktivitätsgesetzes
+die parasitäre Induktivität bestimmen können.
+
+\hrulefill
+
+\hrulefill
+
+\begin{table}[htb]
+	\centering
+%	\caption{Ergebnisse der Berechnungen zur parasitären Induktivität}
+	\label{tab:lsigma}
+	\begin{tabular}{|L{0.4\textwidth}|C{0.25\textwidth}|C{0.25\textwidth}|}
+		\hline
+		\textbf{Messgröße} & \textbf{1200V IGBT} &\textbf{1200V MOSFET} \\
+		\hline
+		Parasitäre Induktivität \gls{sym:lsigma} in \SI{}{\nano\henry} &  &  \\
+		\hline
+	\end{tabular}  
+\end{table}
+
+\subsubsection{Vergleich des Schaltverhaltens bei verschiedenen Arbeitspunkten}
+Durch die Auswertung mit \textit{DPPP-SAS} werden zwei \verb|*.json|-Dateien erstellt,
+welche jeweils die charakteristischen Größen der Schalttransienten des IGBT und des SiC-MOSFETs enthalten. \\
+Mithilfe des vorgefertigten Python-Skriptes \verb|evaluateSwitchingLosses.py| können die Schaltenergien der beiden Leistungshalbleiter
+in Abhängigkeit des Stromes übereinander geplottet werden. Passen Sie ggfs. die Pfade im Skript
+entsprechend an.
+
+\subsubsection{Vergleichen Sie die Schaltverluste des IGBT mit den Schaltverlusten des SiC MOSFET Modul. Warum fallen die Unterschiede im Einschaltvorgang größer aus?}
+
+\hrulefill
+
+\hrulefill
+
+\subsubsection{Wie verhält sich die maximale Überspannung bei steigendem Laststrom?}
+
+\hrulefill
+
+\hrulefill
+
+\subsection{Auswertung der Durchlassverluste}
+\textit{DPPP-SAS} unterstützt die Auswertung von Durchlasskennlinien bisher noch nicht.
+Das Python-Skript \verb|evaluateConductionCharacteristics.py| schafft hier Abhilfe und liest für diesen Zweck die \verb|*.json|-Dateien ein
+und plottet sie anschließend übereinander. Auch hier müssen ggfs. die Pfade im Skript entsprechend angepasst werden.
+
+
+\textbf{Vergleichen Sie die geplotteten I-U Kennlinien von \gls{IGBT} und \gls{MOSFET} und machen Sie sich bewusst woher die Unterschiede kommen}
+
+\hrulefill
+
+\hrulefill
+
+
+\section{Durchführung einer Messreihe an den 650V Halbleiter-Modulen}
+
+\subsection{Aufbau des Versuchs} 
+
+\begin{figure}[!htb]
+	\centering
+	\includegraphics[width=0.95\textwidth]{650V_Aufbau_final1.pdf}
+	\caption{Messaufbau der 650V Transistoren am \gls{ETI} Doppelpuls-Prüfstand am Beispiel der \gls{IGBT} Halbbrücke}
+	\label{abb:messaufbau650}
+\end{figure}
+
+Befolgen Sie für den Umbau der Prüflinge den Ablauf aus \autoref{sec:aufbau1200}. 
+Beachten Sie insbesondere die Anweisungen zur Messung mit dem Koaxial-Shunt und zur Messung der Gate-Spannung.
+Nachdem alle Messungen des ersten 650V Prüflings erfolgt sind, bauen Sie den zweiten Prüfling gleichermaßen auf.
+Der Aufbau der 650V Prüflinge in der Testkammer des Prüfstands ist in \autoref{abb:messaufbau650} dargestellt. 
+Die Versorgungsspannung und die Last werden über ein Stecksystem angeschlossen. 
+Die wirksame DC-Link Kapazität ist auf der Messplatine aufgebaut. 
+Um eine möglichst störungsfreie Vermessung der Transistoren zu ermöglichen, wurde eine lokale Induktive Last aufgebaut. 
+Die Verwendung dieser lokalen Last zeichnet sich durch geringere parasitäre Kapazitäten aus, 
+als die Anbindung des Prüflings an die umschaltbare Lastinduktivität des Prüfstands. 
+Die Induktivität der verwendeten Last beträgt \SI{66}{\micro\henry}. 
+Somit lässt sich der Laststrom \gls{sym:ilast} ausschließlich durch Variation der Einschaltdauer \gls{sym:ta} 
+des ersten Pulses einstellen. Dies erfolgt automatisch in \textit{DPPP-SAS} durch laden der entsprechenden
+Gerätekonfiguration.
+
+Die Messung des Kollektorstroms \gls{sym:ic} bzw. des Drainstroms \gls{sym:id} erfolgt mit dem abgebildeten Shunt-Widerstand SSDN-414-01. 
+Die Verwendung einer Rogowski-Spule ist durch den \glssymbol{SMD}-Aufbau der Halbbrücken nicht möglich.
+
+Zur Messung der Spannungen sind auf der Platine \glssymbol{BNC}-Buchsen als Tastkopfaufnahmen angebracht.  
+
+\subsection{Durchführung der Messung} 
+
+Führen Sie analog zur Messung der 1200V Module an beiden 650V Prüflingen die Messreihe aus \autoref{tab:AP650} durch. 
+Laden Sie hierfür die vorgegebene Gerätekonfiguration \verb|gconfig_switching_characteristics_SiC_IGBT_650V.json|,
+welche die geänderte Induktivität als auch die Strommessung mit dem Shunt-Widerstand berücksichtigt.
+
+\begin{table}[htb]
+	\centering
+	\caption{Arbeitspunkte der Messreihe}
+	\label{tab:AP650}
+	\begin{tabular}{|C{0.15\textwidth}|C{0.15\textwidth}|C{0.15\textwidth}|}
+		\hline
+		\textbf{Spannung $ U_{DC}$ in \SI{}{\volt}} & \textbf{Laststrom in \SI{}{\ampere}} &\textbf{Temperatur in \SI{}{\degreeCelsius}} \\
+		\hline
+		400 & 10 & 25  \\
+		\hline
+		400 & 20 & 25 \\
+		\hline
+		400 & 30 & 25 \\
+		\hline
+		400 & 40 & 25 \\
+		\hline
+		400 & 50 & 25 \\
+		\hline
+		400 & 60 & 25 \\
+		\hline
+	\end{tabular}  
+\end{table}
+
+\subsection{Auswertung des Schaltverhaltens}
+Nachdem sowohl für den \gls{SiC}-\gls{MOSFET}-Prüfling als auch für den \gls{IGBT}-Prüfling die Messreihe aufgenommen wurde, 
+erfolgt die Auswertung der Messergebnisse, ähnlich wie bei den 1200V Modulen, mit einem Python-Skript \\ \verb|evaluateSwitchingCharacteristics650V.py|. \\
+Denken Sie bitte daran, dass die Pfade ggfs. angepasst werden müssen.
+
+\subsubsection{Charakteristische Größen des Schaltvorgangs}
+Betrachten Sie die charakteristischen Größen des Schaltvorgangs bei Nennstrom (30A) und 
+bei maximal gemessener Zwischenkreisspannung und tragen Sie diese in die Tabelle ein.
+\begin{table}[htb]
+	\centering
+	\caption{Charakteristische Größen des Einschaltvorgangs}
+	\label{tab:chargr650on}
+	\begin{tabular}{|L{0.4\textwidth}|C{0.25\textwidth}|C{0.25\textwidth}|}
+		\hline
+		\textbf{Messgröße} & \textbf{650V IGBT} &\textbf{650V MOSFET} \\
+		\hline
+		Zwischenkreisspannung  \gls{sym:udc}\newline in \SI{}{\volt} &  &  \\
+		\hline
+		\glsuservi{sym:ic} bzw. \glsuservi{sym:id} \gls{sym:ilast}\newline in \SI{}{\ampere} &  &  \\
+		\hline
+		Spannungseinbruch \gls{sym:deltaul}\newline in \SI{}{\volt} &  &   \\
+		\hline
+		Wert der Rückstromspitze \gls{sym:irr}\newline in \SI{}{\ampere} &  &  \\
+		\hline
+		Stromsteilheit \gls{sym:didt}\newline in \SI{}{\kilo\ampere/$\mathrm{\mu}$\second} &  &  \\
+		\hline
+		Spannungssteilheit \gls{sym:dudt}\newline in \SI{}{\kilo\volt/$\mathrm{\mu}$\second} &  &  \\
+		\hline
+		
+	\end{tabular}  
+\end{table}
+
+\begin{table}[htb]
+	\centering
+	\caption{Charakteristische Größen des Ausschaltvorgangs}
+	\label{tab:chargr650off}
+	\begin{tabular}{|L{0.4\textwidth}|C{0.25\textwidth}|C{0.25\textwidth}|}
+		\hline
+		\textbf{Messgröße} & \textbf{650V IGBT} &\textbf{650V MOSFET} \\
+		\hline
+		Zwischenkreisspannung  \gls{sym:udc} \newline in \SI{}{\volt} &  &  \\
+		\hline
+		\glsuservi{sym:ic} bzw. \glsuservi{sym:id} \gls{sym:ilast}\newline in \SI{}{\ampere} &  &  \\
+		\hline
+		Max. Überspannung \gls{sym:deltauls}\newline in \SI{}{\volt} &  &   \\
+		\hline
+		Stromsteilheit \gls{sym:didt}\newline in \SI{}{\kilo\ampere/$\mathrm{\mu}$\second} &  &  \\
+		\hline
+		Spannungssteilheit \gls{sym:dudt}\newline in \SI{}{\kilo\volt/$\mathrm{\mu}$\second} &  &  \\
+		\hline
+	\end{tabular}  
+\end{table}
+
+
+
+
+\begin{table}[htb]
+	\centering
+	\caption{Ergebnisse der Schaltverlust-Berechnung}
+	\label{tab:schaltverl650}
+	\begin{tabular}{|L{0.4\textwidth}|C{0.25\textwidth}|C{0.25\textwidth}|}
+		\hline
+		\textbf{Messgröße} & \textbf{650V \gls{IGBT}} &\textbf{650V \gls{MOSFET}} \\
+		\hline
+		\gls{sym:eon} \newline in \SI{}{\milli\joule} &  &  \\
+		\hline
+		\gls{sym:eoff} \newline in \SI{}{\milli\joule} &  &  \\
+		\hline
+	\end{tabular}  
+\end{table}
+
+
+\subsubsection{Vergleich des Schaltverhaltens bei verschiedenen Arbeitspunkten}
+Durch die Ausführung des Python-Skriptes \verb|evaluateSwitchingCharacteristics650V.py| 
+werden die Schalttransienten sowie einige der charakteristischen Größen der beiden Leistungshalbleiter geplottet.
+\subsubsection{Wie unterscheiden sich die Strom und Spannungsverläufe der 1200V Messung im Vergleich zur 650V Messung?}
+
+\hrulefill
+
+\hrulefill
+
+\subsubsection{Vergleichen Sie die Schaltverhalten von IGBT und SiC MOSFET Modul. Welche Unterschiede stellen Sie fest?}
+
+\hrulefill
+
+\hrulefill
+
+
+\subsubsection{Warum führt die geringere Rückstromspitze der IGBT Messung trotzdem zu deutlich höheren Schaltverlusten im Einschaltvorgang?}
+\hrulefill
+
+\hrulefill
+
+\begin{comment}
+
+ \begin{figure*}[p]
+ 	\centering
+ 	\includegraphics[width=0.85\textwidth]{IGBT1200_on_600_200_Latex.pdf}
+ 	\caption{Einschaltvorgang des 1200V \gls{IGBT} Moduls bei \gls{sym:udc} = \SI{600}{\volt}, \gls{sym:ilast} = \SI{208}{\ampere} und \gls{sym:rgon} = \SI{3,3}{\ohm}, mit gemessenen Schaltverlusten von \gls{sym:eon} = \SI{35,8}{\milli\joule}}
+ 	\label{abb:1200igbton}
+ \end{figure*}
+ 
+ \begin{figure*}[p]
+ 	\centering
+ 	\includegraphics[width=0.85\textwidth]{SiC1200_on_600_200_Latex.pdf}
+ 	\caption{Einschaltvorgang des 1200V \gls{SiC} \gls{MOSFET} Moduls bei \gls{sym:udc} = \SI{600}{\volt},\newline \gls{sym:ilast} = \SI{208}{\ampere} und \gls{sym:rgon} = \SI{4,5}{\ohm}, mit gemessenen Schaltverlusten von\newline \gls{sym:eon} = \SI{8,5}{\milli\joule}}
+ 	\label{abb:1200sicon}
+ \end{figure*}
+
+
+
+\begin{align}
+f_0 &= \frac{1}{2 \cdot \pi \sqrt{\gls{sym:lsigma} \cdot C_{oss}}}\\
+\gls{sym:lsigma} &= \frac{1}{(2 \cdot \pi \cdot f_0 )^2 \cdot C_{oss}} = \SI{38,6}{\nano\henry}
+\end{align}
+
+Der Stromgradient wurde zu \SI{3,7}{\kilo\ampere/\micro\second} bestimmt. 
+
+\begin{align}
+	\gls{sym:deltaul} &= - \gls{sym:lsigma} \cdot \dfrac{\mathrm{d}\gls{sym:ic}}{\mathrm{d}t}\\
+	\gls{sym:lsigma} &= - \frac{\gls{sym:deltaul}}{\dfrac{\mathrm{d}\gls{sym:ic}}{\mathrm{d}t}} = - \frac{(-184V)}{3,7kA/\mu s} = \SI{49,7}{\nano\henry}
+\end{align}
+Es ergibt sich eine parasitäre Induktivität von etwa \SI{49,7}{\nano\henry}. Die zwei abgeschätzten Induktivitäts-Werte liegen in der selben Größenordnung und die vermutete Herkunft der Schwingung kann als plausibel angenommen werden. 
+
+
+
+\begin{figure}[p]
+	\centering
+	\includegraphics[width=0.85\textwidth]{IGBT1200_off_600_400_Latex.pdf}
+	\caption{Ausschaltvorgang des 1200V \gls{IGBT} Moduls bei \gls{sym:udc} = \SI{600}{\volt}, \gls{sym:ilast} = \SI{502}{\ampere} und \gls{sym:rgoff} = \SI{6}{\ohm}, mit gemessenen Schaltverlusten von \gls{sym:eoff} = \SI{36,4}{\milli\joule}}
+	\label{abb:1200igbtoff}
+\end{figure}
+
+\begin{figure}[p]
+	\centering
+	\includegraphics[width=0.85\textwidth]{SiC1200_off_600_400_Latex.pdf}
+	\caption{Ausschaltvorgang des 1200V \gls{SiC} \gls{MOSFET} Moduls bei \gls{sym:udc} = \SI{600}{\volt},\newline \gls{sym:ilast} = \SI{505}{\ampere} und \gls{sym:rgoff} = \SI{9}{\ohm}, mit gemessenen Schaltverlusten von\newline \gls{sym:eoff} = \SI{27,2}{\milli\joule}}
+	\label{abb:1200sicoff}
+\end{figure}
+
+Die Überspannungsspitze \gls{sym:deltauls} ist sehr stark ausgeprägt und beträgt etwa \SI{401,7}{\volt}. Damit ist der \gls{IGBT} bei diesem Arbeitspunkt sehr nahe an der Grenze der erreichbaren Schaltgeschwindigkeit unter den definierten Bedingungen. 
+
+
+
+\begin{figure}[htb]
+	\centering
+	\begin{subfigure}[b]{0.475\textwidth} \centering
+		\includegraphics[width=1.05\textwidth]{GaN650_on_400_30_t100_small3.pdf}
+		\caption[Bild 1]{\small Einschaltvorgang}
+		\label{abb:GaNon40030}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[b]{0.475\textwidth}  \centering 
+		\includegraphics[width=1.05\textwidth]{GaN650_off_400_20_t100_small2.pdf}
+		\caption[Bild 2]{\small Ausschaltvorgang}    
+		\label{abb:GaNoff40030}
+	\end{subfigure}
+	\caption[Bilder Matrix]{\small Schaltvorgang des 650V \gls{GaN} \gls{HEMT} bei \gls{sym:udc} = \SI{400}{\volt}, \gls{sym:ilast} = \SI{28}{\ampere}, \newline \gls{sym:rgon} = \SI{19,5}{\ohm} und \gls{sym:rgoff} = \SI{4,6}{\ohm} mit einer Verriegelungszeit von \gls{sym:td} = \SI{100}{\nano\second}} 
+	\label{fig:GaN40030t100}
+\end{figure}
+
+	Inhalt...
+\end{comment}

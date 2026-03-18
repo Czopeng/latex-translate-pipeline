@@ -1,0 +1,863 @@
+%--------------------------------------------------------------------
+%
+%   Version: 3.25        (Koma-Skript, documentclass{scrbook})
+%   Datum: 01.06.2018
+%   Autor: Johannes Bier
+%
+%--------------------------------------------------------------------
+% die Auflistung für das Abkürzungsverzeichnis 
+%--------------------------------------------------------------------
+
+\newacronym{UVLO}{UVLO}{Undervoltage-lockout}
+\newacronym{GIT}{GIT}{Gate Injection Transistoren}
+\newacronym{NPT}{NPT}{Non-Punch-Through}
+\newacronym{HEMT}{HEMT}{high-electron-mobility-transistor}
+\newacronym{E-HEMT}{E-HEMT}{enhancement-mode high-electron-mobility-transistor}
+
+\newacronym{WBG}{WBG}{wide-bandgap}
+\newglossaryentry{BNC}{
+	name={BNC},
+	description={Bayonet-Neill-Concelman Bajonettverschluss},
+	first={\glsentrydesc{BNC} (\glsentrytext{BNC})},
+	plural={BNC},
+	symbol={BNC},
+	descriptionplural={Bayonet-Neill-Concelman Bajonettverschlüsse},
+	firstplural={\glsentrydescplural{BNC} (\glsentryplural{BNC})}
+}
+\newacronym{LWL}{LWL}{Lichtwellenleiter}
+\newacronym{DC/DC-Wandler}{DC/DC-Wandler}{Gleichspannungswandler}
+\newacronym{JFET}{JFET}{junction field effect transistor}
+\newacronym{DMOS}{DMOS}{double-diffused metal-oxide semiconductor}
+\newacronym{PT}{PT}{Punch-Through}
+\newacronym{SOA}{SOA}{Safe Operating Area}
+\newacronym{PCB}{PCB}{Printed circuit board}
+%\newacronym{SMD}{SMD}{Surface-mounted device}
+\newglossaryentry{SMD}{
+	name={SMD},
+	description={Surface-mounted device},
+	first={\glsentrydesc{SMD} (\glsentrytext{SMD})},
+	plural={SMD},
+	symbol={SMD},
+	descriptionplural={Surface-mounted devices},
+	firstplural={\glsentrydescplural{SMD} (\glsentryplural{SMD})}
+}
+\newacronym{THT}{THT}{Through-hole technology}
+\newacronym{IC}{IC}{Integrated circuit}
+\newacronym{Si}{Si}{Silizium}
+\newacronym{C}{C}{Kohlenstoff}
+\newacronym{SiC}{SiC}{Siliziumkarbid}
+\newacronym{GaN}{GaN}{Galliumnitrid}
+\newacronym{AlGaN}{AlGaN}{Aluminiumgalliumnitrid}
+\newacronym{AlN}{AlN}{Aluminiumnitrid}
+\newacronym{2DEG}{2DEG}{Zweidimensionales Elektronengas}
+\newacronym{DC}{DC}{Gleichstrom (Direct Current)}
+\newglossaryentry{AC}{
+	name={AC},
+	description={Wechselstrom (Alternating Current)},
+	first={\glsentrydesc{AC} (\glsentrytext{AC})},
+	plural={ACs},
+	descriptionplural={Wechselströme (Alternating Currents)},
+	firstplural={\glsentrydescplural{AC} (\glsentryplural{AC})}
+}
+\newacronym{TA}{TA}{Taktperiode des Umrichtersystems}
+\newacronym{ETI}{ETI}{Elektrotechnisches Institut}
+
+\newacronym{KIT}{KIT}{Karlsruher Institut für Technologie}
+\newglossaryentry{EPSR}{
+	name={EPSR},
+	description={Einplatinenstromrichter},
+	first={\glsentrydesc{EPSR} (\glsentrytext{EPSR})},
+	plural={EPSR},
+	descriptionplural={Einplatinenstromrichter},
+	firstplural={\glsentrydescplural{EPSR} (\glsentryplural{EPSR})}
+}
+\newacronym{EMV}{EMV}{Elektromagnetischen Verträglichkeit}
+\newacronym{FPGA}{FPGA}{Field Programmable Gate Array}
+\newacronym{SoC}{SoC}{System on Chip}
+\newacronym{DBS}{DBS}{Drehstrombrückenschaltung}
+\newglossaryentry{DSP}{
+	name={DSP},
+	description={digitaler Signalprozessor},
+	first={\glsentrydesc{DSP} (\glsentrytext{DSP})},
+	plural={DSP's},
+	descriptionplural={digitale Signalprozessoren},
+	firstplural={\glsentrydescplural{DSP} (\glsentryplural{DSP})}
+} 
+\newacronym{ETI-Bus}{ETI-Bus}{kommunikationsbus des DSP-Systems}
+\newacronym{USB}{USB}{Universal Serial Bus}
+\newacronym{MMC}{MMC}{Modularer-Multilevel-Umrichter}
+\newacronym{M3C}{M3C}{Modularer-Multilevel-Matrix-Umrichter}
+\newacronym{ESB}{ESB}{Ersatzschaltbild}
+\newacronym{3AC}{3AC}{dreiphasiger Wechselstrom}
+\newacronym{AFE}{AFE}{Active Front End}
+\newglossaryentry{TSS}{
+	name={TSS},
+	description={Tiefsetzsteller},
+	first={\glsentrydesc{TSS} (\glsentrytext{TSS})},
+	plural={TSS},
+	descriptionplural={Tiefsetzsteller},
+	firstplural={\glsentrydescplural{TSS} (\glsentryplural{TSS})}
+} 
+
+\newglossaryentry{DUT}{
+	name={DUT},
+	description={Device Under Test},
+	first={\glsentrydesc{DUT} (\glsentrytext{DUT})}
+} 
+\newacronym{MAC}{MAC}{Multiply-Accumulate}
+
+\newacronym{AD}{AD}{Analog Digital}
+\newacronym{ADC}{ADC}{Analog Digital Wandler}
+\newacronym{HMK}{HMK}{Hochleistungsmodulatorkarte}
+\newacronym{GM}{GM}{Gleichstrommaschine}
+\newacronym{ASM}{ASM}{Asynchronmaschine}
+\newacronym{PLL}{PLL}{Phase Look Loop}
+\newacronym{DG}{DG}{Diodengleichrichter}
+\newacronym{PWM}{PWM}{Pulsweitenmodulation (Puls Wide Modulation)}
+\newacronym{HIL}{HIL}{Hardware-in-the-Loop}
+\newacronym{PHIL}{PHIL}{Power-Hardware-in-the-Loop}
+\newacronym{SIL}{SIL}{Software-in-the-Loop}
+\newglossaryentry{HB}{
+	name={HB},
+	description={Halbbrücke},
+	first={\glsentrydesc{HB} (\glsentrytext{HB})},
+	plural={HBs},
+	descriptionplural={Halbbrücken},
+	firstplural={\glsentrydescplural{HB} (\glsentryplural{HB})}
+} 
+\newglossaryentry{LED}{
+	name={LED},
+	description={light emitting diode},
+	first={\glsentrydesc{LED} (\glsentrytext{LED})},
+	plural={LED's},
+	descriptionplural={light emitting diodes},
+	firstplural={\glsentrydescplural{LED} (\glsentryplural{LED})}
+} 
+\newglossaryentry{EEPROM}{
+	name={EEPROM},
+	description={electrically erasable programmable read-only memory},
+	first={\glsentrydesc{EEPROM} (\glsentrytext{EEPROM})},
+	plural={EEPROM's},
+	descriptionplural={electrically erasable programmable read-only memories},
+	firstplural={\glsentrydescplural{EEPROM} (\glsentryplural{EEPROM})}
+} 
+\newacronym{FB}{FB}{Full Bridge - Vollbrücken}
+\newacronym{PCC}{PCC}{Point of common coupling - Netzanschlusspunkt}
+\newacronym{BLDC}{BLDC}{Bürstenloser Gleichstrommotor}
+\newacronym{PSM}{PSM}{Permanenterregte Synchronmaschiene}
+\newglossaryentry{MOSFET}{
+	name={MOSFET},
+	description={Metall Oxid Halbleiter Feldeffekttransistor},
+	first={\glsentrydesc{MOSFET} (\glsentrytext{MOSFET})},
+	plural={MOSFETs},
+	descriptionplural={Metall Oxid Halbleiter Feldeffekttransistoren},
+	firstplural={\glsentrydescplural{MOSFET} (\glsentryplural{MOSFET})}
+}
+\newacronym{OPV}{OPV}{Operationsverstärker}
+\newacronym{VHDL}{VHDL}{Very High Speed Integrated Circuit Hardware Description Language}
+\newacronym{IGBT}{IGBT}{Insulated Gate Bipolar Transistor}
+\newacronym{usw.}{usw.}{und so weiter}
+\newacronym{etc.}{etc.}{et cetera}
+\newacronym{z.B.}{z.B.}{zum Beispiel}
+\newglossaryentry{FAM}{
+	name={FAM},
+	description={Feldorientierte Regelung der Asynchronmaschine},
+	first={\glsentrydesc{FAM} (\glsentrytext{FAM})},
+	user1={Feldorientierten Regelung der Asynchronmaschine (\glsentrytext{FAM})}
+} 
+
+%--------------------------------------------------------------------
+% die Auflistung für das Symbolverzeichnis
+%--------------------------------------------------------------------
+
+
+%% Allgemeine Größen Leistungselektronik
+
+\newglossaryentry{sym:tau}{
+	name={\ensuremath{\tau_\mathrm{G}}},
+	user6={\glsentrydesc{sym:tau} \glsentrytext{sym:tau}},
+	description={Zeitkonstante Tau},
+	sort={tau}, 
+	type={symbolslist}
+}
+\newglossaryentry{sym:ta}{
+	name={\ensuremath{t_\mathrm{a}}},
+	user6={\glsentrydesc{sym:ta} \glsentrytext{sym:ta}},
+	description={Einschaltzeit des ersten Pulses eines Doppelpulsversuchs},
+	sort={ta}, 
+	type={symbolslist}
+}
+\newglossaryentry{sym:n-}{
+	name={\ensuremath{n^\mathrm{-}}},
+	user6={\glsentrydesc{sym:n-} \glsentrytext{sym:n-}},
+	description={niedrig dotiertes Donator Halbleitermaterial},
+	sort={n-}, 
+	type={symbolslist}
+}
+\newglossaryentry{sym:SiO2}{
+	name={\ensuremath{SiO_\mathrm{2}}},
+	user6={\glsentrydesc{sym:SiO2} \glsentrytext{sym:SiO2}},
+	description={Siliziumdioxid},
+	sort={SiO2}, 
+	type={symbolslist}
+}
+
+\newglossaryentry{sym:n+}{
+	name={\ensuremath{n^\mathrm{+}}},
+	user6={\glsentrydesc{sym:n+} \glsentrytext{sym:n+}},
+	description={hoch dotiertes Donator Halbleitermaterial},
+	sort={n+}, 
+	type={symbolslist}
+}
+
+\newglossaryentry{sym:p+}{
+	name={\ensuremath{p^\mathrm{+}}},
+	user6={\glsentrydesc{sym:p+} \glsentrytext{sym:p+}},
+	description={hoch dotiertes Akzeptor Halbleitermaterial},
+	sort={p+}, 
+	type={symbolslist}
+}
+
+\newglossaryentry{sym:p}{
+	name={\ensuremath{p}},
+	user6={\glsentrydesc{sym:p} \glsentrytext{sym:p}},
+	description={p-dotiertes Akzeptor Halbleitermaterial},
+	sort={p}, 
+	type={symbolslist}
+}
+\newglossaryentry{sym:n}{
+	name={\ensuremath{n}},
+	user6={\glsentrydesc{sym:n} \glsentrytext{sym:n}},
+	description={n-dotiertes Donator Halbleitermaterial},
+	sort={n}, 
+	type={symbolslist}
+}
+
+\newglossaryentry{sym:p-}{
+	name={\ensuremath{p^\mathrm{-}}},
+	user6={\glsentrydesc{sym:p-} \glsentrytext{sym:p-}},
+	description={niedrig dotiertes Akzeptor Halbleitermaterial},
+	sort={p-}, 
+	type={symbolslist}
+}
+
+\newglossaryentry{sym:cdc}{
+	name={\ensuremath{C_\mathrm{DC}}},
+	user6={\glsentrydesc{sym:cdc} \glsentrytext{sym:cdc}},
+	description={Zwischenkreis-Kapazität},
+	sort={cdc}, 
+	type={symbolslist}
+}
+
+
+\newglossaryentry{sym:rg}{
+	name={\ensuremath{R_\mathrm{G}}},
+	user6={\glsentrydesc{sym:rg} \glsentrytext{sym:rg}},
+	description={Gate-Widerstand},
+	sort={rg}, 
+	type={symbolslist}
+}
+\newglossaryentry{sym:llast}{
+	name={\ensuremath{L_\mathrm{Last}}},
+	user6={\glsentrydesc{sym:llast} \glsentrytext{sym:llast}},
+	description={Last-Induktivität},
+	sort={llast}, 
+	type={symbolslist}
+}
+
+\newglossaryentry{sym:rgon}{
+	name={\ensuremath{R_\mathrm{G,on}}},
+	user6={\glsentrydesc{sym:rgon} \glsentrytext{sym:rgon}},
+	description={Gate-Widerstand im Einschaltvorgang},
+	sort={rgon}, 
+	type={symbolslist}
+}
+\newglossaryentry{sym:rgoff}{
+	name={\ensuremath{R_\mathrm{G,off}}},
+	user6={\glsentrydesc{sym:rgoff} \glsentrytext{sym:rgoff}},
+	description={Gate-Widerstand im Ausschaltvorgang},
+	sort={rgoff}, 
+	type={symbolslist}
+}
+\newglossaryentry{sym:rgint}{
+	name={\ensuremath{R_\mathrm{G,int}}},
+	user6={\glsentrydesc{sym:rgint} \glsentrytext{sym:rgint}},
+	description={Interner Gate-Widerstand},
+	sort={rgint}, 
+	type={symbolslist}
+}
+\newglossaryentry{sym:rd}{
+	name={\ensuremath{R_\mathrm{D}}},
+	user6={\glsentrydesc{sym:rd} \glsentrytext{sym:rd}},
+	description={Driftwiderstand des n- Gebiets},
+	sort={rd}, 
+	type={symbolslist}
+}
+\newglossaryentry{sym:eon}{
+	name={\ensuremath{E_\mathrm{ON}}},
+	user6={\glsentrydesc{sym:eon} \glsentrytext{sym:eon}},
+	description={Einschaltenergie},
+	sort={eon}, 
+	type={symbolslist}
+}
+\newglossaryentry{sym:eoff}{
+	name={\ensuremath{E_\mathrm{OFF}}},
+	user6={\glsentrydesc{sym:eoff} \glsentrytext{sym:eoff}},
+	description={Ausschaltenergie},
+	sort={eoff}, 
+	type={symbolslist}
+}
+\newglossaryentry{sym:lsigma}{
+	name={\ensuremath{L_\mathrm{\sigma}}},
+	user6={\glsentrydesc{sym:lsigma} \glsentrytext{sym:lsigma}},
+	description={parasitäre Induktivität im Kommutierungskreis},
+	sort={lsigma}, 
+	type={symbolslist}
+}
+\newglossaryentry{sym:udc}{
+	name={\ensuremath{U_\mathrm{DC}}},
+	user6={\glsentrydesc{sym:udc} \glsentrytext{sym:udc}},
+	description={Zwischenkreisspannung},
+	sort={udc}, 
+	type={symbolslist}
+}
+\newglossaryentry{sym:mue_p}{
+	name={\ensuremath{\mu_\mathrm{p}}},
+	description={Beweglichkeit der Löcher},
+	sort={mue_p}, 
+	type={symbolslist}
+}
+\newglossaryentry{sym:mue_n}{
+	name={\ensuremath{\mu_\mathrm{n}}},
+	description={Beweglichkeit der Elektronen},
+	sort={mue_n}, 
+	type={symbolslist}
+}
+\newglossaryentry{sym:irr}{
+	name={\ensuremath{I_\mathrm{rr}}},
+	user6={\glsentrydesc{sym:irr} \glsentrytext{sym:irr}},
+	description={Diodenrückstrom},
+	sort={irr}, 
+	type={symbolslist}
+}
+\newglossaryentry{sym:id}{
+	name={\ensuremath{I_\mathrm{D}}},
+	user6={\glsentrydesc{sym:id} \glsentrytext{sym:id}},
+	description={Drainstrom},
+	sort={id}, 
+	type={symbolslist}
+}
+\newglossaryentry{sym:qrr}{
+	name={\ensuremath{Q_\mathrm{rr}}},
+	user6={\glsentrydesc{sym:qrr} \glsentrytext{sym:qrr}},
+	description={Reverse recovery Speicherladung einer Diode},
+	sort={qrr}, 
+	type={symbolslist}
+}
+\newglossaryentry{sym:ilast}{
+	name={\ensuremath{I_\mathrm{Last}}},
+	user6={\glsentrydesc{sym:ilast} \glsentrytext{sym:ilast}},
+	description={Laststrom},
+	sort={irrm}, 
+	type={symbolslist}
+}
+\newglossaryentry{sym:ig}{
+	name={\ensuremath{I_\mathrm{G}}},
+	user6={\glsentrydesc{sym:ig} \glsentrytext{sym:ig}},
+	description={Gatestrom},
+	sort={ig}, 
+	type={symbolslist}
+}
+\newglossaryentry{sym:irrm}{
+	name={\ensuremath{I_\mathrm{rrm}}},
+	user6={\glsentrydesc{sym:irrm} \glsentrytext{sym:irrm}},
+	description={Rückstromspitze},
+	sort={irrm}, 
+	type={symbolslist}
+}
+\newglossaryentry{sym:irms}{
+	name={\ensuremath{I_\mathrm{RMS}}},
+	user6={\glsentrydesc{sym:irms} \glsentrytext{sym:irms}},
+	description={Effektivwert des Stroms},
+	sort={irrm}, 
+	type={symbolslist}
+}
+\newglossaryentry{sym:ugon}{
+	name={\ensuremath{U_\mathrm{G,on}}},
+	user6={\glsentrydesc{sym:ugon} \glsentrytext{sym:ugon}},
+	description={Ausgangsspannungpegel eines Gatetreiber zum Einschalten eines Transistors},
+	sort={ugon}, 
+	type={symbolslist}	
+}
+\newglossaryentry{sym:uuvlods}{
+	name={\ensuremath{U_\mathrm{UVLO,DS}}},
+	user6={\glsentrydesc{sym:uuvlods} \glsentrytext{sym:uuvlods}},
+	description={angegebener UVLO Schwellwert im Datenblatt eines Gatetreibers},
+	sort={uuvlods}, 
+	type={symbolslist}	
+}
+
+\newglossaryentry{sym:ugoff}{
+	name={\ensuremath{U_\mathrm{G,off}}},
+	user6={\glsentrydesc{sym:ugoff} \glsentrytext{sym:ugoff}},
+	description={Ausgangsspannungpegel eines Gatetreiber zum Ausschalten eines Transistors},
+	sort={ugoff}, 
+	type={symbolslist}	
+}
+\newglossaryentry{sym:ugtreiber}{
+	name={\ensuremath{u_\mathrm{G,Treiber}}},
+	user6={\glsentrydesc{sym:ugtreiber} \glsentrytext{sym:ugtreiber}},
+	description={Steuerspannung am Ausgang eines Gatetreibers},
+	sort={ugtreiber}, 
+	type={symbolslist}	
+}
+\newglossaryentry{sym:deltauls}{
+	name={\ensuremath{\Delta U_\mathrm{LS}}},
+	user6={\glsentrydesc{sym:deltauls} \glsentrytext{sym:deltauls}},
+	description={Induzierte Gegespannung im Ausschaltvorgang},
+	sort={deltauls}, 
+	type={symbolslist}	
+}
+\newglossaryentry{sym:deltaul}{
+	name={\ensuremath{\Delta U_\mathrm{L}}},
+	user6={\glsentrydesc{sym:deltaus} \glsentrytext{sym:deltaus}},
+	description={Induzierter Spannungsabfall im Einschaltvorgang},
+	sort={deltaus}, 
+	type={symbolslist}	
+}
+\newglossaryentry{sym:td}{
+	name={\ensuremath{t_\mathrm{D}}},
+	user6={\glsentrydesc{sym:td} \glsentrytext{sym:td}},
+	description={Verriegelungszeit},
+	sort={td}, 
+	type={symbolslist}	
+}
+%% IGBT Kapazitäten und Spannungen
+
+\newglossaryentry{sym:ices}{
+	name={\ensuremath{I_\mathrm{CES}}},
+	user6={\glsentrydesc{sym:ices} \glsentrytext{sym:ices}},
+	description={Kollektor Reststrom},
+	sort={ices}, 
+	type={symbolslist}
+}
+\newglossaryentry{sym:rw}{
+	name={\ensuremath{R_\mathrm{W}}},
+	user6={\glsentrydesc{sym:rw} \glsentrytext{sym:rw}},
+	description={Wannenwiderstand},
+	sort={rw}, 
+	type={symbolslist}
+}
+\newglossaryentry{sym:ic}{
+	name={\ensuremath{I_\mathrm{C}}},
+	user6={\glsentrydesc{sym:ic} \glsentrytext{sym:ic}},
+	description={Kollektor-Strom},
+	sort={ic}, 
+	type={symbolslist}
+}
+\newglossaryentry{sym:cge}{
+	name={\ensuremath{C_\mathrm{GE}}},
+	user6={\glsentrydesc{sym:cge} \glsentrytext{sym:cge}},
+	description={Gate-Emitter-Kapazität},
+	sort={cge}, 
+	type={symbolslist}
+}
+\newglossaryentry{sym:cce}{
+	name={\ensuremath{C_\mathrm{CE}}},
+	user6={\glsentrydesc{sym:cce} \glsentrytext{sym:cce}},
+	description={Kollektor-Emitter-Kapazität},
+	sort={cce}, 
+	type={symbolslist}
+}
+\newglossaryentry{sym:cgc}{
+	name={\ensuremath{C_\mathrm{GC}}},
+	user6={\glsentrydesc{sym:cgc} \glsentrytext{sym:cgc}},
+	description={Gate-Kollektor-Kapazität},
+	sort={cge}, 
+	type={symbolslist}
+}
+
+\newglossaryentry{sym:ciss}{
+	name={\ensuremath{C_\mathrm{iss}}},
+	user6={\glsentrydesc{sym:ciss} \glsentrytext{sym:ciss}},
+	description={Eingangskapazität},
+	sort={ciss}, 
+	type={symbolslist}
+}	
+\newglossaryentry{sym:coss}{
+	name={\ensuremath{C_\mathrm{oss}}},
+	user6={\glsentrydesc{sym:coss} \glsentrytext{sym:coss}},
+	description={Ausgangskapazität},
+	sort={coss}, 
+	type={symbolslist}
+}
+\newglossaryentry{sym:crss}{
+	name={\ensuremath{C_\mathrm{rss}}},
+	user6={\glsentrydesc{sym:crss} \glsentrytext{sym:crss}},
+	description={Rückwirkungskapazität},
+	sort={crss}, 
+	type={symbolslist}
+}
+\newglossaryentry{sym:uge}{
+	name={\ensuremath{U_\mathrm{GE}}},
+	user6={\glsentrydesc{sym:uge} \glsentrytext{sym:uge}},
+	description={Gate-Emitter-Spannung},
+	sort={uge}, 
+	type={symbolslist}
+}
+\newglossaryentry{sym:ugeth}{
+	name={\ensuremath{U_\mathrm{GE,th}}},
+	user6={\glsentrydesc{sym:ugeth} \glsentrytext{sym:ugeth}},
+	description={Threshold-Spannung eines IGBT},
+	sort={ugeth}, 
+	type={symbolslist}	
+}
+\newglossaryentry{sym:ugeon}{
+	name={\ensuremath{U_\mathrm{GE,on}}},
+	user6={\glsentrydesc{sym:ugeon} \glsentrytext{sym:ugeon}},
+	description={Gate-Emitter Spannung im eingeschalteten Zustand},
+	sort={ugeon}, 
+	type={symbolslist}	
+}
+\newglossaryentry{sym:ugeoff}{
+	name={\ensuremath{U_\mathrm{GE,off}}},
+	user6={\glsentrydesc{sym:ugeoff} \glsentrytext{sym:ugeoff}},
+	description={Gate-Emitter Spannung im ausgeschalteten Zustand},
+	sort={ugeon}, 
+	type={symbolslist}	
+}
+\newglossaryentry{sym:uce}{
+	name={\ensuremath{U_\mathrm{CE}}},
+	user6={\glsentrydesc{sym:uce} \glsentrytext{sym:uce}},
+	description={Kollektor-Emitter-Spannung},
+	sort={uce}, 
+	type={symbolslist}
+}
+\newglossaryentry{sym:ucesat}{
+	name={\ensuremath{U_\mathrm{CE(sat)}}},
+	user6={\glsentrydesc{sym:ucesat} \glsentrytext{sym:ucesat}},
+	description={Kollektor-Emitter-Spannung in Sättigung},
+	sort={ucesat}, 
+	type={symbolslist}
+}
+\newglossaryentry{sym:uth}{
+	name={\ensuremath{U_\mathrm{th}}},
+	user6={\glsentrydesc{sym:uth} \glsentrytext{sym:uth}},
+	description={Threshold-Spannung},
+	sort={uth}, 
+	type={symbolslist}
+}
+
+
+%% Mosfet Kapazitäten und Spannungen
+\newglossaryentry{sym:uuvlogan}{
+	name={\ensuremath{U_\mathrm{UVLO,GaN}}},
+	user6={\glsentrydesc{sym:uuvlogan} \glsentrytext{sym:uuvlogan}},
+	description={Effektive undervoltage-lockout Schwelle des GaN-Treibers},
+	sort={uuvlogan}, 
+	type={symbolslist}
+}
+\newglossaryentry{sym:idss}{
+	name={\ensuremath{I_\mathrm{DSS}}},
+	user6={\glsentrydesc{sym:idss} \glsentrytext{sym:idss}},
+	description={Drain Reststrom},
+	sort={idss}, 
+	type={symbolslist}
+}
+\newglossaryentry{sym:ugsoff}{
+	name={\ensuremath{U_\mathrm{GS,off}}},
+	user6={\glsentrydesc{sym:ugsoff} \glsentrytext{sym:ugsoff}},
+	description={Gate-Source Spannung im ausgeschalteten Zustand },
+	sort={ugsoff}, 
+	type={symbolslist}
+}
+
+\newglossaryentry{sym:ugson}{
+	name={\ensuremath{U_\mathrm{GS,on}}},
+	user6={\glsentrydesc{sym:ugson} \glsentrytext{sym:ugson}},
+	description={Gate-Source Spannung im eingeschalteten Zustand },
+	sort={ugson}, 
+	type={symbolslist}
+}
+\newglossaryentry{sym:ufnull}{
+	name={\ensuremath{U_\mathrm{F,0}}},
+	user6={\glsentrydesc{sym:ufnull} \glsentrytext{sym:ufnull}},
+	description={Flussspannung der parasitären MOSFET body-Diode},
+	sort={ufnull}, 
+	type={symbolslist}
+}
+\newglossaryentry{sym:udson}{
+	name={\ensuremath{U_\mathrm{DS,on}}},
+	user6={\glsentrydesc{sym:udson} \glsentrytext{sym:udson}},
+	description={Drain-Source Spannung im eingeschalteten Zustand eines MOSFET},
+	sort={udson}, 
+	type={symbolslist}
+}
+
+\newglossaryentry{sym:rdson}{
+	name={\ensuremath{R_\mathrm{DS(on)}}},
+	user6={\glsentrydesc{sym:rdson} \glsentrytext{sym:rdson}},
+	description={Durchlasswiderstand},
+	sort={rdson}, 
+	type={symbolslist}
+}
+
+\newglossaryentry{sym:cgd}{
+	name={\ensuremath{C_\mathrm{GD}}},
+	user6={\glsentrydesc{sym:cgd} \glsentrytext{sym:cgd}},
+	description={Gate-Drain-Kapazität},
+	sort={cgd}, 
+	type={symbolslist}
+}
+\newglossaryentry{sym:cgs}{
+	name={\ensuremath{C_\mathrm{GS}}},
+	user6={\glsentrydesc{sym:cgs} \glsentrytext{sym:cgs}},
+	description={Gate-Source-Kapazität},
+	sort={cgs}, 
+	type={symbolslist}
+}
+
+\newglossaryentry{sym:cds}{
+	name={\ensuremath{C_\mathrm{DS}}},
+	user6={\glsentrydesc{sym:cds} \glsentrytext{sym:cds}},
+	description={Drain-Source-Kapazität},
+	sort={cds}, 
+	type={symbolslist}
+}
+\newglossaryentry{sym:didt}{
+	name={\ensuremath{\mathrm{d}i/\mathrm{d}t}},
+	user6={\glsentrydesc{sym:didt} \glsentrytext{sym:didt}},
+	description={Stromgradient},
+	sort={didt}, 
+	type={symbolslist}
+}
+\newglossaryentry{sym:dudt}{
+	name={\ensuremath{\mathrm{d}u/\mathrm{d}t}},
+	user6={\glsentrydesc{sym:dudt} \glsentrytext{sym:dudt}},
+	description={Spannungsgradient},
+	sort={dudt}, 
+	type={symbolslist}
+}
+\newglossaryentry{sym:ugs}{
+	name={\ensuremath{U_\mathrm{GS}}},
+	user6={\glsentrydesc{sym:ugs} \glsentrytext{sym:ugs}},
+	description={Gate-Source-Spannung},
+	sort={ugs}, 
+	type={symbolslist}	
+}
+\newglossaryentry{sym:ugsth}{
+	name={\ensuremath{U_\mathrm{GS,th}}},
+	user6={\glsentrydesc{sym:ugsth} \glsentrytext{sym:ugsth}},
+	description={Threshold-Spannung eines MOSFET},
+	sort={ugsth}, 
+	type={symbolslist}
+}
+\newglossaryentry{sym:uds}{
+	name={\ensuremath{U_\mathrm{DS}}},
+	user6={\glsentrydesc{sym:uds} \glsentrytext{sym:uds}},
+	description={Drain-Source-Spannung},
+	sort={uds}, 
+	type={symbolslist}
+}
+
+%% Allgemeine Größen
+\newglossaryentry{sym:pollparzahl}{
+	name={\ensuremath{p}},
+	user6={\glsentrydesc{sym:pollparzahl} \glsentrytext{sym:pollparzahl}},
+	description={Polpaarzahl der Asynchronmaschine},
+	sort={polPar}, 
+	type={symbolslist}
+}
+
+\newglossaryentry{sym:inneresMoment}{
+	name={\ensuremath{M_\mathrm{i}}},
+	user6={\glsentrydesc{sym:inneresMoment} \glsentrytext{sym:inneresMoment}},
+	description={inneres Moment der Asynchronmaschine},
+	sort={Minner}, 
+	type={symbolslist}
+}
+
+\newglossaryentry{sym:lastMoment}{
+	name={\ensuremath{M_\mathrm{L}}},
+	user6={\glsentrydesc{sym:lastMoment} \glsentrytext{sym:lastMoment}},
+	description={Lastmoment der Asynchronmaschine},
+	sort={Mlast}, 
+	type={symbolslist}
+}
+
+\newglossaryentry{sym:reibMoment}{
+	name={\ensuremath{M_\mathrm{Reib}}},
+	user6={\glsentrydesc{sym:reibMoment} \glsentrytext{sym:reibMoment}},
+	description={Reibmoment der Asynchronmaschine},
+	sort={Mreib}, 
+	type={symbolslist}
+}
+
+\newglossaryentry{sym:traegheitsmoment}{
+	name={\ensuremath{J_\mathrm{Sys}}},
+	user6={\glsentrydesc{sym:traegheitsmoment} \glsentrytext{sym:traegheitsmoment}},
+	description={Trägheitsmoment des mechanischen Systems},
+	sort={Jsys}, 
+	type={symbolslist}
+}
+
+
+\newglossaryentry{sym:indukhaupt}{
+	name={\ensuremath{L_\mathrm{h}}},
+	user6={\glsentrydesc{sym:indukhaupt} \glsentrytext{sym:indukhaupt}},
+	description={Hauptinduktivität},
+	sort={Lh}, 
+	type={symbolslist}
+}
+\newglossaryentry{sym:magnetisierungsstrom}{
+	name={\ensuremath{i_\mathrm{\mu}}},
+	user6={\glsentrydesc{sym:magnetisierungsstrom} \glsentrytext{sym:magnetisierungsstrom}},
+	description={Magnetisierungsstrom der Asynchronmaschine},
+	sort={imagnetstrom}, 
+	type={symbolslist}
+}
+
+\newglossaryentry{sym:omegamech}{
+	name={\ensuremath{\Omega_\mathrm{Mech}}},
+	user2= \ensuremath{\Omega_\mathrm{Mech}(t)}, 					% Zeitverlauf der mechanischen Größe 
+	user3= \ensuremath{\omega_\mathrm{Mech,0}},
+	user4= \ensuremath{\omega_\mathrm{Mech,1}},
+	user6={\glsentrydesc{sym:ommegamech} \glsentrytext{sym:ommegamech}},
+	description={mechanische Drehfrequenz des Rotors der Asynchronmaschine},
+	sort={Omegastator}, 
+	type={symbolslist}
+}
+
+%% Alle größen für die Statorseite
+
+\newglossaryentry{sym:statorwiderstand}{
+	name={\ensuremath{R_\mathrm{S}}},
+	user6={\glsentrydesc{sym:statorwiderstand} \glsentrytext{sym:statorwiderstand}},
+	description={Statorwiderstand 123},
+	sort={Rs}, 
+	type={symbolslist}
+}
+\newglossaryentry{sym:statorspannungkompl}{
+	name={\ensuremath{\uline{u}_\mathrm{S}}},
+	user6={\glsentrydesc{sym:statorspannungkompl} \glsentrytext{sym:statorspannungkompl}},
+	description={komplexe Statorspannung},
+	sort={us}, 
+	type={symbolslist}
+}
+\newglossaryentry{sym:statorstromkompl}{
+	name={\ensuremath{\uline{i}_\mathrm{S}}},
+	user6={\glsentrydesc{sym:statorstromkompl} \glsentrytext{sym:statorstromkompl}},
+	description={komplexer Statorstrom},
+	sort={is}, 
+	type={symbolslist}
+}
+\newglossaryentry{sym:statorflusskompl}{
+	name={\ensuremath{\uline{\Psi}_\mathrm{S}}},			
+	user1={\ensuremath{\uline{\dot{\Psi}}_\mathrm{S}}},			% 1. Ableitung
+	user6={\glsentrydesc{sym:statorflusskompl} \glsentrytext{sym:statorflusskompl}},
+	description={komplexer Statorfluss},
+	sort={Psis}, 
+	type={symbolslist}
+}
+\newglossaryentry{sym:indukstatorstreu}{
+	name={\ensuremath{L_\mathrm{S\sigma}}},
+	user6={\glsentrydesc{sym:indukstatorstreu} \glsentrytext{sym:indukstatorstreu}},
+	description={Statorstreuinduktivität},
+	sort={Lssigma}, 
+	type={symbolslist}
+}
+
+\newglossaryentry{sym:gammarstator}{
+	name={\ensuremath{\gamma_\mathrm{S}}},
+	user2={\ensuremath{\dot{\gamma}_\mathrm{S}}},	 % Ableitung
+	user6={\glsentrydesc{sym:gammarstator} \glsentrytext{sym:gammarstator}},
+	description={Winkel des Statorfluss der Asynchronmaschine},
+	sort={gammarstator}, 
+	type={symbolslist}
+}
+
+\newglossaryentry{sym:ommegastator}{
+	name={\ensuremath{\omega_\mathrm{S}}},
+	user6={\glsentrydesc{sym:ommegastator} \glsentrytext{sym:ommegastator}},
+	description={Speißefrequenz des Statorflusses der Asynchronmaschine},
+	sort={Omegastator}, 
+	type={symbolslist}
+}
+
+\newglossaryentry{sym:ommegasyn}{
+	name={\ensuremath{\omega_\mathrm{Syn}}},
+	user6={\glsentrydesc{sym:ommegastator} \glsentrytext{sym:ommegastator}},
+	description={synchrone Kreisfrequenz},
+	sort={Omegasyn}, 
+	type={symbolslist}
+}
+
+\newglossaryentry{sym:ommegaeck}{
+	name={\ensuremath{\omega_\mathrm{Eck}}},
+	user6={\glsentrydesc{sym:ommegastator} \glsentrytext{sym:ommegastator}},
+	description={Eckkreisfrequenz (beginn des Feldschwächebereich)},
+	sort={Omegaeck}, 
+	type={symbolslist}
+}
+
+%% Alle größen für die Rotorseite
+
+\newglossaryentry{sym:rotorwiderstand}{
+	name={\ensuremath{R_\mathrm{R}}},
+	user2={\ensuremath{R_\mathrm{R}^\prime}},						% Transformiert
+	user6={\glsentrydesc{sym:rotorwiderstand} \glsentrytext{sym:rotorwiderstand}},
+	description={Rotorwiderstand},
+	sort={Rr}, 
+	type={symbolslist}
+}
+\newglossaryentry{sym:rotorspannungkompl}{
+	name={\ensuremath{\uline{u}_\mathrm{R}}},
+	user6={\glsentrydesc{sym:rotorspannungkompl} \glsentrytext{sym:rotorspannungkompl}},
+	description={komplexe Rotorspannung},
+	sort={ur}, 
+	type={symbolslist}
+}
+\newglossaryentry{sym:rotorstromkompl}{
+	name={\ensuremath{\uline{i}_\mathrm{R}}},
+	user2={\ensuremath{\uline{i}_\mathrm{R}^\prime}},				% Transformiert
+	user3={\ensuremath{\uline{i}_\mathrm{R}^{\prime*}}},				% konjugiert komplex
+	user6={\glsentrydesc{sym:rotorstromkompl} \glsentrytext{sym:rotorstromkompl}},
+	description={komplexer Rotorstrom},
+	sort={ir}, 
+	type={symbolslist}
+}
+\newglossaryentry{sym:rotorflusskompl}{
+	name={\ensuremath{\uline{\Psi}_\mathrm{R}}},			
+	user1={\ensuremath{\uline{\dot{\Psi}}_\mathrm{R}}},				% 1. Ableitung
+	user2={\ensuremath{\uline{\Psi}_\mathrm{R}^\prime}},			% Transformiert
+	user3={\ensuremath{\uline{\dot{\Psi}}_\mathrm{R}^\prime}},		% Transformiert, 1. Ableitung
+	user6={\glsentrydesc{sym:rotorflusskompl} \glsentrytext{sym:rotorflusskompl}},
+	description={komplexer Rotorfluss},
+	sort={Psir}, 
+	type={symbolslist}
+}
+\newglossaryentry{sym:gammarrotor}{
+	name={\ensuremath{\gamma_\mathrm{R}}},
+	user2={\ensuremath{\dot{\gamma}_\mathrm{R}}},	 % Ableitung
+	user6={\glsentrydesc{sym:gammarrotor} \glsentrytext{sym:gammarrotor}},
+	description={Winkel des Rotorfluss der Asynchronmaschine},
+	sort={gammarrotor}, 
+	type={symbolslist}
+}
+
+\newglossaryentry{sym:indukrotorstreu}{
+	name={\ensuremath{L_\mathrm{R\sigma}}},
+	user2={\ensuremath{L_\mathrm{R\sigma}^\prime}},			% Transformiert
+	user6={\glsentrydesc{sym:indukrotorstreu} \glsentrytext{sym:indukrotorstreu}},
+	description={Rotorstreuinduktivität},
+	sort={Lrsigma}, 
+	type={symbolslist}
+}
+
+\newglossaryentry{sym:ommegarotor}{
+	name={\ensuremath{\omega_\mathrm{R}}},
+	user6={\glsentrydesc{sym:ommegarotor} \glsentrytext{sym:ommegarotor}},
+	description={Speißefrequenz des Rotorflusses der Asynchronmaschine},
+	sort={Omegastator}, 
+	type={symbolslist}
+}
