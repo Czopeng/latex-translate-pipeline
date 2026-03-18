@@ -11,20 +11,21 @@ A Python-based pipeline for translating German LaTeX documents into English usin
 - Extensible for different LLM providers
 
 ## Project Structure
+
+```text
 latex-translation-pipeline/
-│
 ├── translator/
-│ ├── main.py
-│ ├── pipeline.py
-│ ├── latex_masker.py
-│ ├── glossary.py
-│ ├── translator.py
-│ └── utils.py
-│
+│   ├── main.py
+│   ├── pipeline.py
+│   ├── latex_masker.py
+│   ├── glossary.py
+│   ├── translator.py
+│   └── utils.py
 ├── glossary.json
 ├── requirements.txt
 ├── README.md
 └── .gitignore
+```
 
 
 
@@ -40,4 +41,6 @@ OPENAI_API_KEY=your_api_key_here
 ```
 
 ## Usage
+```bash
 python -m translator.main
+```
