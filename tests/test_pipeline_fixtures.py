@@ -45,6 +45,14 @@ class PipelineFixtureTests(unittest.TestCase):
         self.assertEqual(glossary["WBG"].type, "acronym")
         self.assertIn("BNC", glossary)
 
+    def test_split_into_chunks_by_headings_from_theorie(self) -> None:
+        theorie = (FIXTURES / "Theorie.tex").read_text(encoding="utf-8")
+        chunks = self.pipeline.split_into_chunks_by_headings(theorie)
+
+        self.assertGreater(len(chunks), 1)
+        self.assertTrue(any("\\chapter{" in chunk for chunk in chunks))
+        self.assertEqual(theorie, "".join(chunks))
+
     def test_pipeline_round_trip_on_theorie_with_external_glossary(self) -> None:
         result = self.pipeline.run(
             FIXTURES / "Theorie.tex",
@@ -54,6 +62,7 @@ class PipelineFixtureTests(unittest.TestCase):
         original = (FIXTURES / "Theorie.tex").read_text(encoding="utf-8")
         self.assertEqual(result.translated_text, original)
         self.assertIn("WBG", result.glossary)
+        self.assertGreater(result.chunk_count, 1)
 
     def test_pipeline_round_trip_on_versuch_with_external_glossary(self) -> None:
         result = self.pipeline.run(
@@ -64,6 +73,7 @@ class PipelineFixtureTests(unittest.TestCase):
         original = (FIXTURES / "Versuch.tex").read_text(encoding="utf-8")
         self.assertEqual(result.translated_text, original)
         self.assertIn("IGBT", result.glossary)
+        self.assertGreater(result.chunk_count, 0)
 
     def test_placeholder_integrity_error_on_modified_tokens(self) -> None:
         class BrokenPlaceholderClient:

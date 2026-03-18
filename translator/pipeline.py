@@ -6,6 +6,7 @@ from collections import Counter
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
+import re
 from typing import Dict
 
 from .glossary import GlossaryEntry, GlossaryManager
@@ -19,6 +20,7 @@ class PipelineResult:
     translated_text: str
     glossary: Dict[str, GlossaryEntry]
     suggested_terms: list[str]
+    chunk_count: int
 
 
 class PlaceholderIntegrityError(RuntimeError):
@@ -31,6 +33,8 @@ class GlossaryReviewQueueError(RuntimeError):
 
 class TranslationPipeline:
     """Modular German->English LaTeX translation pipeline skeleton."""
+
+    _heading_boundary_pattern = re.compile(r"(?m)^(?=\\(?:chapter|section|subsection)\*?\{)")
 
     def __init__(self, llm_client: LLMClient, glossary_path: str | Path = "glossary.json") -> None:
         self.llm_client = llm_client
@@ -46,6 +50,27 @@ class TranslationPipeline:
 
     def mask_latex_commands(self, text: str) -> tuple[str, Dict[str, str]]:
         return self.masker.mask(text)
+
+    def split_into_chunks_by_headings(self, latex_text: str) -> list[str]:
+        """Split LaTeX text at chapter/section/subsection boundaries.
+
+        Delimiters are preserved by splitting on zero-width lookahead boundaries.
+        """
+
+        boundary_indices = [match.start() for match in self._heading_boundary_pattern.finditer(latex_text)]
+        if not boundary_indices:
+            return [latex_text]
+
+        chunks: list[str] = []
+        start_index = 0
+
+        for boundary_index in boundary_indices:
+            if boundary_index > start_index:
+                chunks.append(latex_text[start_index:boundary_index])
+            start_index = boundary_index
+
+        chunks.append(latex_text[start_index:])
+        return [chunk for chunk in chunks if chunk]
 
     def _placeholder_inventory(self, text: str) -> Counter[str]:
         """Count placeholder tokens to verify output integrity."""
@@ -223,10 +248,17 @@ class TranslationPipeline:
         working_glossary = dict(base_glossary)
         working_glossary.update(extracted_glossary)
 
-        masked_text, placeholder_map = self.mask_latex_commands(latex_text)
-        translated_masked = self.translate_text(masked_text, working_glossary)
-        restored_text = self.restore_latex_commands(translated_masked, placeholder_map)
-        self._assert_no_unresolved_placeholders(restored_text, placeholder_map)
+        chunks = self.split_into_chunks_by_headings(latex_text)
+        restored_chunks: list[str] = []
+
+        for chunk in chunks:
+            masked_text, placeholder_map = self.mask_latex_commands(chunk)
+            translated_masked = self.translate_text(masked_text, working_glossary)
+            restored_chunk = self.restore_latex_commands(translated_masked, placeholder_map)
+            self._assert_no_unresolved_placeholders(restored_chunk, placeholder_map)
+            restored_chunks.append(restored_chunk)
+
+        restored_text = "".join(restored_chunks)
 
         suggested_terms = detect_candidate_terms(restored_text)
         updated_glossary = self.update_glossary(base_glossary, extracted_glossary, suggested_terms)
@@ -235,4 +267,5 @@ class TranslationPipeline:
             translated_text=restored_text,
             glossary=updated_glossary,
             suggested_terms=suggested_terms,
+            chunk_count=len(chunks),
         )
