@@ -7,12 +7,12 @@ from pathlib import Path
 
 from .pipeline import TranslationPipeline
 from .translator import GeminiLLMClient, MockLLMClient
-from .utils import write_text
+from .utils import save_json, write_text
 
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="LaTeX German->English pipeline (architecture skeleton)")
-    parser.add_argument("input", type=Path, help="Path to source LaTeX file")
+    parser.add_argument("input", type=Path, nargs="?", default=None, help="Path to source LaTeX file")
     parser.add_argument(
         "--output",
         type=Path,
@@ -70,6 +70,36 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="Apply all queue entries regardless of status (default applies only approved)",
     )
+    parser.add_argument(
+        "--input-folder",
+        type=Path,
+        default=None,
+        help="Folder containing LaTeX files to translate recursively",
+    )
+    parser.add_argument(
+        "--output-folder",
+        type=Path,
+        default=None,
+        help="Output folder for translated files in folder mode",
+    )
+    parser.add_argument(
+        "--include-glob",
+        type=str,
+        default="*.tex",
+        help="Glob for files to include in folder mode",
+    )
+    parser.add_argument(
+        "--exclude-glob",
+        action="append",
+        default=[],
+        help="Glob pattern to exclude in folder mode. Repeatable.",
+    )
+    parser.add_argument(
+        "--manifest-output",
+        type=Path,
+        default=None,
+        help="Optional JSON path to write folder-mode manifest",
+    )
     return parser
 
 
@@ -95,6 +125,30 @@ def main() -> None:
         print(f"Applied glossary review queue: {args.review_input}")
         print(f"Applied: {result['applied']}, Skipped: {result['skipped']}")
         return
+
+    if args.input_folder is not None:
+        if args.glossary_source is None:
+            raise ValueError("--glossary-source is required in folder mode.")
+        if args.output_folder is None:
+            raise ValueError("--output-folder is required in folder mode.")
+
+        manifest = pipeline.run_folder(
+            input_folder=args.input_folder,
+            output_folder=args.output_folder,
+            glossary_source_path=args.glossary_source,
+            include_glob=args.include_glob,
+            exclude_globs=args.exclude_glob,
+        )
+
+        if args.manifest_output is not None:
+            save_json(args.manifest_output, manifest)
+            print(f"Manifest written: {args.manifest_output}")
+
+        print(f"Folder translation completed. Files processed: {manifest['processed_count']}")
+        return
+
+    if args.input is None:
+        raise ValueError("Provide either a source file path or --input-folder mode.")
 
     result = pipeline.run(args.input, glossary_source_path=args.glossary_source)
 

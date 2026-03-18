@@ -21,12 +21,20 @@ class PipelineFixtureTests(unittest.TestCase):
         self.glossary_file = ROOT / "tests" / "_tmp_glossary_fixture.json"
         self.review_queue_file = ROOT / "tests" / "_tmp_glossary_review_queue.json"
         self.review_queue_input_file = ROOT / "tests" / "_tmp_review_input.json"
+        self.output_folder = ROOT / "tests" / "_tmp_output_folder"
         if self.glossary_file.exists():
             self.glossary_file.unlink()
         if self.review_queue_file.exists():
             self.review_queue_file.unlink()
         if self.review_queue_input_file.exists():
             self.review_queue_input_file.unlink()
+        if self.output_folder.exists():
+            for item in sorted(self.output_folder.rglob("*"), reverse=True):
+                if item.is_file():
+                    item.unlink()
+                elif item.is_dir():
+                    item.rmdir()
+            self.output_folder.rmdir()
         self.pipeline = TranslationPipeline(llm_client=MockLLMClient(), glossary_path=self.glossary_file)
 
     def tearDown(self) -> None:
@@ -36,6 +44,13 @@ class PipelineFixtureTests(unittest.TestCase):
             self.review_queue_file.unlink()
         if self.review_queue_input_file.exists():
             self.review_queue_input_file.unlink()
+        if self.output_folder.exists():
+            for item in sorted(self.output_folder.rglob("*"), reverse=True):
+                if item.is_file():
+                    item.unlink()
+                elif item.is_dir():
+                    item.rmdir()
+            self.output_folder.rmdir()
 
     def test_glossary_extraction_from_glossarentries(self) -> None:
         content = (FIXTURES / "glossarentries.tex").read_text(encoding="utf-8")
@@ -163,6 +178,38 @@ class PipelineFixtureTests(unittest.TestCase):
         self.assertIn("WBG", glossary_after)
         self.assertEqual("wide-bandgap", glossary_after["WBG"]["en"])
         self.assertNotIn("IGBT", glossary_after)
+
+    def test_sync_glossary_from_source_preserves_existing_english(self) -> None:
+        initial = {
+            "WBG": {"de": "old", "en": "wide-bandgap", "type": "acronym", "abbreviation": "WBG"},
+            "LEGACY_TERM": {"de": "Altbegriff", "en": "legacy term", "type": "suggested", "abbreviation": ""},
+        }
+        self.glossary_file.write_text(json.dumps(initial, ensure_ascii=False, indent=2), encoding="utf-8")
+
+        summary = self.pipeline.sync_glossary_from_source(FIXTURES / "glossarentries.tex")
+        synced = load_json(self.glossary_file)
+
+        self.assertGreater(summary["source_terms"], 0)
+        self.assertEqual("wide-bandgap", synced["WBG"]["en"])
+        self.assertIn("LEGACY_TERM", synced)
+
+    def test_run_folder_processes_fixture_files(self) -> None:
+        manifest = self.pipeline.run_folder(
+            input_folder=FIXTURES,
+            output_folder=self.output_folder,
+            glossary_source_path=FIXTURES / "glossarentries.tex",
+        )
+
+        output_theorie = self.output_folder / "Theorie.tex"
+        output_versuch = self.output_folder / "Versuch.tex"
+
+        self.assertTrue(output_theorie.exists())
+        self.assertTrue(output_versuch.exists())
+        self.assertGreaterEqual(manifest["processed_count"], 2)
+        self.assertEqual(
+            (FIXTURES / "Theorie.tex").read_text(encoding="utf-8"),
+            output_theorie.read_text(encoding="utf-8"),
+        )
 
 
 if __name__ == "__main__":

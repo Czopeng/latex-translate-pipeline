@@ -5,6 +5,7 @@ from __future__ import annotations
 from collections import Counter
 from dataclasses import dataclass
 from datetime import datetime, timezone
+import fnmatch
 from pathlib import Path
 import re
 from typing import Dict
@@ -12,7 +13,7 @@ from typing import Dict
 from .glossary import GlossaryEntry, GlossaryManager
 from .latex_masker import LatexMasker, PLACEHOLDER_PATTERN
 from .translator import LLMClient
-from .utils import detect_candidate_terms, load_json, read_text, save_json
+from .utils import detect_candidate_terms, load_json, read_text, save_json, write_text
 
 
 @dataclass
@@ -50,6 +51,76 @@ class TranslationPipeline:
 
     def mask_latex_commands(self, text: str) -> tuple[str, Dict[str, str]]:
         return self.masker.mask(text)
+
+    def discover_latex_files(
+        self,
+        input_folder: str | Path,
+        include_glob: str = "*.tex",
+        exclude_globs: list[str] | None = None,
+        glossary_source_path: str | Path | None = None,
+    ) -> list[Path]:
+        """Discover LaTeX files deterministically for a folder job."""
+
+        root = Path(input_folder)
+        if not root.exists() or not root.is_dir():
+            raise ValueError(f"Input folder does not exist or is not a directory: {root}")
+
+        excluded = exclude_globs or []
+        glossary_source_resolved = Path(glossary_source_path).resolve() if glossary_source_path is not None else None
+
+        files: list[Path] = []
+        for candidate in root.rglob(include_glob):
+            if not candidate.is_file():
+                continue
+
+            rel = candidate.relative_to(root).as_posix()
+            if any(fnmatch.fnmatch(rel, pattern) for pattern in excluded):
+                continue
+
+            if glossary_source_resolved is not None and candidate.resolve() == glossary_source_resolved:
+                continue
+
+            files.append(candidate)
+
+        return sorted(files, key=lambda p: p.as_posix())
+
+    def sync_glossary_from_source(self, glossary_source_path: str | Path) -> dict:
+        """Sync glossary.json with read-only LaTeX glossary source while preserving approved EN values."""
+
+        source_text = self.load_latex(glossary_source_path)
+        source_entries = self.extract_glossary(source_text)
+
+        existing_raw = load_json(self.glossary_path, default={})
+        existing_entries = self.glossary_manager.from_json_dict(existing_raw)
+
+        merged: Dict[str, GlossaryEntry] = {}
+        preserved_en_count = 0
+
+        for term, source_entry in source_entries.items():
+            existing = existing_entries.get(term)
+            preserved_en = existing.en if existing and existing.en else ""
+            if preserved_en:
+                preserved_en_count += 1
+
+            merged[term] = GlossaryEntry(
+                de=source_entry.de,
+                en=preserved_en,
+                type=source_entry.type,
+                abbreviation=source_entry.abbreviation,
+            )
+
+        # Keep previously approved non-source terms (e.g. suggested terms) instead of dropping data.
+        for term, existing_entry in existing_entries.items():
+            if term not in merged:
+                merged[term] = existing_entry
+
+        save_json(self.glossary_path, self.glossary_manager.to_json_dict(merged))
+        return {
+            "source_file": str(glossary_source_path),
+            "source_terms": len(source_entries),
+            "preserved_en": preserved_en_count,
+            "total_terms_after_sync": len(merged),
+        }
 
     def split_into_chunks_by_headings(self, latex_text: str) -> list[str]:
         """Split LaTeX text at chapter/section/subsection boundaries.
@@ -239,6 +310,7 @@ class TranslationPipeline:
         extracted_glossary = self.extract_glossary(latex_text)
 
         if glossary_source_path is not None:
+            self.sync_glossary_from_source(glossary_source_path)
             glossary_source_text = self.load_latex(glossary_source_path)
             extracted_glossary.update(self.extract_glossary(glossary_source_text))
 
@@ -269,3 +341,51 @@ class TranslationPipeline:
             suggested_terms=suggested_terms,
             chunk_count=len(chunks),
         )
+
+    def run_folder(
+        self,
+        input_folder: str | Path,
+        output_folder: str | Path,
+        glossary_source_path: str | Path,
+        include_glob: str = "*.tex",
+        exclude_globs: list[str] | None = None,
+    ) -> dict:
+        """Run translation pipeline for all matched LaTeX files in a folder."""
+
+        input_root = Path(input_folder)
+        output_root = Path(output_folder)
+        output_root.mkdir(parents=True, exist_ok=True)
+
+        sync_summary = self.sync_glossary_from_source(glossary_source_path)
+        files = self.discover_latex_files(
+            input_folder=input_root,
+            include_glob=include_glob,
+            exclude_globs=exclude_globs,
+            glossary_source_path=glossary_source_path,
+        )
+
+        processed: list[dict] = []
+        for file_path in files:
+            result = self.run(file_path, glossary_source_path=glossary_source_path)
+            rel_path = file_path.relative_to(input_root)
+            output_path = output_root / rel_path
+            output_path.parent.mkdir(parents=True, exist_ok=True)
+            write_text(output_path, result.translated_text)
+
+            processed.append(
+                {
+                    "input": str(file_path),
+                    "output": str(output_path),
+                    "chunks": result.chunk_count,
+                    "suggested_terms": len(result.suggested_terms),
+                }
+            )
+
+        return {
+            "input_folder": str(input_root),
+            "output_folder": str(output_root),
+            "glossary_source": str(glossary_source_path),
+            "glossary_sync": sync_summary,
+            "processed_count": len(processed),
+            "processed": processed,
+        }
